@@ -1,0 +1,86 @@
+.itemsHome{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 30px;
+  grid-row-gap: 40px;  
+}
+.Items{
+  width: calc(25% - 10px);
+  margin-left: 10px;
+  margin-top: 10px; 
+  width: 259.15px;
+  height: 269.25px; 
+  font-size: 17px;
+  font-family: "Source Sans Pro",sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  color: rgb(0, 0, 0);
+  line-height: 1.375;
+
+}
+.itemPhoto{
+  height: 235px;
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+.Overlay{
+  position: relative;
+  top: 50%;
+  font-size: .76471em;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  padding: 15px 45px;
+  transition: color .1s ease-in,background-color .1s ease-in;
+  display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: pointer;
+    border: 1px solid transparent;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #d8232f;
+    color: #fff;
+
+}
+.spanClass{
+  
+  
+
+}
+
+
+
+.title{
+    font-size: 17px;
+    font-family: "Source Sans Pro",sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    color: rgb(0, 0, 0);
+    line-height: 1.375;
+}
+*, :after, :before {
+  box-sizing: border-box;
+}
+
+.value{
+  font-size: 17px;
+  font-family: "Source Sans Pro",sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  color: rgb(0, 0, 0);
+  line-height: 1.375;
+}
+.animated{
+  padding: 0;
+}
