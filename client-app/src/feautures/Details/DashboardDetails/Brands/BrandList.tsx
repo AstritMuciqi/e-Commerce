@@ -1,6 +1,5 @@
 import React from 'react';
 import {  Button, Icon,Table } from 'semantic-ui-react';
-import '../../../../app/layout/DashboardLayout/styles.css';
 import { IBrand } from '../../../../app/models/brand';
 interface IProps {
   brands: IBrand[];

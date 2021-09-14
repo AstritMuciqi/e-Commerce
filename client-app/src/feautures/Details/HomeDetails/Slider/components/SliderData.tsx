@@ -1,23 +1,23 @@
 export const SliderData = [
   {
-    image:
+    foto:
     '/assets/product1.jpg'
   },
   {
-    image:
+    foto:
       '/assets/product2.jpg'
   },
   {
-    image:
+    foto:
     '/assets/product3.png'
 
   },
   {
-    image:
+    foto:
     '/assets/product4.jpg'
   },
   {
-    image:
+    foto:
     '/assets/product5.jpg'
   }
 ];

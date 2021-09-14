@@ -1,7 +1,6 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { Header, Icon, Input, Menu } from "semantic-ui-react";
-import '../../app/layout/styles.css';
+import { Container, Header, Icon, Input, Item, ItemGroup, List, Menu, Segment } from "semantic-ui-react";
 import { ISector } from "../../app/models/sector";
 import Kategorite from "./Kategorite";
 interface IProps {
@@ -29,25 +28,40 @@ interface IProps {
     // openCreateForm
   }) => {
     return (
-        <Header as="h3" block>
-          <Menu>
-            <a href="/">
-              <img className="icona" src="/assets/logo.png" alt="Logo" ></img> 
-            </a>
-            <Input
-              icon={<Icon name="search" inverted circular link />}
-              placeholder="Kërko..."
+      <Fragment>
+        <Menu fixed="top" style={{backgroundColor:"black" }}>
+          <a href="/" >
+            <img
+              src="/assets/logo.png"
+              alt="Logo"
+              style={{ width: "150px", height: "120px", marginTop: "2px" }}
             />
-            <Icon as={Link} to="/dashboard" ><Icon name="dashboard" size="big"/></Icon>
+          </a>
 
-            <Icon name="user" size="big" />
+          <Menu.Item position="right" style={{ marginRight: "40px" }}>
+            <Input
+              inverted
+              size="big"
+              icon="search"
+              placeholder="Search..."
+              style={{ marginRight: "100px", width: "130vh" }}
+            />
+            <Icon  as={Link} to="/dashboard" style={{ marginRight: "20px",textDecoration:"none" }} >
+              <Icon inverted name="dashboard" size="big" />
+            </Icon>
+            <Icon inverted
+              name="shopping cart"
+              size="big"
+              style={{ marginRight: "27px" }}
+            />
 
-            <Icon name="shopping cart" size="big" />
+            <Icon inverted name="user" size="big" style={{ marginRight: "20px" }} />
+          </Menu.Item>
+         
+        </Menu>
+        <Kategorite sectors={sectors} />
 
-            {/* <Kategorite sectors={sectors} /> */}
-          </Menu>
-          <Kategorite sectors={sectors} />
-        </Header>
+      </Fragment>
     );
   };
   

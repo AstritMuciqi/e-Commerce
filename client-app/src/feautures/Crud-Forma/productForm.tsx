@@ -2,7 +2,6 @@ import React, { useState, FormEvent, useEffect } from 'react';
 import { Segment, Form, Button, Dropdown } from 'semantic-ui-react';
 import {v4 as uuid} from 'uuid';
 import { IProduct } from '../../app/models/product';
-import '../../app/layout/DashboardLayout/styles.css';
 import { ISector } from '../../app/models/sector';
 import agent from '../../app/API/agent';
 import { IBrand } from '../../app/models/brand';

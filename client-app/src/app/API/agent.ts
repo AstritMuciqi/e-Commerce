@@ -34,11 +34,11 @@ const Brands = {
     editBrand:(brand: IBrand) => requests.put(`/brand/${brand.brandId}`,brand),
     deleteBrand: (brandId: string) => requests.del(`/brand/${brandId}`)
 }
-
-export default {
+const ItemsPage ={
     Products,
     Sectors,
     Brands
 }
 
-
+export default ItemsPage;
+  

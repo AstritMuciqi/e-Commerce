@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import ImageSlider from '../../../feautures/Details/HomeDetails/Slider/components/ImageSlider';
 import { SliderData } from '../../../feautures/Details/HomeDetails/Slider/components/SliderData';
 import { ISector } from '../../models/sector';
-import '../styles.css';
 import { Container } from 'semantic-ui-react';
 import Navbar from '../../../feautures/nav/NavBar';
 import { IProduct } from '../../models/product';
@@ -49,9 +48,9 @@ export const Home = () => {
     <div>
       <Container>
         <Navbar sectors={sectors} />
-        <ImageSlider slides={SliderData} />
+        <ImageSlider slides={SliderData} /> 
       </Container>
-      <MainContainer>
+       <MainContainer>
         <ProductList>
           <HomeItems products={products} />
         </ProductList>
