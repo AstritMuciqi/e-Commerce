@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import ImageSlider from '../../../feautures/Details/HomeDetails/Slider/components/ImageSlider';
 import { SliderData } from '../../../feautures/Details/HomeDetails/Slider/components/SliderData';
 import { ISector } from '../../models/sector';
@@ -9,6 +9,7 @@ import { IProduct } from '../../models/product';
 import HomeItems from '../../../feautures/Details/HomeDetails/ProductItems/HomeItems';
 import agent from '../../API/agent';
 import { MainContainer, ProductList } from './AppStyles';
+import '../../layout/styles.css';
 
 export const Home = () => {
   const [sectors, setSectors] = useState<ISector[]>([]);
@@ -45,16 +46,16 @@ export const Home = () => {
 
   
   return (
-    <div>
+    <Fragment>
       <Container>
         <Navbar sectors={sectors} />
-        <ImageSlider slides={SliderData} /> 
+        <ImageSlider slides={SliderData} />
       </Container>
-       <MainContainer>
+      <MainContainer>
         <ProductList>
           <HomeItems products={products} />
         </ProductList>
       </MainContainer>
-    </div>
+    </Fragment>
   );
 }

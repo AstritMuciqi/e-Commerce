@@ -2,7 +2,6 @@ import React, { Fragment } from "react";
 import { ISector } from "../../app/models/sector";
 import '../../app/layout/styles.css';
 import {  Menu} from "semantic-ui-react";
-import { Link } from "react-router-dom";
 
 
 interface IProps {
@@ -62,9 +61,9 @@ interface IProps {
                   textTransform: "uppercase",
                 }}
               >
-                <a className="link" >
+                <i className="link" >
                 {sector.sectorName}
-                </a>
+                </i>
               </ul>
             </Menu.Item>
           ))}

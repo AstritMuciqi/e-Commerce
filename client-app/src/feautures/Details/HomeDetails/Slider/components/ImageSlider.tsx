@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { SliderData } from './SliderData';
 import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from 'react-icons/fa';
 import '../../../../../app/layout/styles.css';
@@ -20,7 +20,7 @@ const ImageSlider = ({ slides }) => {
   }
 
   return (
-    <section className="slider">
+    <Fragment>
       <FaArrowAltCircleLeft className="left-arrow" onClick={prevSlide} />
       <FaArrowAltCircleRight className="right-arrow" onClick={nextSlide} />
       {SliderData.map((slide, index) => {
@@ -35,7 +35,7 @@ const ImageSlider = ({ slides }) => {
           </div>
         );
       })}
-    </section>
+    </Fragment>
   );
 };
 

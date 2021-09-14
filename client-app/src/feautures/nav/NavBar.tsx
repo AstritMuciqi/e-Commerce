@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { Container, Header, Icon, Input, Item, ItemGroup, List, Menu, Segment } from "semantic-ui-react";
+import { Icon, Input,Menu} from "semantic-ui-react";
 import { ISector } from "../../app/models/sector";
 import Kategorite from "./Kategorite";
 interface IProps {
@@ -29,7 +29,7 @@ interface IProps {
   }) => {
     return (
       <Fragment>
-        <Menu fixed="top" style={{backgroundColor:"black" }}>
+        <Menu fixed="top" style={{backgroundColor:"black",boxShadow:"0 3px 5px -2px rgb(365 365 365 / 18%)"}}>
           <a href="/" >
             <img
               src="/assets/logo.png"

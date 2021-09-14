@@ -11,6 +11,7 @@ import BrandDashboard from '../../feautures/Details/DashboardDetails/Brands/Bran
 import { Home } from './HomePageLayout/Home';
 import Dash from './DashboardLayout/SideBarDashboard/dash';
 import agent from '../API/agent';
+import './styles.css';
 
 
 
@@ -160,7 +161,7 @@ const App = () => {
     
 
     return (
-      <Container>
+      <Container className="APP-Page">
         <Route path="/faturimi" component={Faturimi} />
 
         <Route path="/dashboard" component={Dash} />

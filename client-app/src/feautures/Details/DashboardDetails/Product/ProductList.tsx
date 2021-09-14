@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import {  Button,Container, Icon,  Table } from 'semantic-ui-react';
+import {  Button, Icon,  Table } from 'semantic-ui-react';
 import { IProduct } from '../../../../app/models/product';
 interface IProps {
   products: IProduct[];
