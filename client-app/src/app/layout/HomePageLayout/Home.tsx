@@ -9,6 +9,7 @@ import { IProduct } from '../../models/product';
 import HomeItems from '../../../feautures/Details/HomeDetails/ProductItems/HomeItems';
 import agent from '../../API/agent';
 import '../../layout/styles.css';
+import Footer from '../../../feautures/footer/Footer';
 
 export const Home = () => {
   const [sectors, setSectors] = useState<ISector[]>([]);
@@ -51,6 +52,7 @@ export const Home = () => {
         <ImageSlider slides={SliderData} />
       </Container>
           <HomeItems products={products} />
+          <Footer sectors={sectors}/>
     </Fragment>
   );
 }
