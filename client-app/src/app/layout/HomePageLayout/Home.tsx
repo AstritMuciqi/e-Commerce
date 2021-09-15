@@ -8,7 +8,6 @@ import Navbar from '../../../feautures/nav/NavBar';
 import { IProduct } from '../../models/product';
 import HomeItems from '../../../feautures/Details/HomeDetails/ProductItems/HomeItems';
 import agent from '../../API/agent';
-import { MainContainer, ProductList } from './AppStyles';
 import '../../layout/styles.css';
 
 export const Home = () => {
@@ -51,11 +50,7 @@ export const Home = () => {
         <Navbar sectors={sectors} />
         <ImageSlider slides={SliderData} />
       </Container>
-      <MainContainer>
-        <ProductList>
           <HomeItems products={products} />
-        </ProductList>
-      </MainContainer>
     </Fragment>
   );
 }
