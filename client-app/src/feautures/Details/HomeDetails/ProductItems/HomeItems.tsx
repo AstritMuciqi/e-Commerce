@@ -25,7 +25,7 @@ interface IProps {
           >
             <Image
               style={{ width: "275px", height: "220px" }}
-              src="/assets/product4.jpg"
+              src={`assets/${product.sector}.jpg`}
             />
             <Card.Content>
               <Card.Description style={{ fontSize: "16px" }}>

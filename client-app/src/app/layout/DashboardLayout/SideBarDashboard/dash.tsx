@@ -6,12 +6,16 @@ const Dash = () => {
     return (
       <div>
         <div>
-          <Menu stackable>
+          <Menu fixed="top" inverted>
             <a href="/">
-              <img className="icona" src="/assets/logo.png" alt="Logo"></img>
+              <img
+                src="/assets/logo.png"
+                alt="Logo"
+                style={{ width: "150px", height: "120px", marginTop: "2px" }}
+              />
             </a>
-            <Menu.Item>
-              <Input className="icon" icon="search" placeholder="Search..." />
+            <Menu.Item style={{ width: "500px", marginLeft: "40px" }}>
+              <Input icon="search" placeholder="Search..." />
             </Menu.Item>
             <Menu.Item position="right">
               <Input
@@ -27,24 +31,24 @@ const Dash = () => {
           </Menu>
         </div>
 
-        <Menu vertical inverted>
+        <Menu fixed="top" style={{ marginTop: "123px" }} vertical inverted>
           <Menu.Item>
             <h3>Product Master</h3>
           </Menu.Item>
           <Menu.Item
-            className="itemAdmins"
+            style={{ marginLeft: "13px" }}
             name="Product"
             as={Link}
             to="/dashboard/productmaster/product"
           />
           <Menu.Item
-            className="itemAdmins"
+            style={{ marginLeft: "13px" }}
             name="Sectors"
             as={Link}
             to="/dashboard/productmaster/sectors"
           />
           <Menu.Item
-            className="itemAdmins"
+            style={{ marginLeft: "13px" }}
             name="Brands"
             as={Link}
             to="/dashboard/productmaster/brands"
@@ -52,12 +56,15 @@ const Dash = () => {
           <Menu.Item>
             <h3>Users</h3>
           </Menu.Item>
-          <Menu.Item className="itemAdmins" name="Admins" />
-          <Menu.Item className="itemAdmins" name="Clients" />
-
-          
+          <Menu.Item
+            style={{ marginLeft: "13px" }}
+            name="Admins"
+          />
+          <Menu.Item
+            style={{ marginLeft: "13px" }}
+            name="Clients"
+          />
         </Menu>
-
       </div>
     );
   }

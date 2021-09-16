@@ -1,6 +1,7 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import {  Button, Icon,  Table } from 'semantic-ui-react';
 import { IProduct } from '../../../../app/models/product';
+import "../../../../app/layout/styles.css";
 interface IProps {
   products: IProduct[];
    selectProduct: (productId: string) => void;
@@ -17,8 +18,7 @@ const ProductList: React.FC<IProps> = ({
 
 }) => {
   return (
-      <Fragment>
-        <Table celled inverted selectable >
+        <Table className="produktet" style={{marginLeft:"210px",marginTop:"124px",width:"1040px"}} celled inverted selectable >
           <Table.Header fullWidth>
             <Table.Row>
               <Table.HeaderCell>Product Name</Table.HeaderCell>
@@ -79,7 +79,6 @@ const ProductList: React.FC<IProps> = ({
             </Table.Row>
           </Table.Footer>
         </Table>
-    </Fragment>
 
     
   );
