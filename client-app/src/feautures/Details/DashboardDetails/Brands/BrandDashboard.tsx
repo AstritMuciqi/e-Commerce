@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid } from 'semantic-ui-react';
+import { Container, Grid } from 'semantic-ui-react';
 import { IBrand } from '../../../../app/models/brand';
 import BrandForm from '../../../Crud-Forma/brandForm';
 import BrandDetails from '../../DetailsShow/BrandDetails';
@@ -36,24 +36,25 @@ const BrandDashboard: React.FC<IProps> = ({
   openCreateForm
 }) => {
   return (
-    <Grid>
-      <Grid.Column width={10}>
-        <BrandList
-          openCreateForm={openCreateForm}
-          brands={brands}
-          selectBrand={selectBrand}
-          deleteBrand={deleteBrand}
-        />
-      </Grid.Column>
-      <Grid.Column width={6}>
-        {selectedBrand && !editMode && (
+    <Container style={{ marginTop: "125px", width: "1055px" }}>
+      <BrandList
+        openCreateForm={openCreateForm}
+        brands={brands}
+        selectBrand={selectBrand}
+        deleteBrand={deleteBrand}
+      />
+
+      {selectedBrand && !editMode && (
+        <Container style={{ width: "400px" }}>
           <BrandDetails
             brand={selectedBrand}
             setEditMode={setEditMode}
             setSelectedBrand={setSelectedBrand}
           />
-        )}
-        {editMode && (
+        </Container>
+      )}
+      {editMode && (
+        <Container style={{ width: "400px" }}>
           <BrandForm
             key={(selectedBrand && selectedBrand.brandId) || 0}
             setEditMode={setEditMode}
@@ -61,9 +62,9 @@ const BrandDashboard: React.FC<IProps> = ({
             createBrand={createBrand}
             editBrand={editBrand}
           />
-        )}
-      </Grid.Column>
-    </Grid>
+        </Container>
+      )}
+    </Container>
   );
 };
 

@@ -18,12 +18,12 @@ const BrandList: React.FC<IProps> = ({
 }) => {
   return (
     <div>
-      <Table celled inverted selectable>
+      <Table style={{marginLeft:"104px"}}  inverted selectable>
         <Table.Header fullWidth >
-          <Table.Row  >
-            <Table.HeaderCell>Brand Name</Table.HeaderCell>
-            <div className="th">
-            <Table.HeaderCell>Options</Table.HeaderCell>
+        <Table.Row style={{backgroundColor:"#F5BD3D"}} >
+            <Table.HeaderCell style={{backgroundColor:"#F5BD3D"}}><b style={{color:'black'}}>Brand Name</b></Table.HeaderCell>
+            <div style={{marginLeft:"765px"}} className="th">
+            <Table.HeaderCell style={{backgroundColor:"#F5BD3D"}}><b style={{color:'black'}}>Options</b></Table.HeaderCell>
 
             </div>
           </Table.Row>
@@ -54,16 +54,16 @@ const BrandList: React.FC<IProps> = ({
         </Table.Body>
 
         <Table.Footer fullWidth>
-          <Table.Row>
+        <Table.Row style={{backgroundColor:"#F5BD3D"}} >
             <Table.HeaderCell colSpan="15">
-            <Button onClick={openCreateForm}
+            <Button style={{backgroundColor:"black",color:"white",width:"157px"}}  onClick={openCreateForm}
                 floated="right"
                 icon
                 labelPosition="left"
                 primary
                 size="small"
               >
-                <Icon name="stripe s" /> Add Brand
+                <Icon name="bold" /> Add Brand
               </Button>
             </Table.HeaderCell>
           </Table.Row>

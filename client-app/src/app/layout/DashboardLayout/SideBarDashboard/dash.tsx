@@ -1,12 +1,12 @@
 import React from 'react';
-import {Button,  Input, Menu} from 'semantic-ui-react';
+import {Button,  Icon,  Input, Menu} from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 const Dash = () => { 
     return (
       <div>
         <div>
-          <Menu fixed="top" inverted>
+          <Menu fixed="top" style={{ backgroundColor: "black" }}>
             <a href="/">
               <img
                 src="/assets/logo.png"
@@ -31,37 +31,52 @@ const Dash = () => {
           </Menu>
         </div>
 
-        <Menu fixed="top" style={{ marginTop: "123px" }} vertical inverted>
+        <Menu style={{ marginTop: "123px",height:"1000px"}} inverted vertical fixed="top">
           <Menu.Item>
-            <h3>Product Master</h3>
+            <h3 style={{color:"#F5BD3D"}}>
+              <Icon name="product hunt" size="big" />
+              Product Master
+            </h3>
           </Menu.Item>
-          <Menu.Item
-            style={{ marginLeft: "13px" }}
+          <Menu.Item 
+            style={{ marginLeft: "17px",color:"#F5BD3D" }}
+            icon="caret right"
             name="Product"
             as={Link}
             to="/dashboard/productmaster/product"
           />
           <Menu.Item
-            style={{ marginLeft: "13px" }}
+            style={{ marginLeft: "17px",color:"#F5BD3D" }}
+            icon="caret right"
             name="Sectors"
             as={Link}
             to="/dashboard/productmaster/sectors"
           />
           <Menu.Item
-            style={{ marginLeft: "13px" }}
+            style={{ marginLeft: "17px",color:"#F5BD3D" }}
+            icon="caret right"
             name="Brands"
             as={Link}
             to="/dashboard/productmaster/brands"
           />
           <Menu.Item>
-            <h3>Users</h3>
+            <h3 style={{color:"#F5BD3D"}}>
+              <Icon
+                style={{ width: "50px", height: "10px", marginBottom: "40px" }}
+                name="users"
+                size="big"
+              />
+              Users
+            </h3>
           </Menu.Item>
           <Menu.Item
-            style={{ marginLeft: "13px" }}
+            style={{ marginLeft: "17px",color:"#F5BD3D" }}
+            icon="caret right"
             name="Admins"
           />
           <Menu.Item
-            style={{ marginLeft: "13px" }}
+            style={{ marginLeft: "17px",color:"#F5BD3D" }}
+            icon="caret right"
             name="Clients"
           />
         </Menu>

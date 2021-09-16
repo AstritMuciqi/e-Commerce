@@ -1,7 +1,7 @@
 import React from 'react';
 import {  Button, Icon,  Table } from 'semantic-ui-react';
 import { IProduct } from '../../../../app/models/product';
-import "../../../../app/layout/styles.css";
+// import "../../../../app/layout/styles.css";
 interface IProps {
   products: IProduct[];
    selectProduct: (productId: string) => void;
@@ -18,69 +18,78 @@ const ProductList: React.FC<IProps> = ({
 
 }) => {
   return (
-        <Table className="produktet" style={{marginLeft:"210px",marginTop:"124px",width:"1040px"}} celled inverted selectable >
-          <Table.Header fullWidth>
-            <Table.Row>
-              <Table.HeaderCell>Product Name</Table.HeaderCell>
-              <Table.HeaderCell>Sector</Table.HeaderCell>
-              <Table.HeaderCell>Brand</Table.HeaderCell>
-              <Table.HeaderCell>Value of Product</Table.HeaderCell>
-              <Table.HeaderCell>Model Year</Table.HeaderCell>
-              <Table.HeaderCell>Quantity</Table.HeaderCell>
-              <Table.HeaderCell colSpan={"8"}>Description</Table.HeaderCell>
-              <Table.HeaderCell>Options</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
+    <Table
+      className="produktet"
+      style={{ marginLeft: "104px" }}
+      celled
+      inverted
+      selectable
+    >
+      <Table.Header fullWidth>
+        <Table.Row style={{backgroundColor:"#F5BD3D"}}>
+          <Table.HeaderCell><b style={{color:"black"}}>Product Name</b></Table.HeaderCell>
+          <Table.HeaderCell><b style={{color:"black"}}>Sector</b></Table.HeaderCell>
+          <Table.HeaderCell><b style={{color:"black"}}>Brand</b></Table.HeaderCell>
+          <Table.HeaderCell><b style={{color:"black"}}>Value of Product</b></Table.HeaderCell>
+          <Table.HeaderCell><b style={{color:"black"}}>Model Year</b></Table.HeaderCell>
+          <Table.HeaderCell><b style={{color:"black"}}>Quantity</b></Table.HeaderCell>
+          <Table.HeaderCell colSpan={"8"}><b style={{color:"black"}}>Description</b></Table.HeaderCell>
+          <Table.HeaderCell><b style={{color:"black"}}>Options</b></Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
 
-          <Table.Body>
-            {products.map((product) => (
-              <Table.Row positive key={product.productId}>
-                <Table.Cell>{product.productName}</Table.Cell>
-                <Table.Cell>{product.sector}</Table.Cell>
-                <Table.Cell>{product.brand}</Table.Cell>
-                <Table.Cell>{product.valueOfProduct}</Table.Cell>
-                <Table.Cell>{product.modelYear}</Table.Cell>
-                <Table.Cell>{product.quantity}</Table.Cell>
-                <Table.Cell colSpan="8">{product.description}</Table.Cell>
-                <Table.Cell colSpan="2">
-                  <Button.Group>
-                    <Button
-                      onClick={() => selectProduct(product.productId)}
-                      floated="right"
-                      content="Edit"
-                    />
-                    <Button.Or />
-                    <Button
-                      onClick={() => deleteProduct(product.productId)}
-                      floated="right"
-                      content="Delete"
-                      negative
-                    />
-                  </Button.Group>
-                </Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-
-          <Table.Footer fullWidth>
-            <Table.Row>
-              <Table.HeaderCell colSpan="15">
+      <Table.Body>
+        {products.map((product) => (
+          <Table.Row positive key={product.productId}>
+            <Table.Cell>{product.productName}</Table.Cell>
+            <Table.Cell>{product.sector}</Table.Cell>
+            <Table.Cell>{product.brand}</Table.Cell>
+            <Table.Cell>{product.valueOfProduct}</Table.Cell>
+            <Table.Cell>{product.modelYear}</Table.Cell>
+            <Table.Cell>{product.quantity}</Table.Cell>
+            <Table.Cell colSpan="8">{product.description}</Table.Cell>
+            <Table.Cell colSpan="2">
+              <Button.Group>
                 <Button
-                  onClick={openCreateForm}
+                  onClick={() => selectProduct(product.productId)}
                   floated="right"
-                  icon
-                  labelPosition="left"
-                  primary
-                  size="small"
-                >
-                  <Icon name="product hunt" /> Add Product
-                </Button>
-              </Table.HeaderCell>
-            </Table.Row>
-          </Table.Footer>
-        </Table>
+                  content="Edit"
+                />
+                <Button.Or />
+                <Button
+                  onClick={() => deleteProduct(product.productId)}
+                  floated="right"
+                  content="Delete"
+                  negative
+                />
+              </Button.Group>
+            </Table.Cell>
+          </Table.Row>
+        ))}
+      </Table.Body>
 
-    
+      <Table.Footer fullWidth>
+        <Table.Row style={{backgroundColor:"#F5BD3D"}}>
+          <Table.HeaderCell colSpan="15">
+            <Button
+              style={{
+                backgroundColor: "black",
+                color: "white",
+                width: "157px",
+              }}
+              onClick={openCreateForm}
+              floated="right"
+              icon
+              labelPosition="left"
+              primary
+              size="small"
+            >
+              <Icon name="product hunt" /> Add Product
+            </Button>
+          </Table.HeaderCell>
+        </Table.Row>
+      </Table.Footer>
+    </Table>
   );
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid } from 'semantic-ui-react';
+import { Container, Grid } from 'semantic-ui-react';
 import { IProduct } from '../../../../app/models/product';
 import ProductForm from '../../../Crud-Forma/productForm';
 import ProductDetails from '../../DetailsShow/ProductDetails';
@@ -35,24 +35,25 @@ const ProductDashboard: React.FC<IProps> = ({
   openCreateForm
 }) => {
   return (
-    <Grid>
-      <Grid.Column width={10}>
-        <ProductList
-          openCreateForm={openCreateForm}
-          products={products}
-          selectProduct={selectProduct}
-          deleteProduct={deleteProduct}
-        />
-      </Grid.Column>
-      <Grid.Column width={6}>
-        {selectedProduct && !editMode && (
+    <Container style={{ marginTop: "125px", width: "1055px" }}>
+      <ProductList
+        openCreateForm={openCreateForm}
+        products={products}
+        selectProduct={selectProduct}
+        deleteProduct={deleteProduct}
+      />
+      {selectedProduct && !editMode && (
+        <Container style={{ width: "400px" }}>
           <ProductDetails
             product={selectedProduct}
             setEditMode={setEditMode}
             setSelectedProduct={setSelectedProduct}
           />
-        )}
-        {editMode && (
+        </Container>
+      )}
+
+      {editMode && (
+        <Container style={{ width: "400px" }}>
           <ProductForm
             key={(selectedProduct && selectedProduct.productId) || 0}
             setEditMode={setEditMode}
@@ -60,9 +61,9 @@ const ProductDashboard: React.FC<IProps> = ({
             createProduct={createProduct}
             editProduct={editProduct}
           />
-        )}
-      </Grid.Column>
-    </Grid>
+        </Container>
+      )}
+    </Container>
   );
 };
 

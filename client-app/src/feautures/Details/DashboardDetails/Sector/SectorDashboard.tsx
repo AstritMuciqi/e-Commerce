@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid } from 'semantic-ui-react';
+import { Container, Grid } from 'semantic-ui-react';
 import { ISector } from '../../../../app/models/sector';
 import SectorForm from '../../../Crud-Forma/sectorForma';
 import SectorDetails from '../../DetailsShow/SectorDetails';
@@ -35,34 +35,35 @@ const SectorDashboard: React.FC<IProps> = ({
   openCreateForm
 }) => {
   return (
-    <Grid>
-      <Grid.Column width={10}>
-        <SectorList
-          openCreateForm={openCreateForm}
-          sectors={sectors}
-          selectSector={selectSector}
-          deleteSector={deleteSector}
+    <Container style={{ marginTop: "125px", width: "1055px" }}>
+      <SectorList
+        openCreateForm={openCreateForm}
+        sectors={sectors}
+        selectSector={selectSector}
+        deleteSector={deleteSector}
+      />
+
+      {selectedSector && !editMode && (
+        <Container style={{ width: "400px" }}>
+        <SectorDetails
+          sector={selectedSector}
+          setEditMode={setEditMode}
+          setSelectedSector={setSelectedSector}
         />
-      </Grid.Column>
-      <Grid.Column width={6}>
-        {selectedSector && !editMode && (
-          <SectorDetails
-            sector={selectedSector}
-            setEditMode={setEditMode}
-            setSelectedSector={setSelectedSector}
-          />
-        )}
-        {editMode && (
-          <SectorForm
-            key={(selectedSector && selectedSector.sectorId) || 0}
-            setEditMode={setEditMode}
-            sector={selectedSector!}
-            createSector={createSector}
-            editSector={editSector}
-          />
-        )}
-      </Grid.Column>
-    </Grid>
+        </Container>
+      )}
+      {editMode && (
+        <Container style={{ width: "400px" }}>
+        <SectorForm
+          key={(selectedSector && selectedSector.sectorId) || 0}
+          setEditMode={setEditMode}
+          sector={selectedSector!}
+          createSector={createSector}
+          editSector={editSector}
+        />
+        </Container>
+      )}
+    </Container>
   );
 };
 
