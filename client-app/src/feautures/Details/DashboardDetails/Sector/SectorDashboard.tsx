@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import { Container, Grid } from 'semantic-ui-react';
 import { ISector } from '../../../../app/models/sector';
 import SectorForm from '../../../Crud-Forma/sectorForma';
@@ -9,7 +9,7 @@ import SectorList from './SectorList';
 
 
 interface IProps {
-  sectors:ISector[];
+  sectors: ISector[];
   selectSector: (sectorId: string) => void;
   selectedSector: ISector | null;
   editMode: boolean;
@@ -17,9 +17,10 @@ interface IProps {
   setSelectedSector: (sector: ISector | null) => void;
   createSector: (sector: ISector) => void;
   editSector: (sector: ISector) => void;
-  deleteSector: (sectorId: string) => void;
+  deleteSector: (event:SyntheticEvent<HTMLButtonElement>,sectorId: string) => void;
   openCreateForm: () => void;
-
+  submitting: boolean;
+  target:string;
 }
 
 const SectorDashboard: React.FC<IProps> = ({
@@ -32,7 +33,9 @@ const SectorDashboard: React.FC<IProps> = ({
   createSector,
   editSector,
   deleteSector,
-  openCreateForm
+  openCreateForm,
+  submitting,
+  target
 }) => {
   return (
     <Container style={{ marginTop: "125px", width: "1055px" }}>
@@ -41,26 +44,29 @@ const SectorDashboard: React.FC<IProps> = ({
         sectors={sectors}
         selectSector={selectSector}
         deleteSector={deleteSector}
+        submitting={submitting}
+        target={target}
       />
 
       {selectedSector && !editMode && (
         <Container style={{ width: "400px" }}>
-        <SectorDetails
-          sector={selectedSector}
-          setEditMode={setEditMode}
-          setSelectedSector={setSelectedSector}
-        />
+          <SectorDetails
+            sector={selectedSector}
+            setEditMode={setEditMode}
+            setSelectedSector={setSelectedSector}
+          />
         </Container>
       )}
       {editMode && (
         <Container style={{ width: "400px" }}>
-        <SectorForm
-          key={(selectedSector && selectedSector.sectorId) || 0}
-          setEditMode={setEditMode}
-          sector={selectedSector!}
-          createSector={createSector}
-          editSector={editSector}
-        />
+          <SectorForm
+            key={(selectedSector && selectedSector.sectorId) || 0}
+            setEditMode={setEditMode}
+            sector={selectedSector!}
+            createSector={createSector}
+            editSector={editSector}
+            submitting={submitting}
+          />
         </Container>
       )}
     </Container>

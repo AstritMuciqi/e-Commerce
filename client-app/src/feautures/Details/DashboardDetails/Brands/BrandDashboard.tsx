@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import { Container, Grid } from 'semantic-ui-react';
 import { IBrand } from '../../../../app/models/brand';
 import BrandForm from '../../../Crud-Forma/brandForm';
@@ -10,7 +10,7 @@ import BrandList from './BrandList';
 
 
 interface IProps {
-  brands:IBrand[];
+  brands: IBrand[];
   selectBrand: (brandId: string) => void;
   selectedBrand: IBrand | null;
   editMode: boolean;
@@ -18,9 +18,10 @@ interface IProps {
   setSelectedBrand: (brand: IBrand | null) => void;
   createBrand: (brand: IBrand) => void;
   editBrand: (brand: IBrand) => void;
-  deleteBrand: (brandId: string) => void;
+  deleteBrand: (e:SyntheticEvent<HTMLButtonElement>, brandId: string) => void;
   openCreateForm: () => void;
-
+  submitting: boolean;
+  target: string;
 }
 
 const BrandDashboard: React.FC<IProps> = ({
@@ -33,7 +34,9 @@ const BrandDashboard: React.FC<IProps> = ({
   createBrand,
   editBrand,
   deleteBrand,
-  openCreateForm
+  openCreateForm,
+  submitting,
+  target,
 }) => {
   return (
     <Container style={{ marginTop: "125px", width: "1055px" }}>
@@ -42,6 +45,8 @@ const BrandDashboard: React.FC<IProps> = ({
         brands={brands}
         selectBrand={selectBrand}
         deleteBrand={deleteBrand}
+        submitting={submitting}
+        target={target}
       />
 
       {selectedBrand && !editMode && (
@@ -61,6 +66,7 @@ const BrandDashboard: React.FC<IProps> = ({
             brand={selectedBrand!}
             createBrand={createBrand}
             editBrand={editBrand}
+            submitting={submitting}
           />
         </Container>
       )}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import { Container, Grid } from 'semantic-ui-react';
 import { IProduct } from '../../../../app/models/product';
 import ProductForm from '../../../Crud-Forma/productForm';
@@ -8,7 +8,7 @@ import ProductList from './ProductList';
 
 
 interface IProps {
-  products:IProduct[];
+  products: IProduct[];
   selectProduct: (productId: string) => void;
   selectedProduct: IProduct | null;
   editMode: boolean;
@@ -16,23 +16,28 @@ interface IProps {
   setSelectedProduct: (product: IProduct | null) => void;
   createProduct: (product: IProduct) => void;
   editProduct: (product: IProduct) => void;
-  deleteProduct: (productId: string) => void;
+  deleteProduct: (
+    e: SyntheticEvent<HTMLButtonElement>,
+    productId: string
+  ) => void;
   openCreateForm: () => void;
-
+  submitting: boolean;
+  target: string;
 }
 
 const ProductDashboard: React.FC<IProps> = ({
   products,
   selectProduct,
   selectedProduct,
-
   editMode,
   setEditMode,
   setSelectedProduct,
   createProduct,
   editProduct,
   deleteProduct,
-  openCreateForm
+  openCreateForm,
+  submitting,
+  target
 }) => {
   return (
     <Container style={{ marginTop: "125px", width: "1055px" }}>
@@ -41,6 +46,8 @@ const ProductDashboard: React.FC<IProps> = ({
         products={products}
         selectProduct={selectProduct}
         deleteProduct={deleteProduct}
+        submitting={submitting}
+        target={target}
       />
       {selectedProduct && !editMode && (
         <Container style={{ width: "400px" }}>
@@ -60,6 +67,7 @@ const ProductDashboard: React.FC<IProps> = ({
             product={selectedProduct!}
             createProduct={createProduct}
             editProduct={editProduct}
+            submitting={submitting}
           />
         </Container>
       )}

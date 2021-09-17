@@ -8,13 +8,15 @@ interface IProps {
   sector: ISector;
   createSector: (sector: ISector) => void;
   editSector: (sector: ISector) => void;
+  submitting: boolean;
 }
 
 const SectorForm: React.FC<IProps> = ({
   setEditMode,
   sector: initialFormState,
   editSector,
-  createSector
+  createSector,
+  submitting
 }) => {
   const initializeForm = () => {
     if (initialFormState) {
@@ -53,16 +55,22 @@ const SectorForm: React.FC<IProps> = ({
       <Form onSubmit={handleSubmit}>
         <Form.Input
           onChange={handleInputChange}
-          name='sectorName'
-          placeholder='Sector Name'
+          name="sectorName"
+          placeholder="Sector Name"
           value={sector.sectorName}
         />
-        <Button floated='right' positive type='submit' content='Submit' />
+        <Button
+          loading={submitting}
+          floated="right"
+          positive
+          type="submit"
+          content="Submit"
+        />
         <Button
           onClick={() => setEditMode(false)}
-          floated='right'
-          type='button'
-          content='Cancel'
+          floated="right"
+          type="button"
+          content="Cancel"
         />
       </Form>
     </Segment>

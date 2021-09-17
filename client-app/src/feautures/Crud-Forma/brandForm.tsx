@@ -8,21 +8,23 @@ interface IProps {
   brand: IBrand;
   createBrand: (brand: IBrand) => void;
   editBrand: (brand: IBrand) => void;
+  submitting: boolean;
 }
 
 const BrandForm: React.FC<IProps> = ({
   setEditMode,
   brand: initialFormState,
   editBrand,
-  createBrand
+  createBrand,
+  submitting,
 }) => {
   const initializeForm = () => {
     if (initialFormState) {
       return initialFormState;
     } else {
       return {
-        brandId: '',
-        brandName: '',  
+        brandId: "",
+        brandName: "",
       };
     }
   };
@@ -33,7 +35,7 @@ const BrandForm: React.FC<IProps> = ({
     if (brand.brandId.length === 0) {
       let newBrand = {
         ...brand,
-        brandId: uuid()
+        brandId: uuid(),
       };
       createBrand(newBrand);
     } else {
@@ -53,16 +55,22 @@ const BrandForm: React.FC<IProps> = ({
       <Form onSubmit={handleSubmit}>
         <Form.Input
           onChange={handleInputChange}
-          name='brandName'
-          placeholder='Brand Name'
+          name="brandName"
+          placeholder="Brand Name"
           value={brand.brandName}
         />
-        <Button floated='right' positive type='submit' content='Submit' />
+        <Button
+          loading={submitting}
+          floated="right"
+          positive
+          type="submit"
+          content="Submit"
+        />
         <Button
           onClick={() => setEditMode(false)}
-          floated='right'
-          type='button'
-          content='Cancel'
+          floated="right"
+          type="button"
+          content="Cancel"
         />
       </Form>
     </Segment>

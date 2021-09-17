@@ -11,13 +11,15 @@ interface IProps {
   product: IProduct;
   createProduct: (product: IProduct) => void;
   editProduct: (product: IProduct) => void;
+  submitting:boolean;
 }
 
 const ProductForm: React.FC<IProps> = ({
   setEditMode,
   product: initialFormState,
   editProduct,
-  createProduct
+  createProduct,
+  submitting
 }) => {
   const initializeForm = () => {
     if (initialFormState) {
@@ -161,7 +163,7 @@ const ProductForm: React.FC<IProps> = ({
           placeholder="Description"
           value={product.description}
         />
-        <Button floated="right" positive type="submit" content="Submit" />
+        <Button loading={submitting} floated="right" positive type="submit" content="Submit" />
         <Button
           onClick={() => setEditMode(false)}
           floated="right"

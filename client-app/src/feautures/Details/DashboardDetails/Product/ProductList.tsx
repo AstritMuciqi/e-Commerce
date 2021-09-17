@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import {  Button, Icon,  Table } from 'semantic-ui-react';
 import { IProduct } from '../../../../app/models/product';
 // import "../../../../app/layout/styles.css";
 interface IProps {
   products: IProduct[];
-   selectProduct: (productId: string) => void;
-   deleteProduct: (productId: string) => void;
-   openCreateForm: () => void;
+  selectProduct: (productId: string) => void;
+  deleteProduct: (
+    event: SyntheticEvent<HTMLButtonElement>,
+    productId: string
+  ) => void;
+  openCreateForm: () => void;
+  submitting: boolean;
+  target: string;
 }
 
 
@@ -14,7 +19,9 @@ const ProductList: React.FC<IProps> = ({
   products,
   selectProduct,
   deleteProduct,
-  openCreateForm
+  openCreateForm,
+  submitting,
+  target
 
 }) => {
   return (
@@ -26,15 +33,31 @@ const ProductList: React.FC<IProps> = ({
       selectable
     >
       <Table.Header fullWidth>
-        <Table.Row style={{backgroundColor:"#F5BD3D"}}>
-          <Table.HeaderCell><b style={{color:"black"}}>Product Name</b></Table.HeaderCell>
-          <Table.HeaderCell><b style={{color:"black"}}>Sector</b></Table.HeaderCell>
-          <Table.HeaderCell><b style={{color:"black"}}>Brand</b></Table.HeaderCell>
-          <Table.HeaderCell><b style={{color:"black"}}>Value of Product</b></Table.HeaderCell>
-          <Table.HeaderCell><b style={{color:"black"}}>Model Year</b></Table.HeaderCell>
-          <Table.HeaderCell><b style={{color:"black"}}>Quantity</b></Table.HeaderCell>
-          <Table.HeaderCell colSpan={"8"}><b style={{color:"black"}}>Description</b></Table.HeaderCell>
-          <Table.HeaderCell><b style={{color:"black"}}>Options</b></Table.HeaderCell>
+        <Table.Row style={{ backgroundColor: "#F5BD3D" }}>
+          <Table.HeaderCell>
+            <b style={{ color: "black" }}>Product Name</b>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <b style={{ color: "black" }}>Sector</b>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <b style={{ color: "black" }}>Brand</b>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <b style={{ color: "black" }}>Value of Product</b>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <b style={{ color: "black" }}>Model Year</b>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <b style={{ color: "black" }}>Quantity</b>
+          </Table.HeaderCell>
+          <Table.HeaderCell colSpan={"8"}>
+            <b style={{ color: "black" }}>Description</b>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <b style={{ color: "black" }}>Options</b>
+          </Table.HeaderCell>
         </Table.Row>
       </Table.Header>
 
@@ -57,7 +80,9 @@ const ProductList: React.FC<IProps> = ({
                 />
                 <Button.Or />
                 <Button
-                  onClick={() => deleteProduct(product.productId)}
+                  nama={product.productId}
+                  loading={target === product.productId && submitting}
+                  onClick={(e) => deleteProduct(e, product.productId)}
                   floated="right"
                   content="Delete"
                   negative
@@ -69,7 +94,7 @@ const ProductList: React.FC<IProps> = ({
       </Table.Body>
 
       <Table.Footer fullWidth>
-        <Table.Row style={{backgroundColor:"#F5BD3D"}}>
+        <Table.Row style={{ backgroundColor: "#F5BD3D" }}>
           <Table.HeaderCell colSpan="15">
             <Button
               style={{

@@ -1,4 +1,4 @@
-import React,{useState , useEffect } from 'react';
+import React,{useState , useEffect, SyntheticEvent } from 'react';
 import {Container} from 'semantic-ui-react';
 import Faturimi from './FaturimiLayout/Faturimi';
 import { IProduct } from '../models/product';
@@ -12,6 +12,7 @@ import { Home } from './HomePageLayout/Home';
 import Dash from './DashboardLayout/SideBarDashboard/dash';
 import agent from '../API/agent';
 import './styles.css';
+import LoadingComponent from './LoadingComponent';
 
 
 
@@ -25,6 +26,9 @@ const App = () => {
       null
     );
     const [editMode, setEditMode] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [submitting, setSubmitting] = useState(false);
+    const [target, setTarget] = useState('');
   
     const handleOpenCreateForm = () => {
       setSelectedProduct(null);
@@ -35,25 +39,39 @@ const App = () => {
     }
   
     const handleCreateProduct = (product: IProduct) => {
-      agent.Products.productCreate(product).then(()=>{
-        setProducts([...products, product]);
-        setSelectedProduct(product);
-        setEditMode(false);
-      })
+      setSubmitting(true);
+      agent.Products.productCreate(product)
+        .then(() => {
+          setProducts([...products, product]);
+          setSelectedProduct(product);
+          setEditMode(false);
+        })
+        .then(() => setSubmitting(false));
     }
   
     const handleEditProduct = (product: IProduct) => {
-      agent.Products.editProduct(product).then(()=>{
-        setProducts([...products.filter(p => p.productId !== product.productId), product])
-        setSelectedProduct(product);
-        setEditMode(false);
-      })
+      setSubmitting(true);
+      agent.Products.editProduct(product)
+        .then(() => {
+          setProducts([
+            ...products.filter((p) => p.productId !== product.productId),
+            product,
+          ]);
+          setSelectedProduct(product);
+          setEditMode(false);
+        })
+        .then(() => setSubmitting(false));
     }
   
-    const handleDeleteProduct = (productId: string) => {
-      agent.Products.deleteProduct(productId).then(()=>{
-        setProducts([...products.filter(p => p.productId !== productId)])
-      })
+    const handleDeleteProduct = (event:SyntheticEvent<HTMLButtonElement>,productId: string) => {
+      setSubmitting(true);
+      setTarget(event.currentTarget.name);
+      agent.Products.deleteProduct(productId)
+        .then(() => {
+          setProducts([...products.filter((p) => p.productId !== productId)]);
+        })
+        .then(() => setSubmitting(false));
+
     }
   
     const handleSelectProduct = (productId: string) => {
@@ -65,26 +83,38 @@ const App = () => {
     );
   
     const handleCreateSector = (sector: ISector) => {
+      setSubmitting(true);
       agent.Sectors.sectorCreate(sector).then(()=>{
         setSectors([...sectors, sector]);
         setSelectedSector(sector);
         setEditMode(false);
-      })
+      })        .then(() => setSubmitting(false));
+
     }
   
     const handleEditSector = (sector: ISector) => {
-      agent.Sectors.editSector(sector).then(()=>{
-        setSectors([...sectors.filter(s => s.sectorId !== sector.sectorId), sector])
-        setSelectedSector(sector);
-        setEditMode(false);
-      })
+      setSubmitting(true);
+      agent.Sectors.editSector(sector)
+        .then(() => {
+          setSectors([
+            ...sectors.filter((s) => s.sectorId !== sector.sectorId),
+            sector,
+          ]);
+          setSelectedSector(sector);
+          setEditMode(false);
+        })
+        .then(() => setSubmitting(false));
       
     }
   
-    const handleDeleteSector = (sectorId: string) => {
-      agent.Sectors.deleteSector(sectorId).then(()=>{
-        setSectors([...sectors.filter(s => s.sectorId !== sectorId)])
-      })
+    const handleDeleteSector = (event:SyntheticEvent<HTMLButtonElement>,sectorId: string) => {
+      setSubmitting(true);
+      setTarget(event.currentTarget.name);
+      agent.Sectors.deleteSector(sectorId)
+        .then(() => {
+          setSectors([...sectors.filter((s) => s.sectorId !== sectorId)]);
+        })
+        .then(() => setSubmitting(false));
     }
   
     const handleSelectSector = (sectorId: string) => {
@@ -96,25 +126,38 @@ const App = () => {
     );
   
     const handleCreateBrand = (brand: IBrand) => {
-      agent.Brands.brandCreate(brand).then(() =>{
-        setBrands([...brands, brand]);
-        setSelectedBrand(brand);
-        setEditMode(false);
-      })
+      setSubmitting(true);
+      agent.Brands.brandCreate(brand)
+        .then(() => {
+          setBrands([...brands, brand]);
+          setSelectedBrand(brand);
+          setEditMode(false);
+        })
+        .then(() => setSubmitting(false));
     }
   
     const handleEditBrand = (brand: IBrand) => {
-      agent.Brands.editBrand(brand).then(()=>{
-        setBrands([...brands.filter(b => b.brandId !== brand.brandId), brand])
-        setSelectedBrand(brand);
-        setEditMode(false);
-      })
+      setSubmitting(true);
+      agent.Brands.editBrand(brand)
+        .then(() => {
+          setBrands([
+            ...brands.filter((b) => b.brandId !== brand.brandId),
+            brand,
+          ]);
+          setSelectedBrand(brand);
+          setEditMode(false);
+        })
+        .then(() => setSubmitting(false));
     }
   
-    const handleDeleteBrand = (brandId: string) => {
-      agent.Brands.deleteBrand(brandId).then(()=>{
-        setBrands([...brands.filter(b => b.brandId !== brandId)])
-      })
+    const handleDeleteBrand = (event:SyntheticEvent<HTMLButtonElement>,brandId: string) => {
+      setSubmitting(true);
+      setTarget(event.currentTarget.name);
+      agent.Brands.deleteBrand(brandId)
+        .then(() => {
+          setBrands([...brands.filter((b) => b.brandId !== brandId)]);
+        })
+        .then(() => setSubmitting(false));
     }
   
     const handleSelectBrand = (brandId: string) => {
@@ -131,7 +174,7 @@ const App = () => {
             products.push(product);
           });
           setProducts(products);
-        });
+        }).then(() => setLoading(false));
     }, []);
     useEffect(() => {
       agent.Sectors.sectorList()
@@ -142,7 +185,8 @@ const App = () => {
             sectors.push(sector);
           });
           setSectors(sectors);
-        });
+        })
+        .then(() => setLoading(false));
     }, []);
     useEffect(() => {
       agent.Brands.brandList()
@@ -153,9 +197,11 @@ const App = () => {
             brands.push(brand);
           });
           setBrands(brands);
-        });
+        })
+        .then(() => setLoading(false));
     }, []);
-  
+    if (loading) return <LoadingComponent content="Please Wait!" />;
+
 
 
     
@@ -165,11 +211,10 @@ const App = () => {
         <Route path="/faturimi" component={Faturimi} />
 
         <Route path="/dashboard" component={Dash} />
-        <Route path="/" component={Home} exact/>
+        <Route path="/" component={Home} exact />
 
         <Route path="/dashboard/productmaster/product">
           <ProductDashboard
-          
             products={products}
             selectProduct={handleSelectProduct}
             selectedProduct={selectedProduct}
@@ -180,6 +225,8 @@ const App = () => {
             editProduct={handleEditProduct}
             deleteProduct={handleDeleteProduct}
             openCreateForm={handleOpenCreateForm}
+            submitting={submitting}            
+            target={target}
           />
         </Route>
         <Route path="/dashboard/productmaster/sectors">
@@ -194,6 +241,8 @@ const App = () => {
             editSector={handleEditSector}
             deleteSector={handleDeleteSector}
             openCreateForm={handleOpenCreateForm}
+            submitting={submitting}
+            target={target}
           />
         </Route>
         <Route path="/dashboard/productmaster/brands">
@@ -208,6 +257,8 @@ const App = () => {
             editBrand={handleEditBrand}
             deleteBrand={handleDeleteBrand}
             openCreateForm={handleOpenCreateForm}
+            submitting={submitting}
+            target={target}
           />
         </Route>
       </Container>
