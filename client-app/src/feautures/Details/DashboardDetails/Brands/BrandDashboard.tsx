@@ -1,72 +1,29 @@
-import React, { SyntheticEvent } from 'react';
-import { Container, Grid } from 'semantic-ui-react';
-import { IBrand } from '../../../../app/models/brand';
+import { observer } from 'mobx-react-lite';
+import React, {  useContext } from 'react';
+import { Container } from 'semantic-ui-react';
 import BrandForm from '../../../Crud-Forma/brandForm';
 import BrandDetails from '../../DetailsShow/BrandDetails';
 import BrandList from './BrandList';
+import BrandStore from '../../../../app/stores/brandStore';
 
 
-
-
-
-interface IProps {
-  brands: IBrand[];
-  selectBrand: (brandId: string) => void;
-  selectedBrand: IBrand | null;
-  editMode: boolean;
-  setEditMode: (editMode: boolean) => void;
-  setSelectedBrand: (brand: IBrand | null) => void;
-  createBrand: (brand: IBrand) => void;
-  editBrand: (brand: IBrand) => void;
-  deleteBrand: (e:SyntheticEvent<HTMLButtonElement>, brandId: string) => void;
-  openCreateForm: () => void;
-  submitting: boolean;
-  target: string;
-}
-
-const BrandDashboard: React.FC<IProps> = ({
-  brands,
-  selectBrand,
-  selectedBrand,
-  editMode,
-  setEditMode,
-  setSelectedBrand,
-  createBrand,
-  editBrand,
-  deleteBrand,
-  openCreateForm,
-  submitting,
-  target,
-}) => {
+const BrandDashboard: React.FC = () => {
+  const brandStore = useContext(BrandStore);
+  const { editMode, selectedBrand } = brandStore;
   return (
     <Container style={{ marginTop: "125px", width: "1055px" }}>
-      <BrandList
-        openCreateForm={openCreateForm}
-        brands={brands}
-        selectBrand={selectBrand}
-        deleteBrand={deleteBrand}
-        submitting={submitting}
-        target={target}
-      />
+      <BrandList />
 
       {selectedBrand && !editMode && (
         <Container style={{ width: "400px" }}>
-          <BrandDetails
-            brand={selectedBrand}
-            setEditMode={setEditMode}
-            setSelectedBrand={setSelectedBrand}
-          />
+          <BrandDetails />
         </Container>
       )}
       {editMode && (
         <Container style={{ width: "400px" }}>
           <BrandForm
             key={(selectedBrand && selectedBrand.brandId) || 0}
-            setEditMode={setEditMode}
             brand={selectedBrand!}
-            createBrand={createBrand}
-            editBrand={editBrand}
-            submitting={submitting}
           />
         </Container>
       )}
@@ -74,4 +31,4 @@ const BrandDashboard: React.FC<IProps> = ({
   );
 };
 
-export default BrandDashboard;
+export default observer(BrandDashboard);

@@ -1,22 +1,16 @@
-import React, { useState, FormEvent } from 'react';
+import { observer } from 'mobx-react-lite';
+import React, { useState, FormEvent, useContext } from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react';
 import {v4 as uuid} from 'uuid';
 import { IBrand } from '../../app/models/brand';
-
+import BrandStore from '../../app/stores/brandStore';
 interface IProps {
-  setEditMode: (editMode: boolean) => void;
   brand: IBrand;
-  createBrand: (brand: IBrand) => void;
-  editBrand: (brand: IBrand) => void;
-  submitting: boolean;
 }
 
 const BrandForm: React.FC<IProps> = ({
-  setEditMode,
   brand: initialFormState,
-  editBrand,
-  createBrand,
-  submitting,
+
 }) => {
   const initializeForm = () => {
     if (initialFormState) {
@@ -49,6 +43,8 @@ const BrandForm: React.FC<IProps> = ({
     const { name, value } = event.currentTarget;
     setBrand({ ...brand, [name]: value });
   };
+  const brandStore = useContext(BrandStore);
+  const { createBrand,editBrand,submitting,cancelFormOpen} = brandStore;
 
   return (
     <Segment clearing>
@@ -67,7 +63,7 @@ const BrandForm: React.FC<IProps> = ({
           content="Submit"
         />
         <Button
-          onClick={() => setEditMode(false)}
+          onClick={cancelFormOpen}
           floated="right"
           type="button"
           content="Cancel"
@@ -77,4 +73,4 @@ const BrandForm: React.FC<IProps> = ({
   );
 };
 
-export default BrandForm;
+export default observer(BrandForm);

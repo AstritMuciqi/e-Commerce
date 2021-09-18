@@ -1,27 +1,35 @@
-import React from 'react';
+import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
 import { Card,Button } from 'semantic-ui-react';
-import { ISector } from '../../../app/models/sector';
+import SectorStore from '../../../app/stores/sectorStore';
 
-interface IProps {
-    sector: ISector;
-    setEditMode: (editMode: boolean) => void;
-    setSelectedSector: (sector: ISector | null) => void;
-}
 
-const SectorDetails: React.FC<IProps> = ({sector, setEditMode, setSelectedSector}) => {
+const SectorDetails: React.FC = () => {
+  const sectorStore = useContext(SectorStore);
+  const{selectedSector:sector,openEditForm,cancelSelectedSector}= sectorStore;
   return (
     <Card fluid>
       <Card.Content>
-        <Card.Header>{sector.sectorName}</Card.Header>
+        <Card.Header>{sector!.sectorName}</Card.Header>
       </Card.Content>
       <Card.Content extra>
         <Button.Group widths={2}>
-            <Button onClick={() => setEditMode(true)} basic color='blue' content='Edit' />
-            <Button onClick={() => setSelectedSector(null)} basic color='grey' content='Cancel' />
+          <Button
+            onClick={() => openEditForm(sector!.sectorId)}
+            basic
+            color="blue"
+            content="Edit"
+          />
+          <Button
+            onClick={cancelSelectedSector}
+            basic
+            color="grey"
+            content="Cancel"
+          />
         </Button.Group>
       </Card.Content>
     </Card>
   );
 };
 
-export default SectorDetails;
+export default observer(SectorDetails);

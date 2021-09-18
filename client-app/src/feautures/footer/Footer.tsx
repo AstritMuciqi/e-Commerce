@@ -1,29 +1,13 @@
 import React from "react";
-import { Grid, Icon, Menu } from "semantic-ui-react";
+import { Grid, Icon } from "semantic-ui-react";
 import { ISector } from "../../app/models/sector";
 interface IProps {
   sectors:ISector[];
-  // selectActivity: (id: string) => void;
-  // selectedActivity: IActivity | null;
-  // editMode: boolean;
-  // setEditMode: (editMode: boolean) => void;
-  // setSelectedActivity: (activity: IActivity | null) => void;
-  // createActivity: (activity: IActivity) => void;
-  // editActivity: (activity: IActivity) => void;
-  // deleteActivity: (id: string) => void;
 }
 
   const Footer: React.FC<IProps> = ({
     sectors,
-    // selectProduct,
-    // selectedProduct,
-    // editMode,
-    // setEditMode,
-    // setSelectedProduct,
-    // createProduct,
-    // editProduct,
-    // deleteProduct,
-    // openCreateForm
+
   }) => {
     return (
       <Grid
@@ -53,129 +37,51 @@ interface IProps {
 
         <Grid.Row style={{ fontSize: "15px",marginLeft:"45px" }}>
           <Grid.Column>
-            <a>RRETH NESH</a>
+            <i>RRETH NESH</i>
           </Grid.Column>
           <Grid.Column>
-            <a>
+            <i>
               <Icon style={{ marginBottom: "6px"}} name="home" size="large" />
               ELEZ BERISHA, 10000, PRISHTINË
-            </a>
+            </i>
           </Grid.Column>
           <Grid.Column>
-            <a>Kyqu</a>
+            <i>Kyqu</i>
           </Grid.Column>
         </Grid.Row>
         <Grid.Row style={{ fontSize: "15px",marginLeft:"45px" }}>
           <Grid.Column>
-            <a>TRANSPORTI</a>
+            <i>TRANSPORTI</i>
           </Grid.Column>
           <Grid.Column>
-            <a>
+            <i>
               <Icon style={{ marginBottom: "6px" }} name="phone" size="large" />
               +383 (0) 43 99 77 00
-            </a>
+            </i>
           </Grid.Column>
           <Grid.Column>
-            <a>Regjistrohu</a>
+            <i>Regjistrohu</i>
           </Grid.Column>
         </Grid.Row>
         <Grid.Row style={{ fontSize: "15px",marginLeft:"45px"}}>
           <Grid.Column>
-            <a>POLITIKA E PRIVATËSISË</a>
+            <i>POLITIKA E PRIVATËSISË</i>
           </Grid.Column>
           <Grid.Column>
             {" "}
-            <a>
+            <i>
               <Icon style={{ marginBottom: "6px" }} name="mail" size="large" />
               INFO@SmartStore.COM
-            </a>
+            </i>
           </Grid.Column>
         </Grid.Row>
         <Grid.Row style={{ fontSize: "15px",marginLeft:"45px"}}>
           <Grid.Column>
-            <a>GARANCIONI DHE SERVISI</a>
+            <i>GARANCIONI DHE SERVISI</i>
           </Grid.Column>
         </Grid.Row>
       </Grid>
 
-      // <List
-      //   horizontal
-      // style={{
-      //   marginTop: "20px",
-      //   marginLeft: "20px",
-      //   height: "500px",
-      //   backgroundColor: "white",
-      //   width: "1220px",
-      //   border: "2px solid rgb(246, 248, 239)",
-      //   textTransform: "uppercase",
-
-      // }}
-      // >
-      //   <List.Item style={{ fontSize: "20px" }}>
-      //     <ol>
-      //       <b style={{ fontWeight: "bolder",marginBottom:"60px" }}>Llogaria</b>
-      //       <ul style={{ marginTop: "20px" }}>
-      //         <a>Kyqu</a>
-      //       </ul>
-      //       <ul style={{ marginTop: "20px" }}>
-      //         <a>Regjistrohu</a>
-      //       </ul>
-      //     </ol>
-      //   </List.Item>
-      //   <List.Item style={{ marginLeft: "70px", fontSize: "20px" }}>
-      //     <ol>
-      //       <b style={{ fontWeight: "bolder" }}>Kujdesi ndaj Klienteve</b>
-      //       <ul style={{ marginTop: "20px" }}>
-      //         <a>RRETH NESH</a>
-      //       </ul>
-      //       <ul style={{ marginTop: "20px" }}>
-      //         <a>TRANSPORTI</a>
-      //       </ul>{" "}
-      //       <ul style={{ marginTop: "20px" }}>
-      //         <a>POLITIKA E PRIVATËSISË</a>
-      //       </ul>
-      //       <ul style={{ marginTop: "20px" }}>
-      //         <a>GARANCIONI DHE SERVISI</a>
-      //       </ul>
-      //     </ol>
-      //   </List.Item>
-      //   <List.Item
-      //     style={{ marginLeft: "69px", fontSize: "20px", marginRight: "60px" }}
-      //   >
-      // <ol>
-      //   <ul style={{ marginTop: "20px" }}>
-      //     <a>
-      //       <Icon
-      //         style={{ marginBottom: "6px" }}
-      //         name="home"
-      //         size="large"
-      //       />
-      //       ELEZ BERISHA, 10000, PRISHTINË
-      //     </a>
-      //   </ul>
-      //   <ul style={{ marginTop: "20px" }}>
-      //     <a>
-      //       <Icon
-      //         style={{ marginBottom: "6px" }}
-      //         name="phone"
-      //         size="large"
-      //       />
-      //       +383 (0) 43 99 77 00
-      //     </a>
-      //   </ul>
-      //   <ul style={{ marginTop: "20px" }}>
-      //     <a>
-      //       <Icon
-      //         style={{ marginBottom: "6px" }}
-      //         name="mail"
-      //         size="large"
-      //       />
-      //       INFO@SmartStore.COM
-      //     </a>
-      //   </ul>
-      // </ol>
-      //   </List.Item>
-      // </List>
     );
   };
   

@@ -2,7 +2,6 @@ import React,{useState , useEffect , Fragment} from 'react';
 import {Container, List} from 'semantic-ui-react';
 import axios from 'axios';
 import { IAdresaF } from '../../models/adresaF';
-
 import { Fronti } from '../../../feautures/Faqja/Fronti';
 import Navbar from '../../../feautures/nav/NavBar';
 import Kategorite from '../../../feautures/nav/Kategorite';

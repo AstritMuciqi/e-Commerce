@@ -1,29 +1,11 @@
-import React, { SyntheticEvent } from 'react';
+import React, { useContext } from 'react';
 import {  Button, Icon,  Table } from 'semantic-ui-react';
-import { IProduct } from '../../../../app/models/product';
-// import "../../../../app/layout/styles.css";
-interface IProps {
-  products: IProduct[];
-  selectProduct: (productId: string) => void;
-  deleteProduct: (
-    event: SyntheticEvent<HTMLButtonElement>,
-    productId: string
-  ) => void;
-  openCreateForm: () => void;
-  submitting: boolean;
-  target: string;
-}
+import { observer } from "mobx-react-lite";
+import ProductStore from '../../../../app/stores/productStore'
 
-
-const ProductList: React.FC<IProps> = ({
-  products,
-  selectProduct,
-  deleteProduct,
-  openCreateForm,
-  submitting,
-  target
-
-}) => {
+const ProductList: React.FC = () => {
+  const productStore = useContext(ProductStore);
+  const {products,selectProduct ,deleteProduct,submitting,target} = productStore;
   return (
     <Table
       className="produktet"
@@ -102,7 +84,7 @@ const ProductList: React.FC<IProps> = ({
                 color: "white",
                 width: "157px",
               }}
-              onClick={openCreateForm}
+              onClick={productStore.openCreateForm}
               floated="right"
               icon
               labelPosition="left"
@@ -118,4 +100,4 @@ const ProductList: React.FC<IProps> = ({
   );
 };
 
-export default ProductList;
+export default observer(ProductList);

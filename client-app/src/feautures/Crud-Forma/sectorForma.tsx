@@ -1,30 +1,22 @@
-import React, { useState, FormEvent } from 'react';
+import { observer } from 'mobx-react-lite';
+import React, { useState, FormEvent, useContext } from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react';
 import {v4 as uuid} from 'uuid';
 import { ISector } from '../../app/models/sector';
+import SectorStore from '../../app/stores/sectorStore';
 
 interface IProps {
-  setEditMode: (editMode: boolean) => void;
   sector: ISector;
-  createSector: (sector: ISector) => void;
-  editSector: (sector: ISector) => void;
-  submitting: boolean;
 }
 
-const SectorForm: React.FC<IProps> = ({
-  setEditMode,
-  sector: initialFormState,
-  editSector,
-  createSector,
-  submitting
-}) => {
+const SectorForm: React.FC<IProps> = ({ sector: initialFormState }) => {
   const initializeForm = () => {
     if (initialFormState) {
       return initialFormState;
     } else {
       return {
-        sectorId: '',
-        sectorName: '',  
+        sectorId: "",
+        sectorName: "",
       };
     }
   };
@@ -35,7 +27,7 @@ const SectorForm: React.FC<IProps> = ({
     if (sector.sectorId.length === 0) {
       let newSector = {
         ...sector,
-        sectorId: uuid()
+        sectorId: uuid(),
       };
       createSector(newSector);
     } else {
@@ -49,6 +41,8 @@ const SectorForm: React.FC<IProps> = ({
     const { name, value } = event.currentTarget;
     setSector({ ...sector, [name]: value });
   };
+  const sectorStore = useContext(SectorStore);
+  const { createSector, editSector, submitting, cancelFormOpen } = sectorStore;
 
   return (
     <Segment clearing>
@@ -67,7 +61,7 @@ const SectorForm: React.FC<IProps> = ({
           content="Submit"
         />
         <Button
-          onClick={() => setEditMode(false)}
+          onClick={cancelFormOpen}
           floated="right"
           type="button"
           content="Cancel"
@@ -77,4 +71,4 @@ const SectorForm: React.FC<IProps> = ({
   );
 };
 
-export default SectorForm;
+export default observer(SectorForm);

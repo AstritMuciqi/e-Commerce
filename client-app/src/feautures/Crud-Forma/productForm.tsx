@@ -1,52 +1,44 @@
-import React, { useState, FormEvent, useEffect } from 'react';
+import React, { useState, FormEvent, useEffect, useContext } from 'react';
 import { Segment, Form, Button, Dropdown } from 'semantic-ui-react';
 import {v4 as uuid} from 'uuid';
 import { IProduct } from '../../app/models/product';
 import { ISector } from '../../app/models/sector';
 import agent from '../../app/API/agent';
 import { IBrand } from '../../app/models/brand';
+import ProductStore from "../../app/stores/productStore";
+import { observer } from 'mobx-react-lite';
 
 interface IProps {
-  setEditMode: (editMode: boolean) => void;
   product: IProduct;
-  createProduct: (product: IProduct) => void;
-  editProduct: (product: IProduct) => void;
-  submitting:boolean;
 }
 
 const ProductForm: React.FC<IProps> = ({
-  setEditMode,
   product: initialFormState,
-  editProduct,
-  createProduct,
-  submitting
 }) => {
   const initializeForm = () => {
     if (initialFormState) {
       return initialFormState;
     } else {
       return {
-        productId: '',
-        productName: '',
-        sector: '',
-        brand: '',
-        valueOfProduct: '',
-        modelYear: '',
-        quantity: '',
-        description: ''
-        
+        productId: "",
+        productName: "",
+        sector: "",
+        brand: "",
+        valueOfProduct: "",
+        modelYear: "",
+        quantity: "",
+        description: "",
       };
     }
   };
 
   const [product, setProduct] = useState<IProduct>(initializeForm);
 
-
   const handleSubmit = () => {
     if (product.productId.length === 0) {
       let newProduct = {
         ...product,
-        productId: uuid()
+        productId: uuid(),
       };
       createProduct(newProduct);
     } else {
@@ -57,39 +49,32 @@ const ProductForm: React.FC<IProps> = ({
   const [sectors, setSectors] = useState<ISector[]>([]);
   const [brands, setBrands] = useState<IBrand[]>([]);
 
-
   useEffect(() => {
-    agent.Sectors.sectorList()
-      .then((response) => {
-        let sectors: ISector[] = [];
-        response.forEach((sector) => {
-          sector.sectorName = sector.sectorName.split(".")[0];
-          sectors.push(sector);
-        });
-        setSectors(sectors);
+    agent.Sectors.sectorList().then((response) => {
+      let sectors: ISector[] = [];
+      response.forEach((sector) => {
+        sector.sectorName = sector.sectorName.split(".")[0];
+        sectors.push(sector);
       });
+      setSectors(sectors);
+    });
   }, []);
   useEffect(() => {
-    agent.Brands.brandList()
-      .then((response) => {
-        let brands: IBrand[] = [];
-        response.forEach((brand) => {
-          brand.brandName = brand.brandName.split(".")[0];
-          brands.push(brand);
-        });
-        setBrands(brands);
+    agent.Brands.brandList().then((response) => {
+      let brands: IBrand[] = [];
+      response.forEach((brand) => {
+        brand.brandName = brand.brandName.split(".")[0];
+        brands.push(brand);
       });
+      setBrands(brands);
+    });
   }, []);
-  const handleBrandChange=(
-    ev: React.SyntheticEvent, {value}:any
-    )=>{
-      setProduct({...product,brand: value})
-    };
-  const handleSectorChange =(
-    ev: React.SyntheticEvent, {value}:any
-    )=>{
-      setProduct({...product,sector: value})
-    };
+  const handleBrandChange = (ev: React.SyntheticEvent, { value }: any) => {
+    setProduct({ ...product, brand: value });
+  };
+  const handleSectorChange = (ev: React.SyntheticEvent, { value }: any) => {
+    setProduct({ ...product, sector: value });
+  };
   const handleInputChange = (
     event: FormEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -97,6 +82,8 @@ const ProductForm: React.FC<IProps> = ({
     setProduct({ ...product, [name]: value });
   };
 
+  const productStore = useContext(ProductStore);
+  const { createProduct, editProduct, submitting,cancelFormOpen} = productStore;
   return (
     <Segment clearing>
       <Form onSubmit={handleSubmit}>
@@ -163,9 +150,15 @@ const ProductForm: React.FC<IProps> = ({
           placeholder="Description"
           value={product.description}
         />
-        <Button loading={submitting} floated="right" positive type="submit" content="Submit" />
         <Button
-          onClick={() => setEditMode(false)}
+          loading={submitting}
+          floated="right"
+          positive
+          type="submit"
+          content="Submit"
+        />
+        <Button
+          onClick={cancelFormOpen}
           floated="right"
           type="button"
           content="Cancel"
@@ -175,4 +168,4 @@ const ProductForm: React.FC<IProps> = ({
   );
 };
 
-export default ProductForm;
+export default observer(ProductForm) ;

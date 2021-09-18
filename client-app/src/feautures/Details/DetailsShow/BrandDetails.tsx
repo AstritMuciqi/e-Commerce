@@ -1,23 +1,35 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Card, Button } from 'semantic-ui-react';
-import { IBrand } from '../../../app/models/brand';
+import BrandStore from '../../../app/stores/brandStore';
 
-interface IProps {
-    brand: IBrand;
-    setEditMode: (editMode: boolean) => void;
-    setSelectedBrand: (brand: IBrand | null) => void;
-}
 
-const BrandDetails: React.FC<IProps> = ({brand, setEditMode, setSelectedBrand}) => {
+
+const BrandDetails: React.FC = () => {
+  const brandStore = useContext(BrandStore);
+  const {
+    selectedBrand: brand,
+    openEditForm,
+    cancelSelectedBrand,
+  } = brandStore;
   return (
     <Card fluid>
       <Card.Content>
-        <Card.Header>{brand.brandName}</Card.Header>
+        <Card.Header>{brand!.brandName}</Card.Header>
       </Card.Content>
       <Card.Content extra>
         <Button.Group widths={2}>
-            <Button onClick={() => setEditMode(true)} basic color='blue' content='Edit' />
-            <Button onClick={() => setSelectedBrand(null)} basic color='grey' content='Cancel' />
+          <Button
+            onClick={() => openEditForm(brand!.brandId)}
+            basic
+            color="blue"
+            content="Edit"
+          />
+          <Button
+            onClick={cancelSelectedBrand}
+            basic
+            color="grey"
+            content="Cancel"
+          />
         </Button.Group>
       </Card.Content>
     </Card>
