@@ -27,7 +27,7 @@ const SectorList: React.FC = () => {
             <Table.Cell colSpan="2">
               <Button.Group floated="right">
                 <Button
-                  as={Link} to={`/edit/sector/${sector.sectorId}`}
+                  as={Link} to={`/sector/edit/${sector.sectorId}`}
                   floated="right"
                   content="Edit"
                 />
@@ -51,7 +51,7 @@ const SectorList: React.FC = () => {
           <Table.HeaderCell colSpan="15">
             <Button
               as={Link}
-              to="createSector"
+              to="/createSector"
               style={{
                 backgroundColor: "black",
                 color: "white",

@@ -51,12 +51,13 @@ const BrandList: React.FC = () => {
         <Table.Row style={{ backgroundColor: "#F5BD3D" }}>
           <Table.HeaderCell colSpan="15">
             <Button
+              as={Link}
+              to="/createBrand"
               style={{
                 backgroundColor: "black",
                 color: "white",
                 width: "157px",
               }}
-              as={Link} to="createBrand"
               floated="right"
               icon
               labelPosition="left"

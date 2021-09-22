@@ -12,7 +12,7 @@ const ProductDashboard: React.FC = () => {
   }, [productStore]);
 
   if (productStore.loadingInitial)
-    return <LoadingComponent content='Loading products' />;
+    return <LoadingComponent content='Loading Products...' />;
   return (
     <Container style={{ marginTop: "125px", width: "1055px" }}>
       <ProductList />

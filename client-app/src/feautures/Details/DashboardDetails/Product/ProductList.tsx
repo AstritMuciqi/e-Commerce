@@ -81,13 +81,13 @@ const ProductList: React.FC<RouteComponentProps> = ({ location }) => {
         <Table.Row style={{ backgroundColor: "#F5BD3D" }}>
           <Table.HeaderCell colSpan="15">
             <Button
+              as={Link}
+              to="/createProduct"
               style={{
                 backgroundColor: "black",
                 color: "white",
                 width: "157px",
               }}
-              as={Link}
-              to="/createProduct"
               floated="right"
               icon
               labelPosition="left"

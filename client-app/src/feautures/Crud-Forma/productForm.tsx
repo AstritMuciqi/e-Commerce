@@ -2,8 +2,6 @@ import React, { useState, FormEvent, useEffect, useContext } from "react";
 import { Segment, Form, Button, Dropdown } from "semantic-ui-react";
 import { v4 as uuid } from "uuid";
 import { IProduct } from "../../app/models/product";
-import agent from "../../app/API/agent";
-import { IBrand } from "../../app/models/brand";
 import ProductStore from "../../app/stores/productStore";
 import SectorStore from "../../app/stores/sectorStore";
 import BrandStore from "../../app/stores/brandStore";
@@ -11,6 +9,7 @@ import BrandStore from "../../app/stores/brandStore";
 import { observer } from "mobx-react-lite";
 import { RouteComponentProps } from "react-router";
 import LoadingComponent from "../../app/layout/LoadingComponent";
+import { Link } from "react-router-dom";
 interface DetailParams {
   id: string;
 }
@@ -22,6 +21,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
   const productStore = useContext(ProductStore);
   const sectorStore = useContext(SectorStore);
   const brandStore = useContext(BrandStore);
+  const { loadBrands, brandsData } = brandStore;
 
   const { loadSectors, sectorsData } = sectorStore;
   const {
@@ -30,6 +30,8 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
     product: initialFormState,
     loadProduct,
     clearProduct,
+    submitting,
+    loadingInitial,
   } = productStore;
 
   useEffect(() => {
@@ -65,21 +67,15 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
       editProduct(product);
     }
   };
-  const [brands, setBrands] = useState<IBrand[]>([]);
 
   useEffect(() => {
     loadSectors();
   }, [loadSectors]);
   useEffect(() => {
-    agent.Brands.brandList().then((response) => {
-      let brands: IBrand[] = [];
-      response.forEach((brand) => {
-        brand.brandName = brand.brandName.split(".")[0];
-        brands.push(brand);
-      });
-      setBrands(brands);
-    });
-  }, []);
+    loadBrands();
+  }, [loadBrands]);
+  if (sectorStore.loadingInitial) return <LoadingComponent content="Loading data" />;
+
 
   const handleBrandChange = (ev: React.SyntheticEvent, { value }: any) => {
     setProduct({ ...product, brand: value });
@@ -93,12 +89,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
     const { name, value } = event.currentTarget;
     setProduct({ ...product, [name]: value });
   };
-  if (
-    productStore.loadingInitial &&
-    sectorStore.loadingInitial &&
-    brandStore.loadingInitial
-  )
-    return <LoadingComponent content="Loading data" />;
+  if (loadingInitial) return <LoadingComponent content="Loading data" />;
   return (
     <Segment clearing>
       <Form onSubmit={handleSubmit}>
@@ -129,7 +120,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
           fluid
           search
           selection
-          options={brands.map((brand) => ({
+          options={brandsData.map((brand) => ({
             key: brand.brandId,
             value: brand.brandName,
             text: brand.brandName,
@@ -165,9 +156,17 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
           placeholder="Description"
           value={product.description}
         />
-        <Button floated="right" positive type="submit" content="Submit" />
         <Button
-          onClick={() => history.push(`/product/edit/${product.productId}`)}
+          as={Link}
+          to="/dashboard/productmaster/product"
+          loading={submitting}
+          floated="right"
+          positive
+          type="submit"
+          content="Submit"
+        />
+        <Button
+          onClick={() => history.push("/dashboard/productmaster/product")}
           floated="right"
           type="button"
           content="Cancel"

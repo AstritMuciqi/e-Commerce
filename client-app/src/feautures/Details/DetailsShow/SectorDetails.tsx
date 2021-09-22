@@ -37,7 +37,7 @@ const SectorDetails: React.FC<RouteComponentProps<DetailParams>> = ({
             content="Edit"
           />
           <Button
-            onClick={() => history.push("/dashboard/productmaster/sector")}
+            onClick={() => history.push("/dashboard/productmaster/sectors")}
             basic
             color="grey"
             content="Cancel"

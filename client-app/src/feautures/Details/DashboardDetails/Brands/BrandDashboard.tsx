@@ -12,7 +12,7 @@ const BrandDashboard: React.FC = () => {
     brandStore.loadBrands();
   }, [brandStore]);
   if (brandStore.loadingInitial)
-    return <LoadingComponent content="Loading brands..." />;
+    return <LoadingComponent content="Loading Brands..." />;
   return (
     <Container style={{ marginTop: "125px", width: "1055px" }}>
       <BrandList />

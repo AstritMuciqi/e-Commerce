@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React, { useState, FormEvent, useContext, useEffect } from "react";
-import { RouteComponentProps } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 import { Segment, Form, Button } from "semantic-ui-react";
 import { v4 as uuid } from "uuid";
 import { IBrand } from "../../app/models/brand";
@@ -68,6 +68,7 @@ const BrandForm: React.FC<RouteComponentProps<DetailParams>> = ({
           value={brand.brandName}
         />
         <Button
+          as={Link} to="/dashboard/productmaster/brands"
           loading={submitting}
           floated="right"
           positive
@@ -75,7 +76,7 @@ const BrandForm: React.FC<RouteComponentProps<DetailParams>> = ({
           content="Submit"
         />
         <Button
-          onClick={() => history.push(`/brand/edit/${brand.brandId}`)}
+          onClick={() => history.push("/dashboard/productmaster/brands")}
           floated="right"
           type="button"
           content="Cancel"

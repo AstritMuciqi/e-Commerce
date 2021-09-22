@@ -30,7 +30,7 @@ const ProductDetails: React.FC<RouteComponentProps<DetailParams>> = ({match,hist
         <Button.Group widths={2}>
           <Button
             loading={submitting}
-            as={Link} to={`/manage/${product.productId}`}
+            as={Link} to={`/manage/product/${product.productId}`}
             basic
             color="blue"
             content="Edit"

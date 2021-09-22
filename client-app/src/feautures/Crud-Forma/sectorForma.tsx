@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React, { useState, FormEvent, useContext, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Segment, Form, Button } from 'semantic-ui-react';
 import {v4 as uuid} from 'uuid';
 import { ISector } from '../../app/models/sector';
@@ -63,6 +64,8 @@ const SectorForm: React.FC<RouteComponentProps<DetailParams>> = ({
           value={sector.sectorName}
         />
         <Button
+          as={Link}
+          to="/dashboard/productmaster/sectors"
           loading={submitting}
           floated="right"
           positive
@@ -70,7 +73,7 @@ const SectorForm: React.FC<RouteComponentProps<DetailParams>> = ({
           content="Submit"
         />
         <Button
-          onClick={()=>history.push('/dashboard/productmaster/sector')}
+          onClick={() => history.push("/dashboard/productmaster/sectors")}
           floated="right"
           type="button"
           content="Cancel"
