@@ -2,7 +2,6 @@ import React, { useState, FormEvent, useEffect, useContext } from "react";
 import { Segment, Form, Button, Dropdown } from "semantic-ui-react";
 import { v4 as uuid } from "uuid";
 import { IProduct } from "../../app/models/product";
-import { ISector } from "../../app/models/sector";
 import agent from "../../app/API/agent";
 import { IBrand } from "../../app/models/brand";
 import ProductStore from "../../app/stores/productStore";
@@ -18,21 +17,19 @@ interface DetailParams {
 
 const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
   match,
-  history
+  history,
 }) => {
   const productStore = useContext(ProductStore);
   const sectorStore = useContext(SectorStore);
   const brandStore = useContext(BrandStore);
 
-  const{loadSectors,sectorsData} = sectorStore 
+  const { loadSectors, sectorsData } = sectorStore;
   const {
     createProduct,
     editProduct,
-    submitting,
     product: initialFormState,
     loadProduct,
     clearProduct,
-    loadingInitial
   } = productStore;
 
   useEffect(() => {
@@ -41,12 +38,11 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
         () => initialFormState && setProduct(initialFormState)
       );
     }
-    return()=>{
-      clearProduct()
-    }
-  },[loadProduct,match.params.id,clearProduct,initialFormState]);
+    return () => {
+      clearProduct();
+    };
+  }, [loadProduct, match.params.id, clearProduct, initialFormState]);
 
-  
   const [product, setProduct] = useState<IProduct>({
     productId: "",
     productName: "",
@@ -97,7 +93,12 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
     const { name, value } = event.currentTarget;
     setProduct({ ...product, [name]: value });
   };
-if(productStore.loadingInitial&&sectorStore.loadingInitial&&brandStore.loadingInitial) return <LoadingComponent content= "Loading data" />
+  if (
+    productStore.loadingInitial &&
+    sectorStore.loadingInitial &&
+    brandStore.loadingInitial
+  )
+    return <LoadingComponent content="Loading data" />;
   return (
     <Segment clearing>
       <Form onSubmit={handleSubmit}>
@@ -164,14 +165,9 @@ if(productStore.loadingInitial&&sectorStore.loadingInitial&&brandStore.loadingIn
           placeholder="Description"
           value={product.description}
         />
+        <Button floated="right" positive type="submit" content="Submit" />
         <Button
-          floated="right"
-          positive
-          type="submit"
-          content="Submit"
-        />
-        <Button
-          onClick={()=>history.push(`/product/edit/${product.productId}`)}
+          onClick={() => history.push(`/product/edit/${product.productId}`)}
           floated="right"
           type="button"
           content="Cancel"

@@ -8,8 +8,6 @@ class SectorStore {
   @observable sectorRegistry = new Map();
   @observable loadingInitial = false;
   @observable sector: ISector | null = null;
-  @observable sectors: ISector[] = [];
-  @observable editMode = false;
   @observable submitting = false;
   @observable target = "";
 
@@ -40,7 +38,6 @@ class SectorStore {
       await agent.Sectors.sectorCreate(sector);
       runInAction("create sector ", () => {
         this.sectorRegistry.set(sector.sectorId, sector);
-        this.editMode = false;
         this.submitting = false;
       });
     } catch (error) {
@@ -57,7 +54,6 @@ class SectorStore {
       runInAction("edit sector error", () => {
         this.sectorRegistry.set(sector.sectorId, sector);
         this.sector = sector;
-        this.editMode = false;
         this.submitting = false;
       });
     } catch (error) {

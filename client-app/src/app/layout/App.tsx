@@ -26,38 +26,40 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
   const sectorStore = useContext(SectorStore);
   const productStore = useContext(ProductStore);
   const brandStore = useContext(BrandStore);
-  if(sectorStore.loadingInitial&&brandStore.loadingInitial&&productStore.loadingInitial)return <LoadingComponent content="Loading..." />
+  if (
+    sectorStore.loadingInitial &&
+    brandStore.loadingInitial &&
+    productStore.loadingInitial
+  )
+    return <LoadingComponent content="Loading..." />;
 
   return (
     <Container className="APP-Page">
       <Switch>
         <Route path="/product/edit/:id" component={ProductDetails} />
+        <Route path="/sector/edit/:id" component={SectorDetails} />
         <Route
-          path="/dashboard/productmaster/sector/:id"
-          component={SectorDetails}
+          key={location.key}
+          path={["/createProduct", "/manage/product/:id"]}
+          component={productForm}
         />
         <Route
           key={location.key}
-          path={["/createProduct", "/manage/:id"]}
-          component={productForm}
+          path={["/createSector", "/manage/sector/:id"]}
+          component={sectorForma}
         />
+
+        <Route
+          key={location.key}
+          path={["/createBrand", "/manage/brand/:id"]}
+          component={brandForm}
+        />
+        <Route path="/brand/edit/:id" component={BrandDetails} />
       </Switch>
       <Route path="/faturimi" component={Faturimi} />
 
       <Route path="/dashboard" component={Dash} />
       <Route path="/" component={Home} exact />
-
-      <Route
-        key={location.key}
-        path={["/createSector", "/manage/sector/:id"]}
-        component={sectorForma}
-      />
-
-      <Route path="/createBrand" component={brandForm} />
-      <Route
-        path="/dashboard/productmaster/brand/:id"
-        component={BrandDetails}
-      />
 
       <Route path="/dashboard/productmaster/product">
         <ProductDashboard />

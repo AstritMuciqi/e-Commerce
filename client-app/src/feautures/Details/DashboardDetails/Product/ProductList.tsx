@@ -2,12 +2,11 @@ import React, { useContext } from "react";
 import { Button, Icon, Table } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
 import ProductStore from "../../../../app/stores/productStore";
-import { Link,withRouter,RouteComponentProps, NavLink } from "react-router-dom";
+import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 
 const ProductList: React.FC<RouteComponentProps> = ({ location }) => {
   const productStore = useContext(ProductStore);
-  const { deleteProduct, submitting, target,productsData} =
-    productStore;
+  const { deleteProduct, submitting, target, productsData } = productStore;
   return (
     <Table
       className="produktet"

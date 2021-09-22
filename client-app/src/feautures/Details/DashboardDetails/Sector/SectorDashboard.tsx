@@ -12,7 +12,7 @@ const SectorDashboard: React.FC = () => {
     sectorStore.loadSectors();
   }, [sectorStore]);
   if (sectorStore.loadingInitial)
-    return <LoadingComponent content="Loading sector" />;
+    return <LoadingComponent content="Loading sectors..." />;
 
   return (
     <Container style={{ marginTop: "125px", width: "1055px" }}>

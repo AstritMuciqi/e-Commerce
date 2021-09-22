@@ -1,11 +1,7 @@
-import { observer } from "mobx-react-lite";
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { Icon, Input, Menu } from "semantic-ui-react";
 import Kategorite from "./Kategorite";
-import SectorStore from "../../app/stores/sectorStore";
-import LoadingComponent from "../../app/layout/LoadingComponent";
-import { ISector } from "../../app/models/sector";
 
 const Navbar: React.FC = () => {
   return (

@@ -6,7 +6,7 @@ import BrandStore from '../../../../app/stores/brandStore';
 
 const BrandList: React.FC = () => {
   const brandStore = useContext(BrandStore);
-  const {brands,selectBrand,deleteBrand,submitting,target} = brandStore;
+  const {brandsData,deleteBrand,submitting,target} = brandStore;
   return (
     <Table style={{ marginLeft: "104px" }} celled inverted selectable>
       <Table.Header fullWidth>
@@ -21,15 +21,14 @@ const BrandList: React.FC = () => {
       </Table.Header>
 
       <Table.Body>
-        {brands.map((brand) => (
+        {brandsData.map((brand) => (
           <Table.Row positive key={brand.brandId}>
             <Table.Cell>{brand.brandName}</Table.Cell>
             <Table.Cell colSpan="2">
               <Button.Group floated="right">
                 <Button
                   as={Link}
-                  to={`/dashboard/productmaster/brand/${brand.brandId}`}
-                  onClick={() => selectBrand(brand.brandId)}
+                  to={`/brand/edit/${brand.brandId}`}
                   floated="right"
                   content="Edit"
                 />
@@ -57,7 +56,7 @@ const BrandList: React.FC = () => {
                 color: "white",
                 width: "157px",
               }}
-              onClick={brandStore.openCreateForm}
+              as={Link} to="createBrand"
               floated="right"
               icon
               labelPosition="left"

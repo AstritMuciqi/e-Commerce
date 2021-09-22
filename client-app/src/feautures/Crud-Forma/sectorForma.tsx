@@ -70,7 +70,7 @@ const SectorForm: React.FC<RouteComponentProps<DetailParams>> = ({
           content="Submit"
         />
         <Button
-          onClick={()=>history.push('/dashboard/productmaster/product')}
+          onClick={()=>history.push('/dashboard/productmaster/sector')}
           floated="right"
           type="button"
           content="Cancel"

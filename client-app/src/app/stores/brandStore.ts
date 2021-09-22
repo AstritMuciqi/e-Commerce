@@ -1,17 +1,18 @@
-import { action, configure, observable ,runInAction} from "mobx";
+import { action, computed, configure, observable ,runInAction} from "mobx";
 import { createContext, SyntheticEvent } from "react";
 import agent from "../API/agent";
 import { IBrand } from "../models/brand";
 configure({enforceActions: 'always'});
 class BrandStore {
   @observable brandRegistry = new Map();
-  @observable brands: IBrand[] = [];
-  @observable selectedBrand: IBrand | undefined;
+  @observable brand: IBrand | null = null;
   @observable loadingInitial = false;
-  @observable editMode = false;
   @observable submitting = false;
   @observable target = "";
 
+  @computed get brandsData(){
+    return Array.from(this.brandRegistry.values());
+  }
   @action loadBrands = async () => {
     this.loadingInitial = true;
     try {
@@ -35,7 +36,6 @@ class BrandStore {
       await agent.Brands.brandCreate(brand);
       runInAction("create brand ", () => {
         this.brandRegistry.set(brand.brandId, brand);
-        this.editMode = false;
         this.submitting = false;
       });
     } catch (error) {
@@ -51,8 +51,6 @@ class BrandStore {
       await agent.Brands.editBrand(brand);
       runInAction("edit brand ", () => {
         this.brandRegistry.set(brand.brandId, brand);
-        this.selectedBrand = brand;
-        this.editMode = false;
         this.submitting = false;
       });
     } catch (error) {
@@ -83,24 +81,31 @@ class BrandStore {
       console.log(error);
     }
   };
-  @action openCreateForm = () => {
-    this.editMode = true;
-    this.selectedBrand = undefined;
+  @action loadBrand = async (id: string) => {
+    let brand = this.getBrand(id);
+    if (brand) {
+      this.brand = brand;
+    } else {
+      this.loadingInitial = true;
+    }
+    try {
+      this.brand = await agent.Brands.brandDetails(id);
+      runInAction("getting brand", () => {
+        this.brand = brand;
+        this.loadingInitial = false;
+      });
+    } catch (error) {
+      runInAction("getting brand error", () => {
+        this.loadingInitial = false;
+      });
+      console.log(error);
+    }
   };
-  @action selectBrand = (id: string) => {
-    this.selectedBrand = this.brandRegistry.get(id);
-    this.editMode = false;
+  getBrand = (id: string) => {
+    return this.brandRegistry.get(id);
   };
-
-  @action openEditForm = (id: string) => {
-    this.selectedBrand = this.brandRegistry.get(id);
-    this.editMode = true;
-  };
-  @action cancelSelectedBrand = () => {
-    this.selectedBrand = undefined;
-  };
-  @action cancelFormOpen = () => {
-    this.editMode = false;
+  @action clearBrand = () => {
+    this.brand = null;
   };
 }
 export default createContext(new BrandStore());
