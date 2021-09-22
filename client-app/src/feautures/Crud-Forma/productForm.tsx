@@ -1,38 +1,62 @@
-import React, { useState, FormEvent, useEffect, useContext } from 'react';
-import { Segment, Form, Button, Dropdown } from 'semantic-ui-react';
-import {v4 as uuid} from 'uuid';
-import { IProduct } from '../../app/models/product';
-import { ISector } from '../../app/models/sector';
-import agent from '../../app/API/agent';
-import { IBrand } from '../../app/models/brand';
+import React, { useState, FormEvent, useEffect, useContext } from "react";
+import { Segment, Form, Button, Dropdown } from "semantic-ui-react";
+import { v4 as uuid } from "uuid";
+import { IProduct } from "../../app/models/product";
+import { ISector } from "../../app/models/sector";
+import agent from "../../app/API/agent";
+import { IBrand } from "../../app/models/brand";
 import ProductStore from "../../app/stores/productStore";
-import { observer } from 'mobx-react-lite';
+import SectorStore from "../../app/stores/sectorStore";
+import BrandStore from "../../app/stores/brandStore";
 
-interface IProps {
-  product: IProduct;
+import { observer } from "mobx-react-lite";
+import { RouteComponentProps } from "react-router";
+import LoadingComponent from "../../app/layout/LoadingComponent";
+interface DetailParams {
+  id: string;
 }
 
-const ProductForm: React.FC<IProps> = ({
-  product: initialFormState,
+const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
+  match,
+  history
 }) => {
-  const initializeForm = () => {
-    if (initialFormState) {
-      return initialFormState;
-    } else {
-      return {
-        productId: "",
-        productName: "",
-        sector: "",
-        brand: "",
-        valueOfProduct: "",
-        modelYear: "",
-        quantity: "",
-        description: "",
-      };
-    }
-  };
+  const productStore = useContext(ProductStore);
+  const sectorStore = useContext(SectorStore);
+  const brandStore = useContext(BrandStore);
 
-  const [product, setProduct] = useState<IProduct>(initializeForm);
+  const{loadSectors,sectorsData} = sectorStore 
+  const {
+    createProduct,
+    editProduct,
+    submitting,
+    product: initialFormState,
+    loadProduct,
+    clearProduct,
+    loadingInitial
+  } = productStore;
+
+  useEffect(() => {
+    if (match.params.id) {
+      loadProduct(match.params.id).then(
+        () => initialFormState && setProduct(initialFormState)
+      );
+    }
+    return()=>{
+      clearProduct()
+    }
+  },[loadProduct,match.params.id,clearProduct,initialFormState]);
+
+  
+  const [product, setProduct] = useState<IProduct>({
+    productId: "",
+    productName: "",
+    sector: "",
+    brand: "",
+    valueOfProduct: "",
+    modelYear: "",
+    quantity: "",
+    description: "",
+  });
 
   const handleSubmit = () => {
     if (product.productId.length === 0) {
@@ -45,20 +69,11 @@ const ProductForm: React.FC<IProps> = ({
       editProduct(product);
     }
   };
-
-  const [sectors, setSectors] = useState<ISector[]>([]);
   const [brands, setBrands] = useState<IBrand[]>([]);
 
   useEffect(() => {
-    agent.Sectors.sectorList().then((response) => {
-      let sectors: ISector[] = [];
-      response.forEach((sector) => {
-        sector.sectorName = sector.sectorName.split(".")[0];
-        sectors.push(sector);
-      });
-      setSectors(sectors);
-    });
-  }, []);
+    loadSectors();
+  }, [loadSectors]);
   useEffect(() => {
     agent.Brands.brandList().then((response) => {
       let brands: IBrand[] = [];
@@ -69,6 +84,7 @@ const ProductForm: React.FC<IProps> = ({
       setBrands(brands);
     });
   }, []);
+
   const handleBrandChange = (ev: React.SyntheticEvent, { value }: any) => {
     setProduct({ ...product, brand: value });
   };
@@ -81,9 +97,7 @@ const ProductForm: React.FC<IProps> = ({
     const { name, value } = event.currentTarget;
     setProduct({ ...product, [name]: value });
   };
-
-  const productStore = useContext(ProductStore);
-  const { createProduct, editProduct, submitting,cancelFormOpen} = productStore;
+if(productStore.loadingInitial&&sectorStore.loadingInitial&&brandStore.loadingInitial) return <LoadingComponent content= "Loading data" />
   return (
     <Segment clearing>
       <Form onSubmit={handleSubmit}>
@@ -100,7 +114,7 @@ const ProductForm: React.FC<IProps> = ({
           fluid
           search
           selection
-          options={sectors.map((sector) => ({
+          options={sectorsData.map((sector) => ({
             key: sector.sectorId,
             value: sector.sectorName,
             text: sector.sectorName,
@@ -151,14 +165,13 @@ const ProductForm: React.FC<IProps> = ({
           value={product.description}
         />
         <Button
-          loading={submitting}
           floated="right"
           positive
           type="submit"
           content="Submit"
         />
         <Button
-          onClick={cancelFormOpen}
+          onClick={()=>history.push(`/product/edit/${product.productId}`)}
           floated="right"
           type="button"
           content="Cancel"
@@ -168,4 +181,4 @@ const ProductForm: React.FC<IProps> = ({
   );
 };
 
-export default observer(ProductForm) ;
+export default observer(ProductForm);

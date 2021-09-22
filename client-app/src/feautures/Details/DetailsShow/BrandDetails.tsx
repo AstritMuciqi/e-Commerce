@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import { Card, Button } from 'semantic-ui-react';
 import BrandStore from '../../../app/stores/brandStore';
@@ -36,4 +37,4 @@ const BrandDetails: React.FC = () => {
   );
 };
 
-export default BrandDetails;
+export default observer(BrandDetails);

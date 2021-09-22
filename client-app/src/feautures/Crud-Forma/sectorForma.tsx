@@ -1,27 +1,37 @@
 import { observer } from 'mobx-react-lite';
-import React, { useState, FormEvent, useContext } from 'react';
+import React, { useState, FormEvent, useContext, useEffect } from 'react';
+import { RouteComponentProps } from 'react-router';
 import { Segment, Form, Button } from 'semantic-ui-react';
 import {v4 as uuid} from 'uuid';
 import { ISector } from '../../app/models/sector';
 import SectorStore from '../../app/stores/sectorStore';
 
-interface IProps {
-  sector: ISector;
+interface DetailParams {
+  id: string;
 }
 
-const SectorForm: React.FC<IProps> = ({ sector: initialFormState }) => {
-  const initializeForm = () => {
-    if (initialFormState) {
-      return initialFormState;
-    } else {
-      return {
-        sectorId: "",
-        sectorName: "",
-      };
+const SectorForm: React.FC<RouteComponentProps<DetailParams>> = ({
+  match,
+  history
+}) => {
+  const sectorStore = useContext(SectorStore);
+  const { createSector, editSector, submitting,loadSector,clearSector,sector:initialFormState} = sectorStore;
+  useEffect(() => {
+    if (match.params.id) {
+      loadSector(match.params.id).then(
+        () => initialFormState && setSector(initialFormState)
+      );
     }
-  };
+    return()=>{
+      clearSector()
+    }
+  },[loadSector,match.params.id,clearSector,initialFormState]);
+  
 
-  const [sector, setSector] = useState<ISector>(initializeForm);
+  const [sector, setSector] = useState<ISector>({
+    sectorId: "",
+    sectorName: "",
+  });
 
   const handleSubmit = () => {
     if (sector.sectorId.length === 0) {
@@ -41,8 +51,7 @@ const SectorForm: React.FC<IProps> = ({ sector: initialFormState }) => {
     const { name, value } = event.currentTarget;
     setSector({ ...sector, [name]: value });
   };
-  const sectorStore = useContext(SectorStore);
-  const { createSector, editSector, submitting, cancelFormOpen } = sectorStore;
+
 
   return (
     <Segment clearing>
@@ -61,7 +70,7 @@ const SectorForm: React.FC<IProps> = ({ sector: initialFormState }) => {
           content="Submit"
         />
         <Button
-          onClick={cancelFormOpen}
+          onClick={()=>history.push('/dashboard/productmaster/product')}
           floated="right"
           type="button"
           content="Cancel"

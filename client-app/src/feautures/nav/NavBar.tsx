@@ -1,54 +1,63 @@
-import React, { Fragment } from "react";
+import { observer } from "mobx-react-lite";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Icon, Input,Menu} from "semantic-ui-react";
-import { ISector } from "../../app/models/sector";
+import { Icon, Input, Menu } from "semantic-ui-react";
 import Kategorite from "./Kategorite";
-interface IProps {
-  sectors:ISector[];
+import SectorStore from "../../app/stores/sectorStore";
+import LoadingComponent from "../../app/layout/LoadingComponent";
+import { ISector } from "../../app/models/sector";
 
-}
+const Navbar: React.FC = () => {
+  return (
+    <Fragment>
+      <Menu
+        fixed="top"
+        style={{
+          backgroundColor: "black",
+          boxShadow: "0 3px 5px -2px rgb(365 365 365 / 18%)",
+        }}
+      >
+        <a href="/">
+          <img
+            src="/assets/logo.png"
+            alt="Logo"
+            style={{ width: "150px", height: "120px", marginTop: "2px" }}
+          />
+        </a>
 
-  const Navbar: React.FC<IProps> = ({
-    sectors,
+        <Menu.Item position="right" style={{ marginRight: "40px" }}>
+          <Input
+            inverted
+            size="big"
+            icon="search"
+            placeholder="Search..."
+            style={{ marginRight: "100px", width: "130vh" }}
+          />
+          <Icon
+            as={Link}
+            to="/dashboard"
+            style={{ marginRight: "20px", textDecoration: "none" }}
+          >
+            <Icon inverted name="dashboard" size="big" />
+          </Icon>
+          <Icon
+            inverted
+            name="shopping cart"
+            size="big"
+            style={{ marginRight: "27px" }}
+          />
 
-  }) => {
-    return (
-      <Fragment>
-        <Menu fixed="top" style={{backgroundColor:"black",boxShadow:"0 3px 5px -2px rgb(365 365 365 / 18%)"}}>
-          <a href="/" >
-            <img
-              src="/assets/logo.png"
-              alt="Logo"
-              style={{ width: "150px", height: "120px", marginTop: "2px" }}
-            />
-          </a>
+          <Icon
+            inverted
+            name="user"
+            size="big"
+            style={{ marginRight: "20px" }}
+          />
+        </Menu.Item>
+      </Menu>
+      <Kategorite />
+    </Fragment>
+  );
+};
 
-          <Menu.Item position="right" style={{ marginRight: "40px" }}>
-            <Input
-              inverted
-              size="big"
-              icon="search"
-              placeholder="Search..."
-              style={{ marginRight: "100px", width: "130vh" }}
-            />
-            <Icon  as={Link} to="/dashboard" style={{ marginRight: "20px",textDecoration:"none" }} >
-              <Icon inverted name="dashboard" size="big" />
-            </Icon>
-            <Icon inverted
-              name="shopping cart"
-              size="big"
-              style={{ marginRight: "27px" }}
-            />
-
-            <Icon inverted name="user" size="big" style={{ marginRight: "20px" }} />
-          </Menu.Item>
-         
-        </Menu>
-        <Kategorite sectors={sectors} />
-
-      </Fragment>
-    );
-  };
-  
-  export default Navbar;
-  
+export default Navbar;

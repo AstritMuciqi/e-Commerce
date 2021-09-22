@@ -5,14 +5,12 @@ import { IAdresaF } from '../../models/adresaF';
 import { Fronti } from '../../../feautures/Faqja/Fronti';
 import Navbar from '../../../feautures/nav/NavBar';
 import Kategorite from '../../../feautures/nav/Kategorite';
-import { ISector } from '../../models/sector';
 
 
 
 const Faturimi = () => { //per me i tregu komponentit tone per interfacin IState , {} e shprazet eshte per properties , e dyta per state
  
   const [AdresaF, setAdresaF] = useState<IAdresaF[]>([]);
-  const [sectors, setSectors] = useState<ISector[]>([]);
 
 
   useEffect(() => {
@@ -20,23 +18,12 @@ const Faturimi = () => { //per me i tregu komponentit tone per interfacin IState
       setAdresaF(response.data)
     });
   }, []); //kto dy kllapa sigurojne qe useEffect me run vec nje here , per shkak se qdoher kur komponenti renderet kjo use effect metoda kallet vec tu shtu [] e ndalim kete sjellje
-  useEffect(() => {
-    axios
-      .get<ISector[]>("http://localhost:5000/api/sector")
-      .then((response) => {
-        let sectors: ISector[] = [];
-        response.data.forEach((sector) => {
-          sector.sectorName = sector.sectorName.split(".")[0];
-          sectors.push(sector);
-        });
-        setSectors(sectors);
-      });
-  }, []);
+
     return (
       <Fragment>
-        <Navbar sectors={sectors}/> 
+        <Navbar/> 
         <Container style={{marginTop:'5em'}}>
-          <Kategorite sectors={sectors}/>
+          <Kategorite/>
           <h2>Blerje e sigurtë</h2>
         </Container>
         <Container style={{marginTop:'5em'}}>

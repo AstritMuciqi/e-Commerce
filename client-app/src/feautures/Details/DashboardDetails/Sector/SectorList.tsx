@@ -1,32 +1,33 @@
-import { observer } from 'mobx-react-lite';
-import React, {  useContext } from 'react';
-import {  Button, Icon,  Table } from 'semantic-ui-react';
-import SectorStore from '../../../../app/stores/sectorStore';
+import { observer } from "mobx-react-lite";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import { Button, Icon, Table } from "semantic-ui-react";
+import SectorStore from "../../../../app/stores/sectorStore";
 
 const SectorList: React.FC = () => {
   const sectorStore = useContext(SectorStore);
-  const{sectors,selectSector,deleteSector,submitting,target}= sectorStore;
+  const { deleteSector, sectorsData, submitting, target } = sectorStore;
   return (
-    <Table style={{ marginLeft: "104px" }}celled inverted selectable>
+    <Table style={{ marginLeft: "104px" }} celled inverted selectable>
       <Table.Header fullWidth>
         <Table.Row style={{ backgroundColor: "#F5BD3D" }}>
           <Table.HeaderCell style={{ backgroundColor: "#F5BD3D" }}>
             <b style={{ color: "black" }}>Sector Name</b>
           </Table.HeaderCell>
-            <Table.HeaderCell style={{ backgroundColor: "#F5BD3D" }}>
-              <b style={{ color: "black" }}>Options</b>
-            </Table.HeaderCell>
+          <Table.HeaderCell style={{ backgroundColor: "#F5BD3D" }}>
+            <b style={{ color: "black" }}>Options</b>
+          </Table.HeaderCell>
         </Table.Row>
       </Table.Header>
 
       <Table.Body>
-        {sectors.map((sector) => (
+        {sectorsData.map((sector) => (
           <Table.Row positive key={sector.sectorId}>
             <Table.Cell>{sector.sectorName}</Table.Cell>
             <Table.Cell colSpan="2">
               <Button.Group floated="right">
                 <Button
-                  onClick={() => selectSector(sector.sectorId)}
+                  as={Link} to={`/dashboard/productmaster/sector/${sector.sectorId}`}
                   floated="right"
                   content="Edit"
                 />
@@ -49,12 +50,13 @@ const SectorList: React.FC = () => {
         <Table.Row style={{ backgroundColor: "#F5BD3D" }}>
           <Table.HeaderCell colSpan="15">
             <Button
+              as={Link}
+              to="createSector"
               style={{
                 backgroundColor: "black",
                 color: "white",
                 width: "157px",
               }}
-              onClick={sectorStore.openCreateForm}
               floated="right"
               icon
               labelPosition="left"

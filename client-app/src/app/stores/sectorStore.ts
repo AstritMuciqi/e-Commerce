@@ -1,30 +1,34 @@
-import { action, observable } from "mobx";
+import { action, computed, configure, observable,runInAction} from "mobx";
 import { createContext, SyntheticEvent } from "react";
 import agent from "../API/agent";
 import { ISector } from "../models/sector";
+configure({ enforceActions: "always" });
 
 class SectorStore {
   @observable sectorRegistry = new Map();
-  @observable sectors: ISector[] = [];
-  @observable selectedSector: ISector | undefined;
   @observable loadingInitial = false;
+  @observable sector: ISector | null = null;
+  @observable sectors: ISector[] = [];
   @observable editMode = false;
   @observable submitting = false;
   @observable target = "";
 
+  @computed get sectorsData() {
+    return Array.from(this.sectorRegistry.values());
+  }
   @action loadSectors = async () => {
     this.loadingInitial = true;
     try {
       const sectors = await agent.Sectors.sectorList();
-      action("loading brand error", () => {
+      runInAction("loading sector error", () => {
         sectors.forEach((sector) => {
           sector.sectorName = sector.sectorName.split(".")[0];
           this.sectorRegistry.set(sector.sectorId, sector);
         });
+        this.loadingInitial = false;
       });
-      this.loadingInitial = false;
     } catch (error) {
-      action("loading brand error", () => {
+      runInAction("loading sector error", () => {
         this.loadingInitial = false;
       });
       console.log(error);
@@ -34,13 +38,13 @@ class SectorStore {
     this.submitting = true;
     try {
       await agent.Sectors.sectorCreate(sector);
-      action("create brand ", () => {
+      runInAction("create sector ", () => {
         this.sectorRegistry.set(sector.sectorId, sector);
         this.editMode = false;
         this.submitting = false;
       });
     } catch (error) {
-      action("create brand error", () => {
+      runInAction("create sector error", () => {
         this.submitting = false;
       });
       console.log(error);
@@ -50,14 +54,14 @@ class SectorStore {
     this.submitting = true;
     try {
       await agent.Sectors.editSector(sector);
-      action("edit brand error", () => {
+      runInAction("edit sector error", () => {
         this.sectorRegistry.set(sector.sectorId, sector);
-        this.selectedSector = sector;
+        this.sector = sector;
         this.editMode = false;
         this.submitting = false;
       });
     } catch (error) {
-      action("edit brand error", () => {
+      runInAction("edit sector error", () => {
         this.submitting = false;
       });
       console.log(error);
@@ -71,37 +75,44 @@ class SectorStore {
     this.target = event.currentTarget.name;
     try {
       await agent.Sectors.deleteSector(id);
-      action("delete brand error", () => {
+      runInAction("delete sector error", () => {
         this.sectorRegistry.delete(id);
         this.submitting = false;
         this.target = "";
       });
     } catch (error) {
-      action("edit brand error", () => {
+      runInAction("edit sector error", () => {
         this.submitting = false;
         this.target = "";
       });
       console.log(error);
     }
   };
-  @action openCreateForm = () => {
-    this.editMode = true;
-    this.selectedSector = undefined;
+  @action loadSector = async (id: string) => {
+    let sector = this.getSector(id);
+    if (sector) {
+      this.sector = sector;
+    } else {
+      this.loadingInitial = true;
+    }
+    try {
+      this.sector = await agent.Sectors.sectorDetails(id);
+      runInAction("getting sector", () => {
+        this.sector = sector;
+        this.loadingInitial = false;
+      });
+    } catch (error) {
+      runInAction("getting sector error", () => {
+        this.loadingInitial = false;
+      });
+      console.log(error);
+    }
   };
-  @action selectSector = (id: string) => {
-    this.selectedSector = this.sectorRegistry.get(id);
-    this.editMode = false;
+  getSector = (id: string) => {
+    return this.sectorRegistry.get(id);
   };
-
-  @action openEditForm = (id: string) => {
-    this.selectedSector = this.sectorRegistry.get(id);
-    this.editMode = true;
-  };
-  @action cancelSelectedSector = () => {
-    this.selectedSector = undefined;
-  };
-  @action cancelFormOpen = () => {
-    this.editMode = false;
+  @action clearSector = () => {
+    this.sector = null;
   };
 }
 export default createContext(new SectorStore());

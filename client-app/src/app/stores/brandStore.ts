@@ -1,8 +1,8 @@
-import { action, observable } from "mobx";
+import { action, configure, observable ,runInAction} from "mobx";
 import { createContext, SyntheticEvent } from "react";
 import agent from "../API/agent";
 import { IBrand } from "../models/brand";
-
+configure({enforceActions: 'always'});
 class BrandStore {
   @observable brandRegistry = new Map();
   @observable brands: IBrand[] = [];
@@ -16,31 +16,30 @@ class BrandStore {
     this.loadingInitial = true;
     try {
       const brands = await agent.Brands.brandList();
-      action("loading brand", () => {
-        brands.forEach((brand) => {
+      runInAction("loading brand", () => {
+        brands.forEach(brand => {
           brand.brandName = brand.brandName.split(".")[0];
           this.brandRegistry.set(brand.brandId, brand);
         });
-      });
-      this.loadingInitial = false;
-    } catch (error) {
-      action("loading brand error", () => {
         this.loadingInitial = false;
       });
-      console.log(error);
+    } catch (error) {
+      runInAction("loading brand error", () => {
+        this.loadingInitial = false;
+      });
     }
   };
   @action createBrand = async (brand: IBrand) => {
     this.submitting = true;
     try {
       await agent.Brands.brandCreate(brand);
-      action("create brand ", () => {
+      runInAction("create brand ", () => {
         this.brandRegistry.set(brand.brandId, brand);
         this.editMode = false;
         this.submitting = false;
       });
     } catch (error) {
-      action("create brand error", () => {
+      runInAction("create brand error", () => {
         this.submitting = false;
       });
       console.log(error);
@@ -50,14 +49,14 @@ class BrandStore {
     this.submitting = true;
     try {
       await agent.Brands.editBrand(brand);
-      action("edit brand ", () => {
+      runInAction("edit brand ", () => {
         this.brandRegistry.set(brand.brandId, brand);
         this.selectedBrand = brand;
         this.editMode = false;
         this.submitting = false;
       });
     } catch (error) {
-      action("edit brand error", () => {
+      runInAction("edit brand error", () => {
         this.submitting = false;
       });
       console.log(error);
@@ -71,13 +70,13 @@ class BrandStore {
     this.target = event.currentTarget.name;
     try {
       await agent.Brands.deleteBrand(id);
-      action("delete brand ", () => {
+      runInAction("delete brand ", () => {
         this.brandRegistry.delete(id);
         this.submitting = false;
         this.target = "";
       });
     } catch (error) {
-      action("delete brand error", () => {
+      runInAction("delete brand error", () => {
         this.submitting = false;
         this.target = "";
       });

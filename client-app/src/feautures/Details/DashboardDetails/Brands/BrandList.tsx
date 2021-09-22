@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import {  Button, Icon,Table } from 'semantic-ui-react';
 import BrandStore from '../../../../app/stores/brandStore';
 
@@ -26,6 +27,8 @@ const BrandList: React.FC = () => {
             <Table.Cell colSpan="2">
               <Button.Group floated="right">
                 <Button
+                  as={Link}
+                  to={`/dashboard/productmaster/brand/${brand.brandId}`}
                   onClick={() => selectBrand(brand.brandId)}
                   floated="right"
                   content="Edit"

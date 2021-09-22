@@ -1,11 +1,13 @@
-import React, { useContext } from 'react';
-import {  Button, Icon,  Table } from 'semantic-ui-react';
+import React, { useContext } from "react";
+import { Button, Icon, Table } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
-import ProductStore from '../../../../app/stores/productStore'
+import ProductStore from "../../../../app/stores/productStore";
+import { Link,withRouter,RouteComponentProps, NavLink } from "react-router-dom";
 
-const ProductList: React.FC = () => {
+const ProductList: React.FC<RouteComponentProps> = ({ location }) => {
   const productStore = useContext(ProductStore);
-  const {products,selectProduct ,deleteProduct,submitting,target} = productStore;
+  const { deleteProduct, submitting, target,productsData} =
+    productStore;
   return (
     <Table
       className="produktet"
@@ -44,7 +46,7 @@ const ProductList: React.FC = () => {
       </Table.Header>
 
       <Table.Body>
-        {products.map((product) => (
+        {productsData.map((product) => (
           <Table.Row positive key={product.productId}>
             <Table.Cell>{product.productName}</Table.Cell>
             <Table.Cell>{product.sector}</Table.Cell>
@@ -56,7 +58,8 @@ const ProductList: React.FC = () => {
             <Table.Cell colSpan="2">
               <Button.Group>
                 <Button
-                  onClick={() => selectProduct(product.productId)}
+                  as={Link}
+                  to={`/product/edit/${product.productId}`}
                   floated="right"
                   content="Edit"
                 />
@@ -84,7 +87,8 @@ const ProductList: React.FC = () => {
                 color: "white",
                 width: "157px",
               }}
-              onClick={productStore.openCreateForm}
+              as={Link}
+              to="/createProduct"
               floated="right"
               icon
               labelPosition="left"
@@ -100,4 +104,4 @@ const ProductList: React.FC = () => {
   );
 };
 
-export default observer(ProductList);
+export default withRouter(observer(ProductList));
