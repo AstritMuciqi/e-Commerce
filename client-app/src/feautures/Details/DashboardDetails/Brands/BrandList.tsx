@@ -15,7 +15,7 @@ const BrandList: React.FC = () => {
             <b style={{ color: "black" }}>Brand Name</b>
           </Table.HeaderCell>
           <Table.HeaderCell style={{ backgroundColor: "#F5BD3D" }}>
-            <b style={{ color: "black" }}>Options</b>
+            <b style={{ marginLeft:"767px",color: "black" }}>Options</b>
           </Table.HeaderCell>
         </Table.Row>
       </Table.Header>

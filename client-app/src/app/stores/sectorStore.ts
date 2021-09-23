@@ -92,7 +92,7 @@ class SectorStore {
       this.loadingInitial = true;
     }
     try {
-      this.sector = await agent.Sectors.sectorDetails(id);
+      sector = await agent.Sectors.sectorDetails(id);
       runInAction("getting sector", () => {
         this.sector = sector;
         this.loadingInitial = false;

@@ -9,7 +9,6 @@ import BrandStore from "../../app/stores/brandStore";
 import { observer } from "mobx-react-lite";
 import { RouteComponentProps } from "react-router";
 import LoadingComponent from "../../app/layout/LoadingComponent";
-import { Link } from "react-router-dom";
 interface DetailParams {
   id: string;
 }
@@ -31,20 +30,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
     loadProduct,
     clearProduct,
     submitting,
-    loadingInitial,
   } = productStore;
-
-  useEffect(() => {
-    if (match.params.id) {
-      loadProduct(match.params.id).then(
-        () => initialFormState && setProduct(initialFormState)
-      );
-    }
-    return () => {
-      clearProduct();
-    };
-  }, [loadProduct, match.params.id, clearProduct, initialFormState]);
-
   const [product, setProduct] = useState<IProduct>({
     productId: "",
     productName: "",
@@ -55,6 +41,18 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
     quantity: "",
     description: "",
   });
+  useEffect(() => {
+    if (match.params.id&&product.productId.length === 0) {
+      loadProduct(match.params.id).then(
+        () => initialFormState && setProduct(initialFormState)
+      );
+    }
+    return () => {
+      clearProduct();
+    };
+  }, [loadProduct, match.params.id, clearProduct, initialFormState,product.productId.length]);
+
+
 
   const handleSubmit = () => {
     if (product.productId.length === 0) {
@@ -62,9 +60,9 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
         ...product,
         productId: uuid(),
       };
-      createProduct(newProduct);
+      createProduct(newProduct).then(()=>history.push(`/product/edit/${newProduct.productId}`));
     } else {
-      editProduct(product);
+      editProduct(product).then(()=>history.push(`/product/edit/${product.productId}`));
     }
   };
 
@@ -89,7 +87,6 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
     const { name, value } = event.currentTarget;
     setProduct({ ...product, [name]: value });
   };
-  if (loadingInitial) return <LoadingComponent content="Loading data" />;
   return (
     <Segment clearing>
       <Form onSubmit={handleSubmit}>
@@ -157,8 +154,6 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
           value={product.description}
         />
         <Button
-          as={Link}
-          to="/dashboard/productmaster/product"
           loading={submitting}
           floated="right"
           positive

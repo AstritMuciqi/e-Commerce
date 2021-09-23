@@ -32,7 +32,7 @@ const HomeItems: React.FC = () => {
           />
           <Card.Content>
             <Card.Description style={{ fontSize: "16px" }}>
-              {product.brand} {product.productName}, {product.description}
+               {product.productName} {product.brand}, {product.description}
             </Card.Description>
             <Card.Header style={{ marginTop: "10px" }}>
               {product.valueOfProduct}$

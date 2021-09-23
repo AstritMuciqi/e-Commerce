@@ -1,11 +1,11 @@
-import { observer } from 'mobx-react-lite';
-import React, { useState, FormEvent, useContext, useEffect } from 'react';
-import { RouteComponentProps } from 'react-router';
-import { Link } from 'react-router-dom';
-import { Segment, Form, Button } from 'semantic-ui-react';
-import {v4 as uuid} from 'uuid';
-import { ISector } from '../../app/models/sector';
-import SectorStore from '../../app/stores/sectorStore';
+import { observer } from "mobx-react-lite";
+import React, { useState, FormEvent, useContext, useEffect } from "react";
+import { RouteComponentProps } from "react-router";
+import { Segment, Form, Button } from "semantic-ui-react";
+import { v4 as uuid } from "uuid";
+import LoadingComponent from "../../app/layout/LoadingComponent";
+import { ISector } from "../../app/models/sector";
+import SectorStore from "../../app/stores/sectorStore";
 
 interface DetailParams {
   id: string;
@@ -13,26 +13,36 @@ interface DetailParams {
 
 const SectorForm: React.FC<RouteComponentProps<DetailParams>> = ({
   match,
-  history
+  history,
 }) => {
   const sectorStore = useContext(SectorStore);
-  const { createSector, editSector, submitting,loadSector,clearSector,sector:initialFormState} = sectorStore;
-  useEffect(() => {
-    if (match.params.id) {
-      loadSector(match.params.id).then(
-        () => initialFormState && setSector(initialFormState)
-      );
-    }
-    return()=>{
-      clearSector()
-    }
-  },[loadSector,match.params.id,clearSector,initialFormState]);
-  
-
+  const {
+    createSector,
+    loadSectors,
+    editSector,
+    submitting,
+    loadSector,
+    clearSector,
+    sector: initialFormState,
+  } = sectorStore;
   const [sector, setSector] = useState<ISector>({
     sectorId: "",
     sectorName: "",
   });
+  useEffect(() => {
+    if (match.params.id && sector.sectorId.length === 0) {
+      loadSector(match.params.id).then(
+        () => initialFormState && setSector(initialFormState)
+      );
+    }
+    return () => {
+      clearSector();
+    };
+  }, [loadSector, match.params.id, clearSector, initialFormState,sector.sectorId.length]);
+  useEffect(() => {
+    loadSectors();
+  }, [loadSectors]);
+
 
   const handleSubmit = () => {
     if (sector.sectorId.length === 0) {
@@ -40,9 +50,9 @@ const SectorForm: React.FC<RouteComponentProps<DetailParams>> = ({
         ...sector,
         sectorId: uuid(),
       };
-      createSector(newSector);
+      createSector(newSector).then(() => history.push(`/sector/edit/${newSector.sectorId}`));
     } else {
-      editSector(sector);
+      editSector(sector).then(()=>history.push(`/sector/edit/${sector.sectorId}`));
     }
   };
 
@@ -53,6 +63,8 @@ const SectorForm: React.FC<RouteComponentProps<DetailParams>> = ({
     setSector({ ...sector, [name]: value });
   };
 
+  if (sectorStore.loadingInitial)
+    return <LoadingComponent content="Loading data..." />;
 
   return (
     <Segment clearing>
@@ -64,8 +76,6 @@ const SectorForm: React.FC<RouteComponentProps<DetailParams>> = ({
           value={sector.sectorName}
         />
         <Button
-          as={Link}
-          to="/dashboard/productmaster/sectors"
           loading={submitting}
           floated="right"
           positive

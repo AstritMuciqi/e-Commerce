@@ -1,8 +1,9 @@
 import { observer } from "mobx-react-lite";
 import React, { useState, FormEvent, useContext, useEffect } from "react";
-import { Link, RouteComponentProps } from "react-router-dom";
+import {  RouteComponentProps } from "react-router-dom";
 import { Segment, Form, Button } from "semantic-ui-react";
 import { v4 as uuid } from "uuid";
+import LoadingComponent from "../../app/layout/LoadingComponent";
 import { IBrand } from "../../app/models/brand";
 import BrandStore from "../../app/stores/brandStore";
 
@@ -21,10 +22,15 @@ const BrandForm: React.FC<RouteComponentProps<DetailParams>> = ({
     submitting,
     clearBrand,
     loadBrand,
+    loadBrands,
     brand: initialFormState,
   } = brandStore;
+  const [brand, setBrand] = useState<IBrand>({
+    brandId: "",
+    brandName: "",
+  });
   useEffect(() => {
-    if (match.params.id) {
+    if (match.params.id && brand.brandId.length === 0) {
       loadBrand(match.params.id).then(
         () => initialFormState && setBrand(initialFormState)
       );
@@ -32,12 +38,17 @@ const BrandForm: React.FC<RouteComponentProps<DetailParams>> = ({
     return () => {
       clearBrand();
     };
-  }, [loadBrand, match.params.id, clearBrand, initialFormState]);
+  }, [
+    loadBrand,
+    match.params.id,
+    clearBrand,
+    initialFormState,
+    brand.brandId.length,
+  ]);
 
-  const [brand, setBrand] = useState<IBrand>({
-    brandId: "",
-    brandName: "",
-  });
+  useEffect(() => {
+    loadBrands();
+  }, [loadBrands]);
 
   const handleSubmit = () => {
     if (brand.brandId.length === 0) {
@@ -45,18 +56,19 @@ const BrandForm: React.FC<RouteComponentProps<DetailParams>> = ({
         ...brand,
         brandId: uuid(),
       };
-      createBrand(newBrand);
+      createBrand(newBrand).then(()=>history.push(`/brand/edit/${newBrand.brandId}`));
     } else {
-      editBrand(brand);
+      editBrand(brand).then(()=>history.push(`brand/edit/${brand.brandId}`));
     }
   };
-
   const handleInputChange = (
     event: FormEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = event.currentTarget;
     setBrand({ ...brand, [name]: value });
   };
+  if (brandStore.loadingInitial)
+    return <LoadingComponent content="Loading data..." />;
 
   return (
     <Segment clearing>
@@ -68,7 +80,6 @@ const BrandForm: React.FC<RouteComponentProps<DetailParams>> = ({
           value={brand.brandName}
         />
         <Button
-          as={Link} to="/dashboard/productmaster/brands"
           loading={submitting}
           floated="right"
           positive

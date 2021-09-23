@@ -89,7 +89,7 @@ class BrandStore {
       this.loadingInitial = true;
     }
     try {
-      this.brand = await agent.Brands.brandDetails(id);
+      brand = await agent.Brands.brandDetails(id);
       runInAction("getting brand", () => {
         this.brand = brand;
         this.loadingInitial = false;
