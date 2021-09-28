@@ -31,7 +31,7 @@ const Navbar: React.FC = () => {
           />
           <Icon
             as={Link}
-            to="/dashboard"
+            to="/dashboard/"
             style={{ marginRight: "20px", textDecoration: "none" }}
           >
             <Icon inverted name="dashboard" size="big" />

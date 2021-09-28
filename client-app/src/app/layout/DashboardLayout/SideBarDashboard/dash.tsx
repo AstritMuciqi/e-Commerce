@@ -1,35 +1,33 @@
-import React from "react";
-import { Button, Icon, Input, Menu } from "semantic-ui-react";
+import React, { Fragment } from "react";
+import { Button,  Icon, Input, Menu } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 const Dash = () => {
   return (
-    <div>
-      <div>
-        <Menu fixed="top" style={{ backgroundColor: "black" }}>
-          <a href="/">
-            <img
-              src="/assets/logo.png"
-              alt="Logo"
-              style={{ width: "150px", height: "120px", marginTop: "2px" }}
-            />
-          </a>
-          <Menu.Item style={{ width: "500px", marginLeft: "40px" }}>
-            <Input icon="search" placeholder="Search..." />
-          </Menu.Item>
-          <Menu.Item position="right">
-            <Input
-              action={{ type: "submit", content: "Go" }}
-              placeholder="Navigate to..."
-            />
-          </Menu.Item>
-          <Menu.Item>
-            <Button primary negative>
-              Log out
-            </Button>
-          </Menu.Item>
-        </Menu>
-      </div>
+    <Fragment>
+      <Menu fixed="top" style={{ backgroundColor: "black" }}>
+        <a href="/">
+          <img
+            src="/assets/logo.png"
+            alt="Logo"
+            style={{ width: "150px", height: "120px", marginTop: "2px" }}
+          />
+        </a>
+        <Menu.Item style={{ width: "500px", marginLeft: "40px" }}>
+          <Input icon="search" placeholder="Search..." />
+        </Menu.Item>
+        <Menu.Item position="right">
+          <Input
+            action={{ type: "submit", content: "Go" }}
+            placeholder="Navigate to..."
+          />
+        </Menu.Item>
+        <Menu.Item>
+          <Button primary negative>
+            Log out
+          </Button>
+        </Menu.Item>
+      </Menu>
 
       <Menu
         style={{ marginTop: "123px", height: "1000px" }}
@@ -37,6 +35,12 @@ const Dash = () => {
         vertical
         fixed="top"
       >
+        <Menu.Item as={Link} to="/dashboard/home">
+          <h3 style={{ color: "#F5BD3D" }}>
+            <Icon name="home" size="big" />
+            Transactions
+          </h3>
+        </Menu.Item>
         <Menu.Item>
           <h3 style={{ color: "#F5BD3D" }}>
             <Icon name="product hunt" size="big" />
@@ -85,7 +89,7 @@ const Dash = () => {
           name="Clients"
         />
       </Menu>
-    </div>
+    </Fragment>
   );
 };
 

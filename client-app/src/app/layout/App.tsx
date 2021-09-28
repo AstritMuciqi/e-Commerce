@@ -21,6 +21,7 @@ import ProductStore from "../stores/productStore";
 import SectorStore from "../stores/sectorStore";
 import LoadingComponent from "./LoadingComponent";
 import BrandStore from "../stores/brandStore";
+import DashboardContent from "./DashboardLayout/DashboardContent";
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const sectorStore = useContext(SectorStore);
@@ -55,13 +56,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
           component={brandForm}
         />
         <Route path="/brand/edit/:id" component={BrandDetails} />
-      </Switch>
-      <Route path="/faturimi" component={Faturimi} />
-
-      <Route path="/dashboard" component={Dash} />
-      <Route path="/" component={Home} exact />
-
-      <Route path="/dashboard/productmaster/product">
+        <Route path="/dashboard/productmaster/product">
         <ProductDashboard />
       </Route>
       <Route path="/dashboard/productmaster/sectors">
@@ -70,6 +65,13 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
       <Route path="/dashboard/productmaster/brands">
         <BrandDashboard />
       </Route>
+      <Route path="/dashboard/home">
+        <DashboardContent />
+      </Route>
+      <Route path="/" component={Home} exact />
+      </Switch>
+      <Route path="/faturimi" component={Faturimi} />
+      <Route path="/dashboard" component={Dash}  />
     </Container>
   );
 };
