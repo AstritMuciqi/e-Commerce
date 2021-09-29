@@ -1,11 +1,34 @@
-import axios, { AxiosResponse } from 'axios';
-import { IBrand } from '../models/brand';
-import { IProduct } from '../models/product';
-import { ISector } from '../models/sector';
+import axios, { AxiosResponse } from "axios";
+import { toast } from "react-toastify";
+import { history } from "../..";
+import { IBrand } from "../models/brand";
+import { IProduct } from "../models/product";
+import { ISector } from "../models/sector";
 
-axios.defaults.baseURL="http://localhost:5000/api";
+axios.defaults.baseURL = "http://localhost:5000/api";
 
-const responseBody = (response: AxiosResponse)=>response.data;
+axios.interceptors.response.use(undefined, (error) => {
+  if (error.message === 'Network Error' && !error.response) {
+    toast.error('Network error - make sure API is running!');
+    history.push("/notfound");
+  }
+  const { status, data, config } = error.response;
+  if (status === 404) {
+    history.push("/notfound");
+  }
+  if (
+    status === 400 &&
+    config.method === "get" &&
+    data.errors.hasOwnProperty("id")
+  ) {
+    history.push("/notfound");
+  }
+  if (status === 500) {
+    toast.error('Server error - check terminal for more info!');
+  }
+});
+
+const responseBody = (response: AxiosResponse) => response.data;
 
 const sleep = (ms: number) => (response: AxiosResponse) =>
   new Promise<AxiosResponse>((resolve) =>
@@ -13,37 +36,40 @@ const sleep = (ms: number) => (response: AxiosResponse) =>
   );
 
 const requests = {
-    get: (url : string) => axios.get(url).then(sleep(1000)).then(responseBody),
-    post: (url : string , body: {}) => axios.post(url, body).then(sleep(1000)).then(responseBody),
-    put:(url: string, body: {}) => axios.put(url, body).then(sleep(1000)).then(responseBody),
-    del:(url: string) => axios.delete(url).then(sleep(1000)).then(responseBody)
-}
+  get: (url: string) => axios.get(url).then(sleep(1000)).then(responseBody),
+  post: (url: string, body: {}) =>
+    axios.post(url, body).then(sleep(1000)).then(responseBody),
+  put: (url: string, body: {}) =>
+    axios.put(url, body).then(sleep(1000)).then(responseBody),
+  del: (url: string) => axios.delete(url).then(sleep(1000)).then(responseBody),
+};
 const Products = {
-    productList: () : Promise<IProduct[]> => requests.get('/product'),
-    productDetails :(productId: string) => requests.get(`/product/${productId}`),
-    productCreate : (product: IProduct) => requests.post('/product',product),
-    editProduct:(product: IProduct) => requests.put(`/product/${product.productId}`,product),
-    deleteProduct: (productId: string) => requests.del(`/product/${productId}`)
-}
+  productList: (): Promise<IProduct[]> => requests.get("/product"),
+  productDetails: (productId: string) => requests.get(`/product/${productId}`),
+  productCreate: (product: IProduct) => requests.post("/product", product),
+  editProduct: (product: IProduct) =>
+    requests.put(`/product/${product.productId}`, product),
+  deleteProduct: (productId: string) => requests.del(`/product/${productId}`),
+};
 const Sectors = {
-    sectorList: () : Promise<ISector[]> => requests.get('/sector'),
-    sectorDetails :(sectorId: string) => requests.get(`/sector/${sectorId}`),
-    sectorCreate : (sector: ISector) => requests.post('/sector',sector),
-    editSector:(sector: ISector) => requests.put(`/sector/${sector.sectorId}`,sector),
-    deleteSector: (sectorId: string) => requests.del(`/sector/${sectorId}`)
-}
+  sectorList: (): Promise<ISector[]> => requests.get("/sector"),
+  sectorDetails: (sectorId: string) => requests.get(`/sector/${sectorId}`),
+  sectorCreate: (sector: ISector) => requests.post("/sector", sector),
+  editSector: (sector: ISector) =>
+    requests.put(`/sector/${sector.sectorId}`, sector),
+  deleteSector: (sectorId: string) => requests.del(`/sector/${sectorId}`),
+};
 const Brands = {
-    brandList: () : Promise<IBrand[]> => requests.get('/brand'),
-    brandDetails :(brandId: string) => requests.get(`/brand/${brandId}`),
-    brandCreate : (brand: IBrand) => requests.post('/brand',brand),
-    editBrand:(brand: IBrand) => requests.put(`/brand/${brand.brandId}`,brand),
-    deleteBrand: (brandId: string) => requests.del(`/brand/${brandId}`)
-}
-const ItemsPage ={
-    Products,
-    Sectors,
-    Brands
-}
+  brandList: (): Promise<IBrand[]> => requests.get("/brand"),
+  brandDetails: (brandId: string) => requests.get(`/brand/${brandId}`),
+  brandCreate: (brand: IBrand) => requests.post("/brand", brand),
+  editBrand: (brand: IBrand) => requests.put(`/brand/${brand.brandId}`, brand),
+  deleteBrand: (brandId: string) => requests.del(`/brand/${brandId}`),
+};
+const ItemsPage = {
+  Products,
+  Sectors,
+  Brands,
+};
 
 export default ItemsPage;
-  

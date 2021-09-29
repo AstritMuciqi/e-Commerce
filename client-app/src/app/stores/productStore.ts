@@ -7,8 +7,8 @@ configure({ enforceActions: "always" });
 
 class ProductStore {
   @observable productRegistry = new Map();
-  @observable product: IProduct | null = null;
   @observable loadingInitial = false;
+  @observable product: IProduct | null = null;
   @observable submitting = false;
   @observable target = "";
 

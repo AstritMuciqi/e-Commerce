@@ -60,9 +60,9 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
         ...product,
         productId: uuid(),
       };
-      createProduct(newProduct).then(()=>history.push(`/product/edit/${newProduct.productId}`));
+      createProduct(newProduct).then(()=>history.push("/dashboard/productmaster/product"));
     } else {
-      editProduct(product).then(()=>history.push(`/product/edit/${product.productId}`));
+      editProduct(product).then(()=>history.push("/dashboard/productmaster/product"));
     }
   };
 

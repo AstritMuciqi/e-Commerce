@@ -50,9 +50,9 @@ const SectorForm: React.FC<RouteComponentProps<DetailParams>> = ({
         ...sector,
         sectorId: uuid(),
       };
-      createSector(newSector).then(() => history.push(`/sector/edit/${newSector.sectorId}`));
+      createSector(newSector).then(() => history.push("/dashboard/productmaster/sectors"));
     } else {
-      editSector(sector).then(()=>history.push(`/sector/edit/${sector.sectorId}`));
+      editSector(sector).then(()=>history.push("/dashboard/productmaster/sectors"));
     }
   };
 

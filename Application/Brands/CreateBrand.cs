@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Domain;
+using FluentValidation;
 using MediatR;
 using Persistence;
 
@@ -11,9 +12,16 @@ namespace Application.Brands
     {
         public class Command : IRequest
         {
-            public Guid BrandId{get; set;}
-            public string BrandName{get; set;}
-            
+            public Guid BrandId { get; set; }
+            public string BrandName { get; set; }
+
+        }
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(x => x.BrandName).NotEmpty();
+            }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -21,9 +29,9 @@ namespace Application.Brands
             private readonly DataContext _context;
             public Handler(DataContext context)
             {
-                _context=context;   
+                _context = context;
             }
-           
+
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
@@ -33,10 +41,10 @@ namespace Application.Brands
                     BrandName = request.BrandName,
                 };
 
-                _context.Brand.Add(brands); 
+                _context.Brand.Add(brands);
                 var success = await _context.SaveChangesAsync() > 0;
 
-                if(success) return Unit.Value;
+                if (success) return Unit.Value;
 
                 throw new Exception("Problem with saving data");
 

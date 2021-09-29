@@ -1,9 +1,7 @@
-import React, { useContext } from "react";
-import { Container } from "semantic-ui-react";
+import React, { Fragment, useContext } from "react";
 import Faturimi from "./FaturimiLayout/Faturimi";
 import { Route, Switch } from "react-router-dom";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-
 import ProductDashboard from "../../feautures/Details/DashboardDetails/Product/ProductDashboard";
 import SectorDashboard from "../../feautures/Details/DashboardDetails/Sector/SectorDashboard";
 import BrandDashboard from "../../feautures/Details/DashboardDetails/Brands/BrandDashboard";
@@ -22,6 +20,8 @@ import SectorStore from "../stores/sectorStore";
 import LoadingComponent from "./LoadingComponent";
 import BrandStore from "../stores/brandStore";
 import DashboardContent from "./DashboardLayout/DashboardContent";
+import NotFound from "./NotFound";
+import {ToastContainer} from 'react-toastify';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const sectorStore = useContext(SectorStore);
@@ -35,7 +35,8 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
     return <LoadingComponent content="Loading..." />;
 
   return (
-    <Container className="APP-Page">
+    <Fragment>
+      <ToastContainer position="bottom-right" />
       <Switch>
         <Route path="/product/edit/:id" component={ProductDetails} />
         <Route path="/sector/edit/:id" component={SectorDetails} />
@@ -69,10 +70,15 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
         <DashboardContent />
       </Route>
       <Route path="/" component={Home} exact />
+      <Route  component={NotFound}/>
       </Switch>
       <Route path="/faturimi" component={Faturimi} />
       <Route path="/dashboard" component={Dash}  />
-    </Container>
+
+
+
+    </Fragment>
+      
   );
 };
 

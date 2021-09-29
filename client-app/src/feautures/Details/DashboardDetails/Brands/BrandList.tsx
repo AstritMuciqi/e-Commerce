@@ -1,12 +1,12 @@
-import { observer } from 'mobx-react-lite';
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import {  Button, Icon,Table } from 'semantic-ui-react';
-import BrandStore from '../../../../app/stores/brandStore';
+import { observer } from "mobx-react-lite";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import { Button, Icon, Table } from "semantic-ui-react";
+import BrandStore from "../../../../app/stores/brandStore";
 
 const BrandList: React.FC = () => {
   const brandStore = useContext(BrandStore);
-  const {brandsData,deleteBrand,submitting,target} = brandStore;
+  const { brandsData, deleteBrand, submitting, target } = brandStore;
   return (
     <Table style={{ marginLeft: "104px" }} celled inverted selectable>
       <Table.Header fullWidth>
@@ -15,7 +15,7 @@ const BrandList: React.FC = () => {
             <b style={{ color: "black" }}>Brand Name</b>
           </Table.HeaderCell>
           <Table.HeaderCell style={{ backgroundColor: "#F5BD3D" }}>
-            <b style={{ marginLeft:"767px",color: "black" }}>Options</b>
+            <b style={{ marginLeft: "767px", color: "black" }}>Options</b>
           </Table.HeaderCell>
         </Table.Row>
       </Table.Header>
@@ -28,7 +28,7 @@ const BrandList: React.FC = () => {
               <Button.Group floated="right">
                 <Button
                   as={Link}
-                  to={`/brand/edit/${brand.brandId}`}
+                  to={`/manage/brand/${brand.brandId}`}
                   floated="right"
                   content="Edit"
                 />

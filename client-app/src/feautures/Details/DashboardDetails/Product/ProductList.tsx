@@ -2,11 +2,11 @@ import React, { useContext } from "react";
 import { Button, Icon, Table } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
 import ProductStore from "../../../../app/stores/productStore";
-import { Link, withRouter, RouteComponentProps } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const ProductList: React.FC<RouteComponentProps> = ({ location }) => {
+const ProductList: React.FC = () => {
   const productStore = useContext(ProductStore);
-  const { deleteProduct, submitting, target, productsData } = productStore;
+  const { deleteProduct, productsData, submitting, target } = productStore;
   return (
     <Table
       className="produktet"
@@ -58,7 +58,7 @@ const ProductList: React.FC<RouteComponentProps> = ({ location }) => {
               <Button.Group>
                 <Button
                   as={Link}
-                  to={`/product/edit/${product.productId}`}
+                  to={`/manage/product/${product.productId}`}
                   floated="right"
                   content="Edit"
                 />
@@ -103,4 +103,4 @@ const ProductList: React.FC<RouteComponentProps> = ({ location }) => {
   );
 };
 
-export default withRouter(observer(ProductList));
+export default observer(ProductList);

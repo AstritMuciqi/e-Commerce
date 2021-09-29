@@ -71,7 +71,7 @@ class SectorStore {
     this.target = event.currentTarget.name;
     try {
       await agent.Sectors.deleteSector(id);
-      runInAction("delete sector error", () => {
+      runInAction("delete sector", () => {
         this.sectorRegistry.delete(id);
         this.submitting = false;
         this.target = "";

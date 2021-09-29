@@ -8,14 +8,14 @@ const SectorList: React.FC = () => {
   const sectorStore = useContext(SectorStore);
   const { deleteSector, sectorsData, submitting, target } = sectorStore;
   return (
-    <Table style={{ marginLeft: "104px" }} celled inverted selectable>
+    <Table style={{ marginLeft: "97px" }} celled inverted selectable>
       <Table.Header fullWidth>
         <Table.Row style={{ backgroundColor: "#F5BD3D" }}>
           <Table.HeaderCell style={{ backgroundColor: "#F5BD3D" }}>
             <b style={{ color: "black" }}>Sector Name</b>
           </Table.HeaderCell>
           <Table.HeaderCell style={{ backgroundColor: "#F5BD3D" }}>
-            <b style={{ marginLeft:"711px",color: "black" }}>Options</b>
+            <b style={{ marginLeft: "711px", color: "black" }}>Options</b>
           </Table.HeaderCell>
         </Table.Row>
       </Table.Header>
@@ -27,7 +27,8 @@ const SectorList: React.FC = () => {
             <Table.Cell colSpan="2">
               <Button.Group floated="right">
                 <Button
-                  as={Link} to={`/sector/edit/${sector.sectorId}`}
+                  as={Link}
+                  to={`/manage/sector/${sector.sectorId}`}
                   floated="right"
                   content="Edit"
                 />

@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React, { useState, FormEvent, useContext, useEffect } from "react";
-import {  RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import { Segment, Form, Button } from "semantic-ui-react";
 import { v4 as uuid } from "uuid";
 import LoadingComponent from "../../app/layout/LoadingComponent";
@@ -56,9 +56,13 @@ const BrandForm: React.FC<RouteComponentProps<DetailParams>> = ({
         ...brand,
         brandId: uuid(),
       };
-      createBrand(newBrand).then(()=>history.push(`/brand/edit/${newBrand.brandId}`));
+      createBrand(newBrand).then(() =>
+        history.push("/dashboard/productmaster/brands")
+      );
     } else {
-      editBrand(brand).then(()=>history.push(`brand/edit/${brand.brandId}`));
+      editBrand(brand).then(() =>
+        history.push("/dashboard/productmaster/brands")
+      );
     }
   };
   const handleInputChange = (

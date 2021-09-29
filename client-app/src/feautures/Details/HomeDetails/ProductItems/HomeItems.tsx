@@ -1,23 +1,27 @@
 import { observer } from "mobx-react-lite";
 import React, { useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Button, Card, Icon, Image } from "semantic-ui-react";
 import LoadingComponent from "../../../../app/layout/LoadingComponent";
 import ProductStore from "../../../../app/stores/productStore";
 
 const HomeItems: React.FC = () => {
   const productStore = useContext(ProductStore);
-  const {productsData} = productStore;
+  const { productsData } = productStore;
 
-  useEffect(()=>{
+  useEffect(() => {
     productStore.loadProducts();
-  },[productStore])
+  }, [productStore]);
 
-  if(productStore.loadingInitial)return <LoadingComponent content="Loading..." />
+  if (productStore.loadingInitial)
+    return <LoadingComponent content="Loading..." />;
 
   return (
     <Card.Group doubling itemsPerRow={4} stackable>
       {productsData.map((product) => (
         <Card
+          as={Link}
+          to={`/product/edit/${product.productId}`}
           style={{
             marginLeft: "5vh",
             marginTop: "18px",
@@ -32,7 +36,7 @@ const HomeItems: React.FC = () => {
           />
           <Card.Content>
             <Card.Description style={{ fontSize: "16px" }}>
-               {product.productName} {product.brand}, {product.description}
+              {product.productName} {product.brand}, {product.description}
             </Card.Description>
             <Card.Header style={{ marginTop: "10px" }}>
               {product.valueOfProduct}$

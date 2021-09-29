@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Domain;
+using FluentValidation;
 using MediatR;
 using Persistence;
 
@@ -31,6 +32,20 @@ namespace Application.Products
 
             
         }
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(x => x.ProductName).NotEmpty();
+                RuleFor(x => x.ValueOfProduct).NotEmpty();
+                RuleFor(x => x.Quantity).NotEmpty();
+                RuleFor(x => x.Sector).NotEmpty();
+                RuleFor(x => x.Brand).NotEmpty();
+                RuleFor(x => x.Description).NotEmpty();
+                RuleFor(x => x.ModelYear).NotEmpty();
+            }
+        }
+
 
         public class Handler : IRequestHandler<Command>
         {
@@ -63,6 +78,7 @@ namespace Application.Products
                 if(success) return Unit.Value;
 
                 throw new Exception("Problem with saving data");
+
 
             }
         }
