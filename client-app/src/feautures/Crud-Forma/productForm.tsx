@@ -9,6 +9,9 @@ import BrandStore from "../../app/stores/brandStore";
 import { observer } from "mobx-react-lite";
 import { RouteComponentProps } from "react-router";
 import LoadingComponent from "../../app/layout/LoadingComponent";
+import { Form as FinalForm, Field } from "react-final-form";
+import TextInput from "../../app/common/form/TextInput";
+import TextAreaInput from "../../app/common/form/TextAreaInput";
 interface DetailParams {
   id: string;
 }
@@ -42,7 +45,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
     description: "",
   });
   useEffect(() => {
-    if (match.params.id&&product.productId.length === 0) {
+    if (match.params.id && product.productId.length === 0) {
       loadProduct(match.params.id).then(
         () => initialFormState && setProduct(initialFormState)
       );
@@ -50,21 +53,25 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
     return () => {
       clearProduct();
     };
-  }, [loadProduct, match.params.id, clearProduct, initialFormState,product.productId.length]);
+  }, [
+    loadProduct,
+    match.params.id,
+    clearProduct,
+    initialFormState,
+    product.productId.length,
+  ]);
 
-
-
-  const handleSubmit = () => {
-    if (product.productId.length === 0) {
-      let newProduct = {
-        ...product,
-        productId: uuid(),
-      };
-      createProduct(newProduct).then(()=>history.push("/dashboard/productmaster/product"));
-    } else {
-      editProduct(product).then(()=>history.push("/dashboard/productmaster/product"));
-    }
-  };
+  // const handleSubmit = () => {
+  //   if (product.productId.length === 0) {
+  //     let newProduct = {
+  //       ...product,
+  //       productId: uuid(),
+  //     };
+  //     createProduct(newProduct).then(()=>history.push("/dashboard/productmaster/product"));
+  //   } else {
+  //     editProduct(product).then(()=>history.push("/dashboard/productmaster/product"));
+  //   }
+  // };
 
   useEffect(() => {
     loadSectors();
@@ -72,8 +79,11 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
   useEffect(() => {
     loadBrands();
   }, [loadBrands]);
-  if (sectorStore.loadingInitial) return <LoadingComponent content="Loading data" />;
-
+  if (sectorStore.loadingInitial)
+    return <LoadingComponent content="Loading data" />;
+  const handleFinalFormSubmit = (values: any) => {
+    console.log(values);
+  };
 
   const handleBrandChange = (ev: React.SyntheticEvent, { value }: any) => {
     setProduct({ ...product, brand: value });
@@ -89,84 +99,89 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
   };
   return (
     <Segment clearing>
-      <Form onSubmit={handleSubmit}>
-        <Form.Input
-          onChange={handleInputChange}
-          name="productName"
-          placeholder="Product Name"
-          value={product.productName}
-        />
+      <FinalForm
+        onSubmit={handleFinalFormSubmit}
+        render={({ handleSubmit }) => (
+          <Form onSubmit={handleSubmit}>
+            <Field
+              name="productName"
+              placeholder="Product Name"
+              value={product.productName}
+              component={TextInput}
+            />
 
-        <Dropdown
-          placeholder="Select Sector"
-          onChange={handleSectorChange}
-          fluid
-          search
-          selection
-          options={sectorsData.map((sector) => ({
-            key: sector.sectorId,
-            value: sector.sectorName,
-            text: sector.sectorName,
-          }))}
-          value={product.sector}
-        />
+            <Dropdown
+              placeholder="Select Sector"
+              onChange={handleSectorChange}
+              fluid
+              search
+              selection
+              options={sectorsData.map((sector) => ({
+                key: sector.sectorId,
+                value: sector.sectorName,
+                text: sector.sectorName,
+              }))}
+              value={product.sector}
+            />
 
-        <Dropdown
-          placeholder="Select Brand"
-          onChange={handleBrandChange}
-          fluid
-          search
-          selection
-          options={brandsData.map((brand) => ({
-            key: brand.brandId,
-            value: brand.brandName,
-            text: brand.brandName,
-          }))}
-          value={product.brand}
-        />
-        <Form.Input
-          onChange={handleInputChange}
-          name="valueOfProduct"
-          type="numeber"
-          step="0.01"
-          placeholder="ValueOfProduct"
-          value={product.valueOfProduct}
-        />
-        <Form.Input
-          onChange={handleInputChange}
-          name="modelYear"
-          type="date"
-          placeholder="Model Year"
-          value={product.modelYear}
-        />
-        <Form.Input
-          onChange={handleInputChange}
-          name="quantity"
-          type="number"
-          placeholder="Quantity"
-          value={product.quantity}
-        />
-        <Form.TextArea
-          onChange={handleInputChange}
-          name="description"
-          rows={2}
-          placeholder="Description"
-          value={product.description}
-        />
-        <Button
-          loading={submitting}
-          floated="right"
-          positive
-          type="submit"
-          content="Submit"
-        />
-        <Button
-          onClick={() => history.push("/dashboard/productmaster/product")}
-          floated="right"
-          type="button"
-          content="Cancel"
-        />
-      </Form>
+            <Dropdown
+              placeholder="Select Brand"
+              onChange={handleBrandChange}
+              fluid
+              search
+              selection
+              options={brandsData.map((brand) => ({
+                key: brand.brandId,
+                value: brand.brandName,
+                text: brand.brandName,
+              }))}
+              value={product.brand}
+            />
+            <Field
+              name="valueOfProduct"
+              type="numeber"
+              step="0.01"
+              placeholder="ValueOfProduct"
+              value={product.valueOfProduct}
+              component={TextInput}
+            />
+            <Field
+              component={TextInput}
+              name="modelYear"
+              type="date"
+              placeholder="Model Year"
+              value={product.modelYear}
+            />
+            <Field
+              component={TextInput}
+              name="quantity"
+              type="number"
+              placeholder="Quantity"
+              value={product.quantity}
+            />
+            <Field
+              name="description"
+              rows={3}
+              placeholder="Description"
+              value={product.description}
+              component={TextAreaInput}
+            />
+            <Button
+              loading={submitting}
+              floated="right"
+              positive
+              type="submit"
+              content="Submit"
+            />
+            <Button
+              onClick={() => history.push("/dashboard/productmaster/product")}
+              floated="right"
+              type="button"
+              content="Cancel"
+            />
+          </Form>
+        )}
+      />
     </Segment>
   );
 };
