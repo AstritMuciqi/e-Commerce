@@ -57,7 +57,7 @@ const BrandForm: React.FC<RouteComponentProps<DetailParams>> = ({
     return <LoadingComponent content="Loading data..." />;
 
   return (
-    <Segment clearing>
+    <Segment clearing style={{margin:"4em"}}>
       <FinalForm
         validate={validate}
         initialValues={brand}

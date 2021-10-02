@@ -79,7 +79,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
   if (brandStore.loadingInitial)
     return <LoadingComponent content="Loading data..." />;
   return (
-    <Segment clearing>
+    <Segment clearing style={{margin:"4em"}}>
       <FinalForm
         validate={validate}
         initialValues={product}
