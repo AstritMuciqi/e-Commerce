@@ -1,5 +1,7 @@
 import { action, computed, configure, observable,runInAction} from "mobx";
 import { createContext, SyntheticEvent } from "react";
+import { toast } from "react-toastify";
+import { history } from "../..";
 import agent from "../API/agent";
 import { ISector } from "../models/sector";
 configure({ enforceActions: "always" });
@@ -40,10 +42,12 @@ class SectorStore {
         this.sectorRegistry.set(sector.sectorId, sector);
         this.submitting = false;
       });
+      history.push("/dashboard/productmaster/sectors")
     } catch (error) {
       runInAction("create sector error", () => {
         this.submitting = false;
       });
+      toast.error("Problem creating data");
       console.log(error);
     }
   };
@@ -56,10 +60,12 @@ class SectorStore {
         this.sector = sector;
         this.submitting = false;
       });
+      history.push("/dashboard/productmaster/sectors")
     } catch (error) {
       runInAction("edit sector error", () => {
         this.submitting = false;
       });
+      toast.error("Problem editing data");
       console.log(error);
     }
   };
@@ -88,6 +94,7 @@ class SectorStore {
     let sector = this.getSector(id);
     if (sector) {
       this.sector = sector;
+      return sector;
     } else {
       this.loadingInitial = true;
     }
@@ -97,6 +104,7 @@ class SectorStore {
         this.sector = sector;
         this.loadingInitial = false;
       });
+      return sector;
     } catch (error) {
       runInAction("getting sector error", () => {
         this.loadingInitial = false;

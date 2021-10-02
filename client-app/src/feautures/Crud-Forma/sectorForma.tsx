@@ -1,12 +1,21 @@
 import { observer } from "mobx-react-lite";
-import React, { useState, FormEvent, useContext, useEffect } from "react";
+import React, { useState,  useContext, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import { Segment, Form, Button } from "semantic-ui-react";
 import { v4 as uuid } from "uuid";
 import LoadingComponent from "../../app/layout/LoadingComponent";
-import { ISector } from "../../app/models/sector";
+import {  SectorFormValues } from "../../app/models/sector";
 import SectorStore from "../../app/stores/sectorStore";
+import { Form as FinalForm, Field } from "react-final-form";
+import TextInput from "../../app/common/form/TextInput";
+import {
+  combineValidators,
+  isRequired,
+} from "revalidate";
 
+const validate = combineValidators({
+  sectorName: isRequired({ message: "The sector name is required" }),
+});
 interface DetailParams {
   id: string;
 }
@@ -22,45 +31,29 @@ const SectorForm: React.FC<RouteComponentProps<DetailParams>> = ({
     editSector,
     submitting,
     loadSector,
-    clearSector,
-    sector: initialFormState,
   } = sectorStore;
-  const [sector, setSector] = useState<ISector>({
-    sectorId: "",
-    sectorName: "",
-  });
+  const [sector, setSector] = useState(new SectorFormValues());
   useEffect(() => {
-    if (match.params.id && sector.sectorId.length === 0) {
-      loadSector(match.params.id).then(
-        () => initialFormState && setSector(initialFormState)
+    if (match.params.id) {
+      loadSector(match.params.id).then((sector) =>
+        setSector(new SectorFormValues(sector))
       );
     }
-    return () => {
-      clearSector();
-    };
-  }, [loadSector, match.params.id, clearSector, initialFormState,sector.sectorId.length]);
+  }, [loadSector, match.params.id]);
   useEffect(() => {
     loadSectors();
   }, [loadSectors]);
-
-
-  const handleSubmit = () => {
-    if (sector.sectorId.length === 0) {
+  const handleFinalFormSubmit = (values: any) => {
+    const{...sector} = values;
+    if (!sector.sectorId) {
       let newSector = {
         ...sector,
         sectorId: uuid(),
       };
-      createSector(newSector).then(() => history.push("/dashboard/productmaster/sectors"));
+      createSector(newSector);
     } else {
-      editSector(sector).then(()=>history.push("/dashboard/productmaster/sectors"));
+      editSector(sector);
     }
-  };
-
-  const handleInputChange = (
-    event: FormEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = event.currentTarget;
-    setSector({ ...sector, [name]: value });
   };
 
   if (sectorStore.loadingInitial)
@@ -68,27 +61,35 @@ const SectorForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
   return (
     <Segment clearing>
-      <Form onSubmit={handleSubmit}>
-        <Form.Input
-          onChange={handleInputChange}
-          name="sectorName"
-          placeholder="Sector Name"
-          value={sector.sectorName}
-        />
-        <Button
-          loading={submitting}
-          floated="right"
-          positive
-          type="submit"
-          content="Submit"
-        />
-        <Button
-          onClick={() => history.push("/dashboard/productmaster/sectors")}
-          floated="right"
-          type="button"
-          content="Cancel"
-        />
-      </Form>
+      <FinalForm
+        validate={validate}
+        initialValues={sector}
+        onSubmit={handleFinalFormSubmit}
+        render={({ handleSubmit,invalid,pristine }) => (
+          <Form onSubmit={handleSubmit}>
+            <Field
+              component={TextInput}
+              name="sectorName"
+              placeholder="Sector Name"
+              value={sector.sectorName}
+            />
+            <Button
+              loading={submitting}
+              disabled={invalid||pristine}
+              floated="right"
+              positive
+              type="submit"
+              content="Submit"
+            />
+            <Button
+              onClick={() => history.push("/dashboard/productmaster/sectors")}
+              floated="right"
+              type="button"
+              content="Cancel"
+            />
+          </Form>
+        )}
+      />
     </Segment>
   );
 };

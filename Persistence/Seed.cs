@@ -52,8 +52,7 @@ namespace Persistence
                         Sector="Laptop",
                         Brand="Asus",
                         ValueOfProduct=399.99F,
-                        ModelYear=DateTime.Parse("2020/10/12"),
-                        PhotoFileName="anynomous.png",
+                        ModelYear="2020/10/12",
                         Quantity=10,
                         Description="Laptop i fuqishem per nje eksperienc ne lojrat ma te reja"
 
@@ -65,8 +64,7 @@ namespace Persistence
                         Sector="Laptop",
                         Brand="Lenovo",
                         ValueOfProduct=499.99F,
-                        ModelYear=DateTime.Parse("2020/11/12"),
-                        PhotoFileName="anynomous.png",
+                        ModelYear="2020/11/12",
                         Quantity=30,
                         Description="Laptop i fuqishem per nje eksperienc ne lojrat ma te reja"  
                     },
@@ -75,8 +73,7 @@ namespace Persistence
                         Sector="Laptop",
                         Brand="Dell",
                         ValueOfProduct=599.99F,
-                        ModelYear=DateTime.Parse("2020/12/12"),
-                        PhotoFileName="anynomous.png",
+                        ModelYear="2020/12/12",
                         Quantity=20,
                         Description="Laptop i fuqishem per nje eksperienc ne lojrat ma te reja"  
                     }

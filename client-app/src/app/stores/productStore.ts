@@ -1,5 +1,7 @@
 import { action, observable, configure, computed,runInAction } from "mobx";
 import { createContext, SyntheticEvent } from "react";
+import { toast } from "react-toastify";
+import { history } from "../..";
 import agent from "../API/agent";
 import { IProduct } from "../models/product";
 
@@ -41,10 +43,12 @@ class ProductStore {
         this.productRegistry.set(product.productId, product);
         this.submitting = false;
       });
+      history.push("/dashboard/productmaster/product");
     } catch (error) {
       runInAction("create product error", () => {
         this.submitting = false;
       });
+      toast.error("Problem creating data");
       console.log(error);
     }
   };
@@ -57,10 +61,12 @@ class ProductStore {
         this.product = product;
         this.submitting = false;
       });
+      history.push("/dashboard/productmaster/product");
     } catch (error) {
       runInAction("edit product error", () => {
         this.submitting = false;
       });
+      toast.error("Problem editing data");
       console.log(error);
     }
   };
@@ -89,6 +95,7 @@ class ProductStore {
     let product = this.getProduct(id);
     if (product) {
       this.product = product;
+      return product;
     } else {
       this.loadingInitial = true;
     }
@@ -98,6 +105,7 @@ class ProductStore {
         this.product = product;
         this.loadingInitial = false;
       });
+      return product;
     } catch (error) {
       runInAction("getting product error", () => {
         this.loadingInitial = false;

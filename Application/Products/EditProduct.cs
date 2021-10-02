@@ -21,9 +21,7 @@ namespace Application.Products
 
             public float? ValueOfProduct { get; set; }
 
-            public DateTime? ModelYear { get; set; }
-
-            public string PhotoFileName { get; set; }
+            public string ModelYear { get; set; }
 
             public int? Quantity { get; set; }
 
@@ -42,7 +40,6 @@ namespace Application.Products
                 RuleFor(x => x.Brand).NotEmpty();
                 RuleFor(x => x.Description).NotEmpty();
                 RuleFor(x => x.ModelYear).NotEmpty();
-                RuleFor(x => x.PhotoFileName).NotEmpty();
 
             }
         }
@@ -70,7 +67,6 @@ namespace Application.Products
                 product.Brand = request.Brand ?? product.Brand;
                 product.ValueOfProduct = request.ValueOfProduct ?? product.ValueOfProduct;
                 product.ModelYear = request.ModelYear ?? product.ModelYear;
-                product.PhotoFileName = request.PhotoFileName ?? product.PhotoFileName;
                 product.Quantity = request.Quantity ?? product.Quantity;
                 product.Description = request.Description ?? product.Description;
 
