@@ -18,6 +18,7 @@ import BrandDetails from "../../feautures/Details/DetailsShow/BrandDetails";
 import DashboardContent from "./DashboardLayout/DashboardContent";
 import NotFound from "./NotFound";
 import {ToastContainer} from 'react-toastify';
+import kontaktForm from "../../feautures/Crud-Forma/kontaktForm";
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   return (
@@ -55,7 +56,9 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
       <Route path="/dashboard/home">
         <DashboardContent />
       </Route>
+      <Route path="/contactUs" component={kontaktForm} exact />
       <Route path="/" component={Home} exact />
+
       <Route  component={NotFound}/>
       </Switch>
       <Route path="/faturimi" component={Faturimi} />
