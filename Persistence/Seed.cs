@@ -81,6 +81,37 @@ namespace Persistence
                 context.Product.AddRange(products);
                 context.SaveChanges();
             }
+            if(!context.ContactForm.Any())
+            {
+                var contactforms = new List<ContactForm>
+                {
+                    new ContactForm{
+                        
+                        FirstName="Astrit",
+                        LastName="Muçiqi",
+                        Email="a@gmail.com",
+                        Message="Problem me navigimin ne footer", 
+
+                    },
+                    new ContactForm{
+                        
+                        FirstName="Filan",
+                        LastName="Fisteku",
+                        Email="ff@gmail.com",
+                        Message="Problem me navigimin ne footer", 
+
+                    },new ContactForm{
+                        
+                        FirstName="Behar",
+                        LastName="Beshiri",
+                        Email="b@gmail.com",
+                        Message="Problem me navigimin ne footer", 
+
+                    }
+                };
+                context.ContactForm.AddRange(contactforms);
+                context.SaveChanges();
+            }
             if(!context.AdresaF.Any())
             {
                 var adresaf = new List<AdresaFaturimit>
