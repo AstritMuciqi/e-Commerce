@@ -1,14 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>71da5a07-e98f-48db-a622-07cec0de99c3</UserSecretsId>
+    <UserSecretsId>7e6551bb-b571-49d2-a1bb-09b19a638a6d</UserSecretsId>
+    <UserSecretsId>7247f2da-946a-4326-bcfa-19efabcc5697</UserSecretsId>
+    <UserSecretsId>1059610d-5300-42bb-82b6-2273b6ad2bad</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3"/>
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7"/>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2"/>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0"/>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.10"/>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj"/>
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj"/>
   </ItemGroup>
 </Project>
