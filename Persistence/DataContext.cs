@@ -16,6 +16,8 @@ namespace Persistence
 
         public DbSet<Product> Product{get;set;}
 
+        public DbSet<ContactForm> ContactForm{get;set;}
+
         public DbSet<AdresaFaturimit> AdresaF{get;set;}
 
         protected override void OnModelCreating(ModelBuilder builder)

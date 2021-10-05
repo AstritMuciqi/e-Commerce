@@ -1,5 +1,7 @@
 import { action, computed, configure, observable ,runInAction} from "mobx";
 import { createContext, SyntheticEvent } from "react";
+import { toast } from "react-toastify";
+import { history } from "../..";
 import agent from "../API/agent";
 import { IBrand } from "../models/brand";
 configure({enforceActions: 'always'});
@@ -42,6 +44,7 @@ class BrandStore {
       runInAction("create brand error", () => {
         this.submitting = false;
       });
+      toast.error("Problem creating data");
       console.log(error);
     }
   };
@@ -53,10 +56,12 @@ class BrandStore {
         this.brandRegistry.set(brand.brandId, brand);
         this.submitting = false;
       });
+      history.push("/dashboard/productmaster/brands")
     } catch (error) {
       runInAction("edit brand error", () => {
         this.submitting = false;
       });
+      toast.error("Problem editing data");
       console.log(error);
     }
   };
@@ -73,6 +78,7 @@ class BrandStore {
         this.submitting = false;
         this.target = "";
       });
+      history.push("/dashboard/productmaster/brands")
     } catch (error) {
       runInAction("delete brand error", () => {
         this.submitting = false;
@@ -85,6 +91,7 @@ class BrandStore {
     let brand = this.getBrand(id);
     if (brand) {
       this.brand = brand;
+      return brand;
     } else {
       this.loadingInitial = true;
     }
@@ -94,6 +101,7 @@ class BrandStore {
         this.brand = brand;
         this.loadingInitial = false;
       });
+      return brand;
     } catch (error) {
       runInAction("getting brand error", () => {
         this.loadingInitial = false;

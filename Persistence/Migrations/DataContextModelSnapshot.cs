@@ -132,6 +132,29 @@ namespace Persistence.Migrations
                     b.ToTable("Brand");
                 });
 
+            modelBuilder.Entity("Domain.ContactForm", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ContactForm");
+                });
+
             modelBuilder.Entity("Domain.Product", b =>
                 {
                     b.Property<Guid>("ProductId")
@@ -144,10 +167,7 @@ namespace Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("ModelYear")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PhotoFileName")
+                    b.Property<string>("ModelYear")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ProductName")

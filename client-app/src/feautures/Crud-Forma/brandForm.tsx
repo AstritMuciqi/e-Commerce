@@ -1,12 +1,18 @@
 import { observer } from "mobx-react-lite";
-import React, { useState, FormEvent, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { Segment, Form, Button } from "semantic-ui-react";
 import { v4 as uuid } from "uuid";
+import TextInput from "../../app/common/form/TextInput";
 import LoadingComponent from "../../app/layout/LoadingComponent";
-import { IBrand } from "../../app/models/brand";
+import { BrandFormValues } from "../../app/models/brand";
 import BrandStore from "../../app/stores/brandStore";
+import { Form as FinalForm, Field } from "react-final-form";
+import { combineValidators, isRequired } from "revalidate";
 
+const validate = combineValidators({
+  brandName: isRequired({ message: "The brand name is required" }),
+});
 interface DetailParams {
   id: string;
 }
@@ -16,42 +22,24 @@ const BrandForm: React.FC<RouteComponentProps<DetailParams>> = ({
   history,
 }) => {
   const brandStore = useContext(BrandStore);
-  const {
-    createBrand,
-    editBrand,
-    submitting,
-    clearBrand,
-    loadBrand,
-    loadBrands,
-    brand: initialFormState,
-  } = brandStore;
-  const [brand, setBrand] = useState<IBrand>({
-    brandId: "",
-    brandName: "",
-  });
+  const { submitting, loadBrand, loadBrands, createBrand, editBrand } =
+    brandStore;
+  const [brand, setBrand] = useState(new BrandFormValues());
   useEffect(() => {
-    if (match.params.id && brand.brandId.length === 0) {
-      loadBrand(match.params.id).then(
-        () => initialFormState && setBrand(initialFormState)
+    if (match.params.id) {
+      loadBrand(match.params.id).then((brand) =>
+        setBrand(new BrandFormValues(brand))
       );
     }
-    return () => {
-      clearBrand();
-    };
-  }, [
-    loadBrand,
-    match.params.id,
-    clearBrand,
-    initialFormState,
-    brand.brandId.length,
-  ]);
+  }, [loadBrand, match.params.id]);
 
   useEffect(() => {
     loadBrands();
   }, [loadBrands]);
 
-  const handleSubmit = () => {
-    if (brand.brandId.length === 0) {
+  const handleFinalFormSubmit = (values: any) => {
+    const { ...brand } = values;
+    if (!brand.brandId) {
       let newBrand = {
         ...brand,
         brandId: uuid(),
@@ -65,38 +53,40 @@ const BrandForm: React.FC<RouteComponentProps<DetailParams>> = ({
       );
     }
   };
-  const handleInputChange = (
-    event: FormEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = event.currentTarget;
-    setBrand({ ...brand, [name]: value });
-  };
   if (brandStore.loadingInitial)
     return <LoadingComponent content="Loading data..." />;
 
   return (
-    <Segment clearing>
-      <Form onSubmit={handleSubmit}>
-        <Form.Input
-          onChange={handleInputChange}
-          name="brandName"
-          placeholder="Brand Name"
-          value={brand.brandName}
-        />
-        <Button
-          loading={submitting}
-          floated="right"
-          positive
-          type="submit"
-          content="Submit"
-        />
-        <Button
-          onClick={() => history.push("/dashboard/productmaster/brands")}
-          floated="right"
-          type="button"
-          content="Cancel"
-        />
-      </Form>
+    <Segment clearing style={{margin:"4em"}}>
+      <FinalForm
+        validate={validate}
+        initialValues={brand}
+        onSubmit={handleFinalFormSubmit}
+        render={({ handleSubmit, invalid, pristine }) => (
+          <Form onSubmit={handleSubmit}>
+            <Field
+              component={TextInput}
+              name="brandName"
+              placeholder="Brand Name"
+              value={brand.brandName}
+            />
+            <Button
+              loading={submitting}
+              disabled={invalid || pristine}
+              floated="right"
+              positive
+              type="submit"
+              content="Submit"
+            />
+            <Button
+              onClick={() => history.push("/dashboard/productmaster/brands")}
+              floated="right"
+              type="button"
+              content="Cancel"
+            />
+          </Form>
+        )}
+      />
     </Segment>
   );
 };

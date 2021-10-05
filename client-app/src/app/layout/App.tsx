@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment } from "react";
 import Faturimi from "./FaturimiLayout/Faturimi";
 import { Route, Switch } from "react-router-dom";
 import { withRouter, RouteComponentProps } from "react-router-dom";
@@ -15,25 +15,12 @@ import brandForm from "../../feautures/Crud-Forma/brandForm";
 import ProductDetails from "../../feautures/Details/DetailsShow/ProductDetails";
 import SectorDetails from "../../feautures/Details/DetailsShow/SectorDetails";
 import BrandDetails from "../../feautures/Details/DetailsShow/BrandDetails";
-import ProductStore from "../stores/productStore";
-import SectorStore from "../stores/sectorStore";
-import LoadingComponent from "./LoadingComponent";
-import BrandStore from "../stores/brandStore";
 import DashboardContent from "./DashboardLayout/DashboardContent";
 import NotFound from "./NotFound";
 import {ToastContainer} from 'react-toastify';
+import kontaktForm from "../../feautures/Crud-Forma/kontaktForm";
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
-  const sectorStore = useContext(SectorStore);
-  const productStore = useContext(ProductStore);
-  const brandStore = useContext(BrandStore);
-  if (
-    sectorStore.loadingInitial &&
-    brandStore.loadingInitial &&
-    productStore.loadingInitial
-  )
-    return <LoadingComponent content="Loading..." />;
-
   return (
     <Fragment>
       <ToastContainer position="bottom-right" />
@@ -69,7 +56,9 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
       <Route path="/dashboard/home">
         <DashboardContent />
       </Route>
+      <Route path="/contactUs" component={kontaktForm} exact />
       <Route path="/" component={Home} exact />
+
       <Route  component={NotFound}/>
       </Switch>
       <Route path="/faturimi" component={Faturimi} />

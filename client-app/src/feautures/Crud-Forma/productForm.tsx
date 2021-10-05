@@ -1,17 +1,38 @@
-import React, { useState, FormEvent, useEffect, useContext } from "react";
-import { Segment, Form, Button, Dropdown } from "semantic-ui-react";
-import { v4 as uuid } from "uuid";
-import { IProduct } from "../../app/models/product";
+import React, { useState, useEffect, useContext } from "react";
+import { Segment, Form, Button } from "semantic-ui-react";
+import { ProductFormValues } from "../../app/models/product";
 import ProductStore from "../../app/stores/productStore";
 import SectorStore from "../../app/stores/sectorStore";
 import BrandStore from "../../app/stores/brandStore";
-
+import { v4 as uuid } from "uuid";
 import { observer } from "mobx-react-lite";
 import { RouteComponentProps } from "react-router";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import { Form as FinalForm, Field } from "react-final-form";
 import TextInput from "../../app/common/form/TextInput";
 import TextAreaInput from "../../app/common/form/TextAreaInput";
+import SelectInput from "../../app/common/form/SelectInput";
+import NumberInput from "../../app/common/form/NumberInput";
+import '../../app/layout/styles.css';
+import {
+  combineValidators,
+  composeValidators,
+  hasLengthGreaterThan,
+  isRequired,
+} from "revalidate";
+
+const validate = combineValidators({
+  productName: isRequired({ message: "The product name is required" }),
+  sector: isRequired("Sector"),
+  brand: isRequired("Brand"),
+  valueOfProduct: isRequired("Value of Product"),
+  modelYear: isRequired("Model Year"),
+  quantity: isRequired("Quantity"),
+  description: composeValidators(
+    isRequired("Description"),
+    hasLengthGreaterThan(4)({message: "Description needs to be at least 5 characters "})
+  )()
+});
 interface DetailParams {
   id: string;
 }
@@ -26,52 +47,16 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
   const { loadBrands, brandsData } = brandStore;
 
   const { loadSectors, sectorsData } = sectorStore;
-  const {
-    createProduct,
-    editProduct,
-    product: initialFormState,
-    loadProduct,
-    clearProduct,
-    submitting,
-  } = productStore;
-  const [product, setProduct] = useState<IProduct>({
-    productId: "",
-    productName: "",
-    sector: "",
-    brand: "",
-    valueOfProduct: "",
-    modelYear: "",
-    quantity: "",
-    description: "",
-  });
+  const { loadProduct, submitting, createProduct, editProduct } = productStore;
+
+  const [product, setProduct] = useState(new ProductFormValues());
   useEffect(() => {
-    if (match.params.id && product.productId.length === 0) {
-      loadProduct(match.params.id).then(
-        () => initialFormState && setProduct(initialFormState)
+    if (match.params.id) {
+      loadProduct(match.params.id).then((product) =>
+        setProduct(new ProductFormValues(product))
       );
     }
-    return () => {
-      clearProduct();
-    };
-  }, [
-    loadProduct,
-    match.params.id,
-    clearProduct,
-    initialFormState,
-    product.productId.length,
-  ]);
-
-  // const handleSubmit = () => {
-  //   if (product.productId.length === 0) {
-  //     let newProduct = {
-  //       ...product,
-  //       productId: uuid(),
-  //     };
-  //     createProduct(newProduct).then(()=>history.push("/dashboard/productmaster/product"));
-  //   } else {
-  //     editProduct(product).then(()=>history.push("/dashboard/productmaster/product"));
-  //   }
-  // };
+  }, [loadProduct, match.params.id]);
 
   useEffect(() => {
     loadSectors();
@@ -79,29 +64,27 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
   useEffect(() => {
     loadBrands();
   }, [loadBrands]);
-  if (sectorStore.loadingInitial)
-    return <LoadingComponent content="Loading data" />;
   const handleFinalFormSubmit = (values: any) => {
-    console.log(values);
+    const { ...product } = values;
+    if (!product.productId) {
+      let newProduct = {
+        ...product,
+        productId: uuid(),
+      };
+      createProduct(newProduct);
+    } else {
+      editProduct(product);
+    }
   };
-
-  const handleBrandChange = (ev: React.SyntheticEvent, { value }: any) => {
-    setProduct({ ...product, brand: value });
-  };
-  const handleSectorChange = (ev: React.SyntheticEvent, { value }: any) => {
-    setProduct({ ...product, sector: value });
-  };
-  const handleInputChange = (
-    event: FormEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = event.currentTarget;
-    setProduct({ ...product, [name]: value });
-  };
+  if (brandStore.loadingInitial)
+    return <LoadingComponent content="Loading data..." />;
   return (
-    <Segment clearing>
+    <Segment clearing style={{margin:"4em"}}>
       <FinalForm
+        validate={validate}
+        initialValues={product}
         onSubmit={handleFinalFormSubmit}
-        render={({ handleSubmit }) => (
+        render={({ handleSubmit,invalid,pristine }) => (
           <Form onSubmit={handleSubmit}>
             <Field
               name="productName"
@@ -110,40 +93,36 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
               component={TextInput}
             />
 
-            <Dropdown
-              placeholder="Select Sector"
-              onChange={handleSectorChange}
-              fluid
-              search
-              selection
+            <Field
+              component={SelectInput}
               options={sectorsData.map((sector) => ({
                 key: sector.sectorId,
                 value: sector.sectorName,
                 text: sector.sectorName,
               }))}
+              placeholder="Select Sector"
+              name="sector"
               value={product.sector}
             />
 
-            <Dropdown
+            <Field
+              value={product.brand}
+              component={SelectInput}
               placeholder="Select Brand"
-              onChange={handleBrandChange}
-              fluid
-              search
-              selection
+              name="brand"
               options={brandsData.map((brand) => ({
                 key: brand.brandId,
                 value: brand.brandName,
                 text: brand.brandName,
               }))}
-              value={product.brand}
             />
             <Field
+              component={NumberInput}
               name="valueOfProduct"
-              type="numeber"
+              type="number"
               step="0.01"
               placeholder="ValueOfProduct"
               value={product.valueOfProduct}
-              component={TextInput}
             />
             <Field
               component={TextInput}
@@ -153,7 +132,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
               value={product.modelYear}
             />
             <Field
-              component={TextInput}
+              component={NumberInput}
               name="quantity"
               type="number"
               placeholder="Quantity"
@@ -168,6 +147,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
             />
             <Button
               loading={submitting}
+              disabled={invalid||pristine}
               floated="right"
               positive
               type="submit"
