@@ -27,12 +27,12 @@ namespace API.Controllers
            return await _mediator.Send(new ContactFormList.Query()); 
         }
 
-        // [HttpGet("{id}")]
+        [HttpGet("{id}")]
 
-        // public async Task<ActionResult<ContactForm>> ContactFormDetails(Guid id)
-        // {
-        //     return await _mediator.Send(new ContactFormDetails.Query{Id=id});
-        // }
+        public async Task<ActionResult<ContactForm>> ContactFormDetails(Guid id)
+        {
+            return await _mediator.Send(new ContactFormDetails.Query{Id=id});
+        }
 
         [HttpPost]
 
