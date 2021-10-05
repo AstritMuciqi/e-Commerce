@@ -28,11 +28,11 @@ namespace API
             Configuration = configuration;
         }
 
-        
-                public IConfiguration Configuration { get; }
+
+        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services )
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(opt =>
             {
@@ -41,8 +41,8 @@ namespace API
 
             services.AddCors(c =>
                 {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().
-                AllowAnyHeader());
+                    c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().
+                    AllowAnyHeader());
                 });
 
             services.AddControllers();
@@ -60,23 +60,23 @@ namespace API
             identityBuilder.AddSignInManager<SignInManager<AppUser>>();
             services.AddAuthentication();
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["AppSettings:Token"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"])); 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(opt =>
-            {
-                opt.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = key,
-                    ValidateAudience = false,
-                    ValidateIssuer = false
-                };
-            });
+             .AddJwtBearer(opt =>
+             {
+                 opt.TokenValidationParameters = new TokenValidationParameters
+                 {
+                     ValidateIssuerSigningKey = true,
+                     IssuerSigningKey = key,
+                     ValidateAudience = false,
+                     ValidateIssuer = false
+                 };
+             });
 
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
-            
-            
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -98,8 +98,8 @@ namespace API
                 endpoints.MapControllers();
             });
 
-            
-            
+
+
         }
     }
 }
