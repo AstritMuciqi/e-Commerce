@@ -53,7 +53,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
       <Route path="/dashboard/productmaster/brands">
         <BrandDashboard />
       </Route>
-      <Route path="/dashboard/home">
+      <Route path="/dashboard/contactUsClients/">
         <DashboardContent />
       </Route>
       <Route path="/contactUs" component={kontaktForm} exact />

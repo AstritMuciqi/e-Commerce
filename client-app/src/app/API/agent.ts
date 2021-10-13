@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { history } from "../..";
 import { IBrand } from "../models/brand";
+import { IContactForm } from "../models/contactForm";
 import { IProduct } from "../models/product";
 import { ISector } from "../models/sector";
 
@@ -66,10 +67,19 @@ const Brands = {
   editBrand: (brand: IBrand) => requests.put(`/brand/${brand.brandId}`, brand),
   deleteBrand: (brandId: string) => requests.del(`/brand/${brandId}`),
 };
+const ContactForms = {
+  contactFormList: (): Promise<IContactForm[]> => requests.get("/contactForm"),
+  contactFormDetails: (id: string) => requests.get(`/contactForm/${id}`),
+  createContactForm: (contactForm: IContactForm) => requests.post("/contactForm", contactForm),
+  editContactForm: (contactForm: IContactForm) =>
+    requests.put(`/contactForm/${contactForm.id}`, contactForm),
+  deleteContactForm: (id: string) => requests.del(`/contactForm/${id}`),
+};
 const ItemsPage = {
   Products,
   Sectors,
   Brands,
+  ContactForms,
 };
 
 export default ItemsPage;
