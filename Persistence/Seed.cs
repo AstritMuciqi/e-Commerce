@@ -54,6 +54,18 @@ namespace Persistence
                     },
                     new Sector{
                         SectorName="Aksesore",  
+                    },
+                    new Sector{
+                        SectorName="Laptopa",  
+                    },
+                    new Sector{
+                        SectorName="TV",  
+                    },
+                    new Sector{
+                        SectorName="Pjesë për kompjuera",  
+                    },
+                    new Sector{
+                        SectorName="Tableta",  
                     }
                 };
                 context.Sector.AddRange(sectors);
@@ -81,6 +93,19 @@ namespace Persistence
             {
                 var products = new List<Product>
                 {
+                    new Product{
+                        
+                        ProductName="Gaming Laptop",
+                        Sector="Laptop",
+                        Brand="Asus",
+                        ValueOfProduct=399.99F,
+                        ModelYear="2020/10/12",
+                        Quantity=10,
+                        Description="Laptop i fuqishem per nje eksperienc ne lojrat ma te reja"
+
+                        
+
+                    },
                     new Product{
                         
                         ProductName="Gaming Laptop",
