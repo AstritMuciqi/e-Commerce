@@ -4,13 +4,15 @@ import { Menu } from "semantic-ui-react";
 import SectorStore from "../../app/stores/sectorStore";
 import { observer } from "mobx-react-lite";
 import LoadingComponent from "../../app/layout/LoadingComponent";
+import { RootStoreContext } from "../../app/stores/rootStore";
 
 const Kategorite: React.FC = () => {
-  const sectorStore = useContext(SectorStore);
+  const rootStore = useContext(RootStoreContext);
+  const {loadSectors, loadingInitial} = rootStore.sectorStore;
   useEffect(() => {
-    sectorStore.loadSectors();
-  }, [sectorStore]);
-  if(sectorStore.loadingInitial)return <LoadingComponent content="Loading..." />
+    loadSectors();
+  }, [loadSectors]);
+  if(loadingInitial)return <LoadingComponent content="Loading..." />
   return (
     <Fragment>
       <Menu
@@ -24,7 +26,7 @@ const Kategorite: React.FC = () => {
           justifyContent: "center",
         }}
       >
-        {sectorStore.sectorsData.map((sector) => (
+        {rootStore.sectorStore.sectorsData.map((sector) => (
           <Menu.Item
             key={sector.sectorId}
             style={{

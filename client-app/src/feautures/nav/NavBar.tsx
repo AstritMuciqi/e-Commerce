@@ -1,9 +1,15 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import { Link } from "react-router-dom";
-import { Icon, Input, Menu } from "semantic-ui-react";
+import { Dropdown, Icon, Image, Input, Menu } from "semantic-ui-react";
+import { RootStoreContext } from "../../app/stores/rootStore";
+import LoginForm from "../user/LoginForm";
+import RegisterForm from "../user/RegisterForm";
 import Kategorite from "./Kategorite";
 
-const Navbar: React.FC = () => {
+const Navbar = () => {
+  const rootStore = useContext(RootStoreContext);
+  const {isLoggedIn, user, logout} = rootStore.userStore;
+  const {openModal} = rootStore.modalStore
   return (
     <Fragment>
       <Menu
@@ -21,18 +27,19 @@ const Navbar: React.FC = () => {
           />
         </a>
 
-        <Menu.Item position="right" style={{ marginRight: "40px" }}>
+        <Menu.Item position="right" style={{ marginRight: "50px" }}>
           <Input
             inverted
             size="big"
             icon="search"
             placeholder="Search..."
-            style={{ marginRight: "100px", width: "130vh" }}
+            style={{ marginRight: "80px", width: "120vh" }}
           />
           <Icon
+            
             as={Link}
             to="/dashboard/home"
-            style={{ marginRight: "20px", textDecoration: "none" }}
+            style={{ marginRight: "30px", textDecoration: "none" }}
           >
             <Icon inverted name="dashboard" size="big" />
           </Icon>
@@ -42,13 +49,35 @@ const Navbar: React.FC = () => {
             size="big"
             style={{ marginRight: "27px" }}
           />
-
-          <Icon
-            inverted
-            name="user"
-            size="big"
-            style={{ marginRight: "20px" }}
-          />
+          {!user && (
+            <Icon
+              onClick={() => openModal(<LoginForm/>)}
+              style={{ marginRight: "20px", textDecoration: "none" }}
+            >
+              <Icon
+                inverted
+                name="user"
+                size="big"
+                style={{ marginRight: "20px" }}
+              />
+            </Icon>
+          )}
+          {user && (
+            <Fragment>
+              <Image avatar spaced="right" src={"assets/user.png"} />
+              <Dropdown style={{color:"white"}} pointing="top left" text={user.displayName}>
+                <Dropdown.Menu>
+                  <Dropdown.Item
+                    as={Link}
+                    to={`/profile/username`}
+                    text="My profile"
+                    icon="user"
+                  />
+                  <Dropdown.Item onClick={logout} text="Logout" icon="power" />
+                </Dropdown.Menu>
+              </Dropdown>
+            </Fragment>
+          )}
         </Menu.Item>
       </Menu>
       <Kategorite />

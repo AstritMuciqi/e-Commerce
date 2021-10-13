@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 import Faturimi from "./FaturimiLayout/Faturimi";
 import { Route, Switch } from "react-router-dom";
 import { withRouter, RouteComponentProps } from "react-router-dom";
@@ -19,10 +19,30 @@ import DashboardContent from "./DashboardLayout/DashboardContent";
 import NotFound from "./NotFound";
 import {ToastContainer} from 'react-toastify';
 import kontaktForm from "../../feautures/Crud-Forma/kontaktForm";
+import LoginForm from "../../feautures/user/LoginForm";
+import { RootStoreContext } from "../stores/rootStore";
+import LoadingComponent from "./LoadingComponent";
+import ModalContainer from "../common/form/modals/ModalContainer";
+import RegisterForm from "../../feautures/user/RegisterForm";
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
+  const rootStore = useContext(RootStoreContext);
+  const {setAppLoaded, token, appLoaded} =  rootStore.commonStore;
+  const {getUser} = rootStore.userStore;
+
+  useEffect(() =>{
+    if (token) {
+      getUser().finally(() => setAppLoaded())
+    }else {
+      setAppLoaded()
+    }
+  }, [getUser, setAppLoaded, token])
+
+  if(!appLoaded) return <LoadingComponent content='Loading app....'/>
+
   return (
     <Fragment>
+      <ModalContainer/>
       <ToastContainer position="bottom-right" />
       <Switch>
         <Route path="/product/edit/:id" component={ProductDetails} />
@@ -58,11 +78,15 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
       </Route>
       <Route path="/contactUs" component={kontaktForm} exact />
       <Route path="/" component={Home} exact />
+      <Route path="/login" exact component={LoginForm}  />
+      <Route path="/register" exact component={RegisterForm}  /> 
 
       <Route  component={NotFound}/>
       </Switch>
       <Route path="/faturimi" component={Faturimi} />
       <Route path="/dashboard" component={Dash}  />
+
+      
 
 
 

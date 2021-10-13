@@ -20,6 +20,7 @@ import {
   hasLengthGreaterThan,
   isRequired,
 } from "revalidate";
+import { RootStoreContext } from "../../app/stores/rootStore";
 
 const validate = combineValidators({
   productName: isRequired({ message: "The product name is required" }),
@@ -41,13 +42,13 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
   match,
   history,
 }) => {
-  const productStore = useContext(ProductStore);
-  const sectorStore = useContext(SectorStore);
-  const brandStore = useContext(BrandStore);
-  const { loadBrands, brandsData } = brandStore;
+  const rootStore = useContext(RootStoreContext);
+  const {loadProducts, loadingInitial} = rootStore.productStore;
+  
+  const { loadBrands, brandsData } = rootStore.brandStore;
 
-  const { loadSectors, sectorsData } = sectorStore;
-  const { loadProduct, submitting, createProduct, editProduct } = productStore;
+  const { loadSectors, sectorsData } = rootStore.sectorStore;
+  const { loadProduct, submitting, createProduct, editProduct } = rootStore.productStore;
 
   const [product, setProduct] = useState(new ProductFormValues());
   useEffect(() => {
@@ -76,7 +77,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
       editProduct(product);
     }
   };
-  if (brandStore.loadingInitial)
+  if (loadingInitial)
     return <LoadingComponent content="Loading data..." />;
   return (
     <Segment clearing style={{margin:"4em"}}>

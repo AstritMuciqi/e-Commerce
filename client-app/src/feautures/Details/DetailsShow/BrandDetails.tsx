@@ -4,6 +4,7 @@ import { Link, RouteComponentProps } from "react-router-dom";
 import { Card, Button } from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import BrandStore from "../../../app/stores/brandStore";
+import { RootStoreContext } from "../../../app/stores/rootStore";
 
 interface DetailParams {
   id: string;
@@ -13,8 +14,8 @@ const BrandDetails: React.FC<RouteComponentProps<DetailParams>> = ({
   match,
   history,
 }) => {
-  const brandStore = useContext(BrandStore);
-  const { brand, loadBrand, loadingInitial } = brandStore;
+  const rootStore = useContext(RootStoreContext);
+  const { brand, loadBrand, loadingInitial } = rootStore.brandStore;
 
   useEffect(() => {
     loadBrand(match.params.id);

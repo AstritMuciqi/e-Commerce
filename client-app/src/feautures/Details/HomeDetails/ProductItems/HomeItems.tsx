@@ -4,16 +4,18 @@ import { Link } from "react-router-dom";
 import { Button, Card, Icon, Image } from "semantic-ui-react";
 import LoadingComponent from "../../../../app/layout/LoadingComponent";
 import ProductStore from "../../../../app/stores/productStore";
+import { RootStoreContext } from "../../../../app/stores/rootStore";
 
 const HomeItems: React.FC = () => {
-  const productStore = useContext(ProductStore);
-  const { productsData } = productStore;
+  const rootStore = useContext(RootStoreContext);
+  const {loadProducts, loadingInitial} = rootStore.productStore;
+  const { productsData } = rootStore.productStore;
 
   useEffect(() => {
-    productStore.loadProducts();
-  }, [productStore]);
+    loadProducts();
+  }, [loadProducts]);
 
-  if (productStore.loadingInitial)
+  if (loadingInitial)
     return <LoadingComponent content="Loading..." />;
 
   return (

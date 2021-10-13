@@ -12,6 +12,7 @@ import {
   combineValidators,
   isRequired,
 } from "revalidate";
+import { RootStoreContext } from "../../app/stores/rootStore";
 
 const validate = combineValidators({
   sectorName: isRequired({ message: "The sector name is required" }),
@@ -24,14 +25,15 @@ const SectorForm: React.FC<RouteComponentProps<DetailParams>> = ({
   match,
   history,
 }) => {
-  const sectorStore = useContext(SectorStore);
+  const rootStore = useContext(RootStoreContext);
+  const { loadingInitial} = rootStore.sectorStore;
   const {
     createSector,
     loadSectors,
     editSector,
     submitting,
     loadSector,
-  } = sectorStore;
+  } = rootStore.sectorStore;
   const [sector, setSector] = useState(new SectorFormValues());
   useEffect(() => {
     if (match.params.id) {
@@ -56,7 +58,7 @@ const SectorForm: React.FC<RouteComponentProps<DetailParams>> = ({
     }
   };
 
-  if (sectorStore.loadingInitial)
+  if (loadingInitial)
     return <LoadingComponent content="Loading data..." />;
 
   return (

@@ -3,10 +3,11 @@ import { Button, Icon, Table } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
 import ProductStore from "../../../../app/stores/productStore";
 import { Link } from "react-router-dom";
+import { RootStoreContext } from "../../../../app/stores/rootStore";
 
 const ProductList: React.FC = () => {
-  const productStore = useContext(ProductStore);
-  const { deleteProduct, productsData, submitting, target } = productStore;
+  const rootStore = useContext(RootStoreContext);
+  const { deleteProduct, productsData, submitting, target } = rootStore.productStore;
   return (
     <Table
       className="produktet"

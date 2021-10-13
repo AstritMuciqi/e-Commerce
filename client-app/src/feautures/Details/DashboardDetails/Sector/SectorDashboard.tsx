@@ -4,14 +4,16 @@ import { Container } from "semantic-ui-react";
 import SectorList from "./SectorList";
 import SectorStore from "../../../../app/stores/sectorStore";
 import LoadingComponent from "../../../../app/layout/LoadingComponent";
+import { RootStoreContext } from "../../../../app/stores/rootStore";
 
 const SectorDashboard: React.FC = () => {
-  const sectorStore = useContext(SectorStore);
+  const rootStore = useContext(RootStoreContext);
+  const {loadSectors,loadingInitial} = rootStore.sectorStore;
 
   useEffect(() => {
-    sectorStore.loadSectors();
-  }, [sectorStore]);
-  if (sectorStore.loadingInitial)
+    loadSectors();
+  }, [loadSectors]);
+  if (loadingInitial)
     return <LoadingComponent content="Loading Sectors..." />;
 
   return (

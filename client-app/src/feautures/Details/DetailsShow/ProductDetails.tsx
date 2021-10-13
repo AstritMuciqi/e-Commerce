@@ -4,6 +4,7 @@ import { RouteComponentProps } from "react-router-dom";
 import {  Button, Icon, Item } from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import ProductStore from "../../../app/stores/productStore";
+import { RootStoreContext } from "../../../app/stores/rootStore";
 import Footer from "../../footer/Footer";
 import Navbar from "../../nav/NavBar";
 interface DetailParams {
@@ -14,8 +15,8 @@ const ProductDetails: React.FC<RouteComponentProps<DetailParams>> = ({
   match,
   history,
 }) => {
-  const productStore = useContext(ProductStore);
-  const { product, loadProduct, loadingInitial } = productStore;
+  const rootStore = useContext(RootStoreContext);
+  const { product, loadProduct, loadingInitial } = rootStore.productStore;
 
   useEffect(() => {
     loadProduct(match.params.id);

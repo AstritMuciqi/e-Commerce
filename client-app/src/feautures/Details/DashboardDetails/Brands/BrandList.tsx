@@ -3,10 +3,11 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Button, Icon, Table } from "semantic-ui-react";
 import BrandStore from "../../../../app/stores/brandStore";
+import { RootStoreContext } from "../../../../app/stores/rootStore";
 
 const BrandList: React.FC = () => {
-  const brandStore = useContext(BrandStore);
-  const { brandsData, deleteBrand, submitting, target } = brandStore;
+  const rootStore = useContext(RootStoreContext);
+  const { brandsData, deleteBrand, submitting, target } = rootStore.brandStore;
   return (
     <Table style={{ marginLeft: "104px" }} celled inverted selectable>
       <Table.Header fullWidth>

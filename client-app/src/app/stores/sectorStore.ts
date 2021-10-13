@@ -4,9 +4,17 @@ import { toast } from "react-toastify";
 import { history } from "../..";
 import agent from "../API/agent";
 import { ISector } from "../models/sector";
-configure({ enforceActions: "always" });
+import { RootStore } from "./rootStore";
 
-class SectorStore {
+//configure({ enforceActions: "always" });
+
+export default class SectorStore {
+  rootStore: RootStore;
+  constructor(rootStore: RootStore) {
+    this.rootStore = rootStore;
+  }
+
+
   @observable sectorRegistry = new Map();
   @observable loadingInitial = false;
   @observable sector: ISector | null = null;
@@ -119,4 +127,4 @@ class SectorStore {
     this.sector = null;
   };
 }
-export default createContext(new SectorStore());
+//export default createContext(new SectorStore());

@@ -4,10 +4,16 @@ import { toast } from "react-toastify";
 import { history } from "../..";
 import agent from "../API/agent";
 import { IProduct } from "../models/product";
+import { RootStore } from "./rootStore";
 
-configure({ enforceActions: "always" });
+//configure({ enforceActions: "always" });
 
-class ProductStore {
+export default class ProductStore {
+  rootStore: RootStore;
+  constructor(rootStore: RootStore) {
+    this.rootStore = rootStore;
+  }
+
   @observable productRegistry = new Map();
   @observable loadingInitial = false;
   @observable product: IProduct | null = null;
@@ -120,4 +126,4 @@ class ProductStore {
     this.product = null;
   }
 }
-export default createContext(new ProductStore());
+//export default createContext(new ProductStore());

@@ -4,8 +4,16 @@ import { toast } from "react-toastify";
 import { history } from "../..";
 import agent from "../API/agent";
 import { IBrand } from "../models/brand";
-configure({enforceActions: 'always'});
-class BrandStore {
+import { RootStore } from "./rootStore";
+
+//configure({enforceActions: 'always'});
+
+export default class BrandStore {
+  rootStore: RootStore;
+  constructor(rootStore: RootStore) {
+    this.rootStore = rootStore;
+  }
+
   @observable brandRegistry = new Map();
   @observable brand: IBrand | null = null;
   @observable loadingInitial = false;
@@ -116,4 +124,4 @@ class BrandStore {
     this.brand = null;
   };
 }
-export default createContext(new BrandStore());
+//export default createContext(new BrandStore());

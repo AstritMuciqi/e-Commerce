@@ -2,11 +2,12 @@ import { observer } from "mobx-react-lite";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Button, Icon, Table } from "semantic-ui-react";
+import { RootStoreContext } from "../../../../app/stores/rootStore";
 import SectorStore from "../../../../app/stores/sectorStore";
 
 const SectorList: React.FC = () => {
-  const sectorStore = useContext(SectorStore);
-  const { deleteSector, sectorsData, submitting, target } = sectorStore;
+  const rootStore = useContext(RootStoreContext);
+  const { deleteSector, sectorsData, submitting, target } = rootStore.sectorStore;
   return (
     <Table style={{ marginLeft: "97px" }} celled inverted selectable>
       <Table.Header fullWidth>

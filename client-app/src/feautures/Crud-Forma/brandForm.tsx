@@ -9,6 +9,7 @@ import { BrandFormValues } from "../../app/models/brand";
 import BrandStore from "../../app/stores/brandStore";
 import { Form as FinalForm, Field } from "react-final-form";
 import { combineValidators, isRequired } from "revalidate";
+import { RootStoreContext } from "../../app/stores/rootStore";
 
 const validate = combineValidators({
   brandName: isRequired({ message: "The brand name is required" }),
@@ -21,9 +22,10 @@ const BrandForm: React.FC<RouteComponentProps<DetailParams>> = ({
   match,
   history,
 }) => {
-  const brandStore = useContext(BrandStore);
+  const rootStore = useContext(RootStoreContext);
+  const { loadingInitial} = rootStore.brandStore;
   const { submitting, loadBrand, loadBrands, createBrand, editBrand } =
-    brandStore;
+    rootStore.brandStore;
   const [brand, setBrand] = useState(new BrandFormValues());
   useEffect(() => {
     if (match.params.id) {
@@ -53,7 +55,7 @@ const BrandForm: React.FC<RouteComponentProps<DetailParams>> = ({
       );
     }
   };
-  if (brandStore.loadingInitial)
+  if (loadingInitial)
     return <LoadingComponent content="Loading data..." />;
 
   return (
