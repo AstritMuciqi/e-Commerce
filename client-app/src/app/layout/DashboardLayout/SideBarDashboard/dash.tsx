@@ -1,8 +1,11 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import { Button,  Icon, Input, Menu } from "semantic-ui-react";
 import { Link } from "react-router-dom";
+import { RootStoreContext } from "../../../stores/rootStore";
 
 const Dash = () => {
+  const rootStore = useContext(RootStoreContext);
+  const {logout} = rootStore.userStore;
   return (
     <Fragment>
       <Menu fixed="top" style={{ backgroundColor: "black" }}>
@@ -23,7 +26,7 @@ const Dash = () => {
           />
         </Menu.Item>
         <Menu.Item>
-          <Button primary negative>
+          <Button onClick={logout} primary negative>
             Log out
           </Button>
         </Menu.Item>
