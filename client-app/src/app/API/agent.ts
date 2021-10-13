@@ -13,7 +13,7 @@ axios.defaults.baseURL = "http://localhost:5000/api";
 
 axios.interceptors.request.use((config) => {
   const token = window.localStorage.getItem('jwt');
-  if (token) config.headers.Authorization = `Bearer ${token}`;
+  if (token) config.headers.Authorization = `Bearer${token}`;
   return config 
 }, error =>{
   return Promise.reject(error);
@@ -79,7 +79,6 @@ const Brands = {
   editBrand: (brand: IBrand) => requests.put(`/brand/${brand.brandId}`, brand),
   deleteBrand: (brandId: string) => requests.del(`/brand/${brandId}`),
 };
-<<<<<<< HEAD
 
 const User = {
   current: (): Promise<IUser> => requests.get('/user'),
@@ -88,7 +87,6 @@ const User = {
 
 }
 
-=======
 const ContactForms = {
   contactFormList: (): Promise<IContactForm[]> => requests.get("/contactForm"),
   contactFormDetails: (id: string) => requests.get(`/contactForm/${id}`),
@@ -97,16 +95,12 @@ const ContactForms = {
     requests.put(`/contactForm/${contactForm.id}`, contactForm),
   deleteContactForm: (id: string) => requests.del(`/contactForm/${id}`),
 };
->>>>>>> 9e74e2d2a5d7acaa3ee684fb1e2172ebfe8c0814
 const ItemsPage = {
   Products,
   Sectors,
   Brands,
-<<<<<<< HEAD
-  User
-=======
+  User,
   ContactForms,
->>>>>>> 9e74e2d2a5d7acaa3ee684fb1e2172ebfe8c0814
 };
 
 
