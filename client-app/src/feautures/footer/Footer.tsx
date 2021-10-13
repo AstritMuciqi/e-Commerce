@@ -70,7 +70,7 @@ const Footer: React.FC = () => {
           <i className="link">GARANCIONI DHE SERVISI</i>
         </Grid.Column>
         <Grid.Column>
-          <a href="/contactUs">
+          <a className="linkVisited"  href="/contactUs">
           <Icon style={{ marginBottom: "6px" }} name="wordpress forms" size="large" />
             Contact Us Form</a>
         </Grid.Column>

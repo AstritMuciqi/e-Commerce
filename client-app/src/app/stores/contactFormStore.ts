@@ -1,13 +1,18 @@
 import { action, observable, configure, computed,runInAction } from "mobx";
-import { createContext, SyntheticEvent } from "react";
+import {  SyntheticEvent } from "react";
 import { toast } from "react-toastify";
 import { history } from "../..";
 import agent from "../API/agent";
 import { IContactForm } from "../models/contactForm";
+import { RootStore } from "./rootStore";
 
-configure({ enforceActions: "always" });
+//configure({ enforceActions: "always" });
 
-class ContactFormStore {
+export default class ContactFormStore {
+  rootStore: RootStore;
+  constructor(rootStore: RootStore) {
+    this.rootStore = rootStore;
+  }
   @observable contactFormRegistry = new Map();
   @observable loadingInitial = false;
   @observable contactForm: IContactForm | null = null;
@@ -43,7 +48,7 @@ class ContactFormStore {
         this.contactFormRegistry.set(contactForm.id, contactForm);
         this.submitting = false;
       });
-      history.push("/dashboard/contactUsClients/");
+      history.push("/");
     } catch (error) {
       runInAction("create contact form error", () => {
         this.submitting = false;
@@ -61,7 +66,7 @@ class ContactFormStore {
         this.contactForm = contactForm;
         this.submitting = false;
       });
-      history.push("/dashboard/contactUsClients/");
+      history.push("/dashboard/clientProblems");
     } catch (error) {
       runInAction("edit contact form error", () => {
         this.submitting = false;
@@ -120,4 +125,4 @@ class ContactFormStore {
     this.contactForm = null;
   }
 }
-export default createContext(new ContactFormStore());
+//export default createContext(new ContactFormStore());

@@ -27,13 +27,18 @@ body {
   width: 40px;
   height: 50px;
 }
+.linkVisited:hover{
+  color: green;
+}
+.linkVisited{
+  color: white;
+}
 /* .ui.red.basic.label{
   height: 100px;
   width: 400px;
 } */
 .foto{
-  margin-top: 170px;
-  width: 204vh;
+  width: 216vh;
   height: 60vh;
 }
   @media only screen and (min-width: 1200px){
