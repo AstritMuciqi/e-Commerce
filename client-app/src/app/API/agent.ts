@@ -4,6 +4,7 @@ import { config } from "process";
 import { toast } from "react-toastify";
 import { history } from "../..";
 import { IBrand } from "../models/brand";
+import { IContactForm } from "../models/contactForm";
 import { IProduct } from "../models/product";
 import { ISector } from "../models/sector";
 import { IUser, IUserFormValues } from "../models/user";
@@ -78,6 +79,7 @@ const Brands = {
   editBrand: (brand: IBrand) => requests.put(`/brand/${brand.brandId}`, brand),
   deleteBrand: (brandId: string) => requests.del(`/brand/${brandId}`),
 };
+<<<<<<< HEAD
 
 const User = {
   current: (): Promise<IUser> => requests.get('/user'),
@@ -86,11 +88,25 @@ const User = {
 
 }
 
+=======
+const ContactForms = {
+  contactFormList: (): Promise<IContactForm[]> => requests.get("/contactForm"),
+  contactFormDetails: (id: string) => requests.get(`/contactForm/${id}`),
+  createContactForm: (contactForm: IContactForm) => requests.post("/contactForm", contactForm),
+  editContactForm: (contactForm: IContactForm) =>
+    requests.put(`/contactForm/${contactForm.id}`, contactForm),
+  deleteContactForm: (id: string) => requests.del(`/contactForm/${id}`),
+};
+>>>>>>> 9e74e2d2a5d7acaa3ee684fb1e2172ebfe8c0814
 const ItemsPage = {
   Products,
   Sectors,
   Brands,
+<<<<<<< HEAD
   User
+=======
+  ContactForms,
+>>>>>>> 9e74e2d2a5d7acaa3ee684fb1e2172ebfe8c0814
 };
 
 

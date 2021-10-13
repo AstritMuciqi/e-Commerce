@@ -35,10 +35,10 @@ const Dash = () => {
         vertical
         fixed="top"
       >
-        <Menu.Item as={Link} to="/dashboard/home">
+        <Menu.Item as={Link} to="/dashboard/contactUsClients/">
           <h3 style={{ color: "#F5BD3D" }}>
             <Icon name="home" size="big" />
-            Transactions
+            Client Problems
           </h3>
         </Menu.Item>
         <Menu.Item>
