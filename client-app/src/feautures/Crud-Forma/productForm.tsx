@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Segment, Form, Button } from "semantic-ui-react";
 import { ProductFormValues } from "../../app/models/product";
-import ProductStore from "../../app/stores/productStore";
-import SectorStore from "../../app/stores/sectorStore";
-import BrandStore from "../../app/stores/brandStore";
 import { v4 as uuid } from "uuid";
 import { observer } from "mobx-react-lite";
 import { RouteComponentProps } from "react-router";
@@ -43,7 +40,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
   history,
 }) => {
   const rootStore = useContext(RootStoreContext);
-  const {loadProducts, loadingInitial} = rootStore.productStore;
+  const { loadingInitial} = rootStore.productStore;
   
   const { loadBrands, brandsData } = rootStore.brandStore;
 

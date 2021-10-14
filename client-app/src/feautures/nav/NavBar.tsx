@@ -8,8 +8,8 @@ import Kategorite from "./Kategorite";
 
 const Navbar = () => {
   const rootStore = useContext(RootStoreContext);
-  const {isLoggedIn, user, logout} = rootStore.userStore;
-  const {openModal} = rootStore.modalStore
+  const { isLoggedIn, user, logout } = rootStore.userStore;
+  const { openModal } = rootStore.modalStore;
   return (
     <Fragment>
       <Menu
@@ -36,9 +36,8 @@ const Navbar = () => {
             style={{ marginRight: "80px", width: "120vh" }}
           />
           <Icon
-            
             as={Link}
-            to="/dashboard/home"
+            to="dashboard/clientProblems"
             style={{ marginRight: "30px", textDecoration: "none" }}
           >
             <Icon inverted name="dashboard" size="big" />
@@ -51,21 +50,21 @@ const Navbar = () => {
           />
           {!user && (
             <Icon
-              onClick={() => openModal(<LoginForm/>)}
-              style={{ marginRight: "20px", textDecoration: "none" }}
-            >
-              <Icon
-                inverted
-                name="user"
-                size="big"
-                style={{ marginRight: "20px" }}
-              />
-            </Icon>
+              onClick={() => openModal(<LoginForm />)}
+              inverted
+              name="user"
+              size="big"
+              style={{ marginRight: "20px" }}
+            />
           )}
           {user && (
             <Fragment>
-              <Image avatar spaced="right" src={"assets/user.png"} />
-              <Dropdown style={{color:"white"}} pointing="top left" text={user.displayName}>
+              <Icon inverted size="big" name="user circle" />
+              <Dropdown
+                style={{ color: "white" }}
+                pointing="top left"
+                text={user.displayName}
+              >
                 <Dropdown.Menu>
                   <Dropdown.Item
                     as={Link}

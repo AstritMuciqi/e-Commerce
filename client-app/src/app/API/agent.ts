@@ -56,6 +56,14 @@ const requests = {
     axios.put(url, body).then(sleep(1000)).then(responseBody),
   del: (url: string) => axios.delete(url).then(sleep(1000)).then(responseBody),
 };
+const ContactForms = {
+  contactFormList: (): Promise<IContactForm[]> => requests.get("/contactForm"),
+  contactFormDetails: (id: string) => requests.get(`/contactForm/${id}`),
+  createContactForm: (contactForm: IContactForm) => requests.post("/contactForm", contactForm),
+  editContactForm: (contactForm: IContactForm) =>
+    requests.put(`/contactForm/${contactForm.id}`, contactForm),
+  deleteContactForm: (id: string) => requests.del(`/contactForm/${id}`),
+};
 const Products = {
   productList: (): Promise<IProduct[]> => requests.get("/product"),
   productDetails: (productId: string) => requests.get(`/product/${productId}`),
@@ -82,19 +90,13 @@ const Brands = {
 
 const User = {
   current: (): Promise<IUser> => requests.get('/user'),
+  currentList: (): Promise<IUser[]> => requests.get('/user'),
   login: (user: IUserFormValues): Promise<IUser> => requests.post('/user/login', user),
   register: (user: IUserFormValues): Promise<IUser> => requests.post('/user/register', user),
 
 }
 
-const ContactForms = {
-  contactFormList: (): Promise<IContactForm[]> => requests.get("/contactForm"),
-  contactFormDetails: (id: string) => requests.get(`/contactForm/${id}`),
-  createContactForm: (contactForm: IContactForm) => requests.post("/contactForm", contactForm),
-  editContactForm: (contactForm: IContactForm) =>
-    requests.put(`/contactForm/${contactForm.id}`, contactForm),
-  deleteContactForm: (id: string) => requests.del(`/contactForm/${id}`),
-};
+
 const ItemsPage = {
   Products,
   Sectors,

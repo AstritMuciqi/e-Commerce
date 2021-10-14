@@ -17,36 +17,40 @@ import SectorDetails from "../../feautures/Details/DetailsShow/SectorDetails";
 import BrandDetails from "../../feautures/Details/DetailsShow/BrandDetails";
 import DashboardContent from "./DashboardLayout/DashboardContent";
 import NotFound from "./NotFound";
-import {ToastContainer} from 'react-toastify';
-import kontaktForm from "../../feautures/Crud-Forma/kontaktForm";
+import { ToastContainer } from "react-toastify";
 import LoginForm from "../../feautures/user/LoginForm";
 import { RootStoreContext } from "../stores/rootStore";
 import LoadingComponent from "./LoadingComponent";
 import ModalContainer from "../common/form/modals/ModalContainer";
 import RegisterForm from "../../feautures/user/RegisterForm";
+import KontaktForm from "../../feautures/Crud-Forma/kontaktForm";
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
-  const {setAppLoaded, token, appLoaded} =  rootStore.commonStore;
-  const {getUser} = rootStore.userStore;
+  const { setAppLoaded, token, appLoaded } = rootStore.commonStore;
+  const { getUser } = rootStore.userStore;
 
-  useEffect(() =>{
+  useEffect(() => {
     if (token) {
-      getUser().finally(() => setAppLoaded())
-    }else {
-      setAppLoaded()
+      getUser().finally(() => setAppLoaded());
+    } else {
+      setAppLoaded();
     }
-  }, [getUser, setAppLoaded, token])
+  }, [getUser, setAppLoaded, token]);
 
-  if(!appLoaded) return <LoadingComponent content='Loading app....'/>
+  if (!appLoaded) return <LoadingComponent content="Loading app...." />;
 
   return (
     <Fragment>
-      <ModalContainer/>
+      <ModalContainer />
       <ToastContainer position="bottom-right" />
       <Switch>
+        
         <Route path="/product/edit/:id" component={ProductDetails} />
         <Route path="/sector/edit/:id" component={SectorDetails} />
+        <Route path="/dashboard/clientProblems">
+          <DashboardContent />
+        </Route>
         <Route
           key={location.key}
           path={["/createProduct", "/manage/product/:id"]}
@@ -65,33 +69,26 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
         />
         <Route path="/brand/edit/:id" component={BrandDetails} />
         <Route path="/dashboard/productmaster/product">
-        <ProductDashboard />
-      </Route>
-      <Route path="/dashboard/productmaster/sectors">
-        <SectorDashboard />
-      </Route>
-      <Route path="/dashboard/productmaster/brands">
-        <BrandDashboard />
-      </Route>
-      <Route path="/dashboard/contactUsClients/">
-        <DashboardContent />
-      </Route>
-      <Route path="/contactUs" component={kontaktForm} exact />
-      <Route path="/" component={Home} exact />
-      <Route path="/login" exact component={LoginForm}  />
-      <Route path="/register" exact component={RegisterForm}  /> 
+          <ProductDashboard />
+        </Route>
+        <Route path="/dashboard/productmaster/sectors">
+          <SectorDashboard />
+        </Route>
+        <Route path="/dashboard/productmaster/brands">
+          <BrandDashboard />
+        </Route>
 
-      <Route  component={NotFound}/>
+        <Route path="/contactUs" component={KontaktForm} exact />
+        <Route path="/" component={Home} exact />
+        <Route path="/login" exact component={LoginForm} />
+        <Route path="/register" exact component={RegisterForm} />
+
+        <Route component={NotFound} />
       </Switch>
+      
       <Route path="/faturimi" component={Faturimi} />
-      <Route path="/dashboard" component={Dash}  />
-
-      
-
-
-
+      <Route path="/dashboard" component={Dash} />
     </Fragment>
-      
   );
 };
 

@@ -1,7 +1,7 @@
 export const SliderData = [
   {
     foto:
-    '/assets/product1.jpg'
+    '/assets/product5.jpg'
   },
   {
     foto:
@@ -18,6 +18,6 @@ export const SliderData = [
   },
   {
     foto:
-    '/assets/product5.jpg'
+    '/assets/product1.jpg'
   }
 ];

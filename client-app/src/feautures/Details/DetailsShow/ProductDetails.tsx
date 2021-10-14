@@ -28,7 +28,7 @@ const ProductDetails: React.FC<RouteComponentProps<DetailParams>> = ({
     <Fragment>
       <div style={{ height: "100%" }}>
         <Navbar />
-        <Item.Group fluid style={{ marginTop: "16em",backgroundColor:"white" }}>
+        <Item.Group fluid style={{ backgroundColor:"white" }}>
         
           <Item>
             <Item.Image style={{borderRight:"5px solid black"}} size="big" src={`/assets/${product.sector}.jpg`} />

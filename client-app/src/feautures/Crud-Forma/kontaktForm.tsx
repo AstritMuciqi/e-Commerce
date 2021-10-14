@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext, Fragment } from "react";
 import { Segment, Form, Button } from "semantic-ui-react";
-import ContactFormStore from "../../app/stores/contactFormStore";
 import { v4 as uuid } from "uuid";
 import { observer } from "mobx-react-lite";
 import { RouteComponentProps } from "react-router";
@@ -17,10 +16,12 @@ import {
 import Navbar from "../nav/NavBar";
 import { ContactFormValues } from "../../app/models/contactForm";
 import Footer from "../footer/Footer";
+import { RootStoreContext } from "../../app/stores/rootStore";
 
 const validate = combineValidators({
   firstName: isRequired({ message: "First Name is required" }),
   lastName: isRequired({ message: "Last Name is required" }),
+  email: isRequired({ message: "E-Mail is required" }),
   message: composeValidators(
     isRequired("Message"),
     hasLengthGreaterThan(4)({
@@ -36,9 +37,8 @@ const KontaktForm: React.FC<RouteComponentProps<DetailParams>> = ({
   match,
   history,
 }) => {
-  const contactFormStore = useContext(ContactFormStore);
-  const { loadContactForm, submitting, createContactForm, editContactForm } =
-    contactFormStore;
+  const rootStore = useContext(RootStoreContext);
+  const {loadContactForm,editContactForm,submitting,createContactForm} = rootStore.contactFormStore;
 
   const [contactForm, setContactForm] = useState(new ContactFormValues());
   useEffect(() => {
@@ -67,11 +67,11 @@ const KontaktForm: React.FC<RouteComponentProps<DetailParams>> = ({
       <Segment
         clearing
         inverted
-        style={{ margin: "5em", marginTop: "16em", backgroundColor: "gray" }}
+        style={{ margin: "5em", marginTop: "2em", backgroundColor: "lightBlue" }}
       >
         <Segment
           inverted
-          style={{ backgroundColor: "gray", borderBottom: "2px solid black" }}
+          style={{ backgroundColor: "white", borderBottom: "5px solid blue" }}
         >
           <p style={{ fontSize: "20px",color:"black" }}><b>Contact Us</b></p>
         </Segment>
@@ -94,6 +94,13 @@ const KontaktForm: React.FC<RouteComponentProps<DetailParams>> = ({
                 value={contactForm.lastName}
                 component={TextInput}
               />
+              
+              <Field
+                name="email"
+                placeholder="E-Mail"
+                value={contactForm.email}
+                component={TextInput}
+              />
              
               <Field
                 name="message"
@@ -104,14 +111,15 @@ const KontaktForm: React.FC<RouteComponentProps<DetailParams>> = ({
               />
               <Button
                 loading={submitting}
-                disabled={invalid || pristine}
+                disabled={invalid||pristine}
                 floated="right"
                 positive
                 type="submit"
                 content="Submit"
               />
-              <Button
-                onClick={() => history.push("/dashboard/contactUsClients/")}
+              <Button 
+                style = {{backgroundColor:"#FC5044"}}
+                onClick={() => history.push("/")}
                 floated="right"
                 type="button"
                 content="Cancel"

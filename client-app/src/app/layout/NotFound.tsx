@@ -8,7 +8,7 @@ const NotFound = () => {
   return (
     <Fragment>
       <Navbar />
-      <Segment placeholder style={{marginTop:"16em"}}>
+      <Segment placeholder >
         <Header icon>
           <Icon name="search" />
           Oops - we've looked everywhere but couldn't find this.

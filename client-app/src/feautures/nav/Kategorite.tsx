@@ -16,7 +16,6 @@ const Kategorite: React.FC = () => {
   return (
     <Fragment>
       <Menu
-        fixed="top"
         style={{
           borderTop: "2px solid green",
           marginTop: "127px",
