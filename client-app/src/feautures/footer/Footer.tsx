@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Grid, Icon } from "semantic-ui-react";
 import "../../app/layout/styles.css"
+import { RootStoreContext } from "../../app/stores/rootStore";
+import LoginForm from "../user/LoginForm";
+import RegisterForm from "../user/RegisterForm";
 
 const Footer: React.FC = () => {
+  const rootStore = useContext(RootStoreContext);
+  const {openModal} = rootStore.modalStore;
   return (
     <Grid
       columns={3}
@@ -36,7 +41,7 @@ const Footer: React.FC = () => {
           </i>
         </Grid.Column>
         <Grid.Column>
-          <i className="link" style={{marginLeft:"20px",}}>Kyqu</i>
+          <i onClick={() => openModal(<LoginForm/>)} className="link" style={{marginLeft:"20px",}}>Kyqu</i>
         </Grid.Column>
       </Grid.Row>
       <Grid.Row style={{ fontSize: "15px", marginLeft: "45px" }}>
@@ -50,7 +55,7 @@ const Footer: React.FC = () => {
           </i>
         </Grid.Column>
         <Grid.Column>
-          <i className="link" style={{marginLeft:"20px",}}>Regjistrohu</i>
+          <i onClick={() => openModal(<RegisterForm/>)} className="link" style={{marginLeft:"20px",}}>Regjistrohu</i>
         </Grid.Column>
       </Grid.Row>
       <Grid.Row style={{ fontSize: "15px", marginLeft: "45px" }}>
