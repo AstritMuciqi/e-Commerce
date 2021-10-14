@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from "react";
 import { Container } from "semantic-ui-react";
 import ProductList from "./ProductList";
 import { observer } from "mobx-react-lite";
-import ProductStore from '../../../../app/stores/productStore'
 import LoadingComponent from "../../../../app/layout/LoadingComponent";
 import { RootStoreContext } from "../../../../app/stores/rootStore";
 const ProductDashboard: React.FC = () => {

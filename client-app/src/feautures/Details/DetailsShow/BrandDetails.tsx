@@ -3,7 +3,6 @@ import React, { useContext, useEffect } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { Card, Button } from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
-import BrandStore from "../../../app/stores/brandStore";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
 interface DetailParams {

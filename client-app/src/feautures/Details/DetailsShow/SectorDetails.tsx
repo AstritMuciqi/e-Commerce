@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { Card, Button } from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { RootStoreContext } from "../../../app/stores/rootStore";
-import SectorStore from "../../../app/stores/sectorStore";
 
 interface DetailParams {
   id: string;

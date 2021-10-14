@@ -11,7 +11,7 @@ namespace Persistence
     {
         public static async Task SeedData(DataContext context, UserManager<AppUser> userManager)
         {
-            if(!userManager.Users.Any())
+            if (!userManager.Users.Any())
             {
                 var users = new List<AppUser>
                 {
@@ -27,7 +27,7 @@ namespace Persistence
                         UserName = "tom",
                         Email = "tom@test.com"
                     },
-                
+
                  new AppUser
                     {
                         DisplayName = "Jane",
@@ -40,61 +40,75 @@ namespace Persistence
                     await userManager.CreateAsync(user, "Pa$$w0rd");
                 }
             }
-            
 
-            if(!context.Sector.Any())
+
+            if (!context.Sector.Any())
             {
                 var sectors = new List<Sector>
                 {
                     new Sector{
-                        SectorName="Laptopa",  
+                        SectorName="Laptopa",
                     },
                     new Sector{
-                        SectorName="Kompjutera",  
+                        SectorName="Kompjutera",
                     },
                     new Sector{
-                        SectorName="Aksesore",  
+                        SectorName="Aksesore",
                     },
                     new Sector{
-                        SectorName="Laptopa",  
+                        SectorName="Laptopa",
                     },
                     new Sector{
-                        SectorName="TV",  
+                        SectorName="TV",
                     },
                     new Sector{
-                        SectorName="Pjesë për kompjuera",  
+                        SectorName="Pjesë për kompjuera",
                     },
                     new Sector{
-                        SectorName="Tableta",  
+                        SectorName="Tableta",
                     }
                 };
                 context.Sector.AddRange(sectors);
                 context.SaveChanges();
             }
 
-            if(!context.Brand.Any())
+            if (!context.Brand.Any())
             {
                 var brands = new List<Brand>
                 {
                     new Brand{
-                        BrandName="Asus",  
+                        BrandName="Asus",
                     },
                     new Brand{
-                        BrandName="Dell",  
+                        BrandName="Dell",
                     },
                     new Brand{
-                        BrandName="Lenovo",  
+                        BrandName="Lenovo",
+                    }
+                    ,
+                    new Brand{
+                        BrandName="HP",
+                    },
+                    new Brand{
+                        BrandName="Samsung",
+                    }
+                    ,
+                    new Brand{
+                        BrandName="Medion",
+                    },
+                    new Brand{
+                        BrandName="Acer",
                     }
                 };
                 context.Brand.AddRange(brands);
                 context.SaveChanges();
             }
-            if(!context.Product.Any())
+            if (!context.Product.Any())
             {
                 var products = new List<Product>
                 {
                     new Product{
-                        
+
                         ProductName="Gaming Laptop",
                         Sector="Laptop",
                         Brand="Asus",
@@ -103,11 +117,11 @@ namespace Persistence
                         Quantity=10,
                         Description="Laptop i fuqishem per nje eksperienc ne lojrat ma te reja"
 
-                        
+
 
                     },
                     new Product{
-                        
+
                         ProductName="Gaming Laptop",
                         Sector="Laptop",
                         Brand="Asus",
@@ -116,7 +130,7 @@ namespace Persistence
                         Quantity=10,
                         Description="Laptop i fuqishem per nje eksperienc ne lojrat ma te reja"
 
-                        
+
 
                     },
                     new Product{
@@ -126,7 +140,7 @@ namespace Persistence
                         ValueOfProduct=499.99F,
                         ModelYear="2020/11/12",
                         Quantity=30,
-                        Description="Laptop i fuqishem per nje eksperienc ne lojrat ma te reja"  
+                        Description="Laptop i fuqishem per nje eksperienc ne lojrat ma te reja"
                     },
                     new Product{
                         ProductName="Gaming Laptop",
@@ -135,44 +149,109 @@ namespace Persistence
                         ValueOfProduct=599.99F,
                         ModelYear="2020/12/12",
                         Quantity=20,
-                        Description="Laptop i fuqishem per nje eksperienc ne lojrat ma te reja"  
+                        Description="Laptop i fuqishem per nje eksperienc ne lojrat ma te reja"
+                    },
+                    new Product{
+
+                        ProductName="Gaming Laptop",
+                        Sector="Laptop",
+                        Brand="Asus",
+                        ValueOfProduct=399.99F,
+                        ModelYear="2020/10/12",
+                        Quantity=10,
+                        Description="Laptop i fuqishem per nje eksperienc ne lojrat ma te reja"
+
+
+
+                    },
+                    new Product{
+                        ProductName="Gaming Laptop",
+                        Sector="Laptop",
+                        Brand="Lenovo",
+                        ValueOfProduct=499.99F,
+                        ModelYear="2020/11/12",
+                        Quantity=30,
+                        Description="Laptop i fuqishem per nje eksperienc ne lojrat ma te reja"
+                    },
+                    new Product{
+                        ProductName="Gaming Laptop",
+                        Sector="Laptop",
+                        Brand="Dell",
+                        ValueOfProduct=599.99F,
+                        ModelYear="2020/12/12",
+                        Quantity=20,
+                        Description="Laptop i fuqishem per nje eksperienc ne lojrat ma te reja"
+                    },
+                    new Product{
+
+                        ProductName="Gaming Laptop",
+                        Sector="Laptop",
+                        Brand="Asus",
+                        ValueOfProduct=399.99F,
+                        ModelYear="2020/10/12",
+                        Quantity=10,
+                        Description="Laptop i fuqishem per nje eksperienc ne lojrat ma te reja"
+
+
+
+                    },
+                    new Product{
+                        ProductName="Gaming Laptop",
+                        Sector="Laptop",
+                        Brand="Lenovo",
+                        ValueOfProduct=499.99F,
+                        ModelYear="2020/11/12",
+                        Quantity=30,
+                        Description="Laptop i fuqishem per nje eksperienc ne lojrat ma te reja"
+                    },
+                    new Product{
+                        ProductName="Gaming Laptop",
+                        Sector="Laptop",
+                        Brand="Dell",
+                        ValueOfProduct=599.99F,
+                        ModelYear="2020/12/12",
+                        Quantity=20,
+                        Description="Laptop i fuqishem per nje eksperienc ne lojrat ma te reja"
                     }
                 };
                 context.Product.AddRange(products);
                 context.SaveChanges();
             }
-            if(!context.ContactForm.Any())
+            if (!context.ContactForm.Any())
             {
                 var contactforms = new List<ContactForm>
                 {
                     new ContactForm{
-                        
+
                         FirstName="Astrit",
                         LastName="Muçiqi",
                         Email="a@gmail.com",
-                        Message="Problem me navigimin ne footer", 
+                        Message="Problem me navigimin ne footer",
+
 
                     },
                     new ContactForm{
-                        
+
                         FirstName="Filan",
                         LastName="Fisteku",
                         Email="ff@gmail.com",
-                        Message="Problem me navigimin ne footer", 
+                        Message="Problem me navigimin ne footer",
+
 
                     },new ContactForm{
-                        
+
                         FirstName="Behar",
                         LastName="Beshiri",
                         Email="b@gmail.com",
-                        Message="Problem me navigimin ne footer", 
+                        Message="Problem me navigimin ne footer",
+
 
                     }
                 };
                 context.ContactForm.AddRange(contactforms);
                 context.SaveChanges();
             }
-            if(!context.AdresaF.Any())
+            if (!context.AdresaF.Any())
             {
                 var adresaf = new List<AdresaFaturimit>
                 {
@@ -203,7 +282,7 @@ namespace Persistence
                 context.AdresaF.AddRange(adresaf);
                 context.SaveChanges();
             }
-            
+
 
         }
     }

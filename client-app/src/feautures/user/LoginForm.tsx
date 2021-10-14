@@ -1,15 +1,11 @@
 import { FORM_ERROR } from "final-form";
-import { values } from "mobx";
 import React, { useContext } from "react";
 import { Form as FinalForm, Field } from "react-final-form";
 import { combineValidators, isRequired } from "revalidate";
 import {
   Button,
-  Container,
   Form,
   Header,
-  Label,
-  Segment,
 } from "semantic-ui-react";
 import { ErrorMessage } from "../../app/common/form/ErrorMessage";
 import TextInput from "../../app/common/form/TextInput";

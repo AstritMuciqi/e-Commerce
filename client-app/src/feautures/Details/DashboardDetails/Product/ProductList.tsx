@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { Button, Icon, Table } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
-import ProductStore from "../../../../app/stores/productStore";
 import { Link } from "react-router-dom";
 import { RootStoreContext } from "../../../../app/stores/rootStore";
 

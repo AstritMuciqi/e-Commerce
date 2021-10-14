@@ -32,6 +32,7 @@ export default class UserStore {
       this.rootStore.commonStore.setToken(user.token);
       this.rootStore.modalStore.closeModal();
       history.push("/");
+      window.location.reload()
     } catch (error) {
       console.log(error);
       throw error;

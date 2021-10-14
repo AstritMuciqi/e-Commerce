@@ -6,7 +6,6 @@ import { v4 as uuid } from "uuid";
 import TextInput from "../../app/common/form/TextInput";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import { BrandFormValues } from "../../app/models/brand";
-import BrandStore from "../../app/stores/brandStore";
 import { Form as FinalForm, Field } from "react-final-form";
 import { combineValidators, isRequired } from "revalidate";
 import { RootStoreContext } from "../../app/stores/rootStore";

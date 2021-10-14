@@ -2,7 +2,6 @@ import { observer } from "mobx-react-lite";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Button, Icon, Table } from "semantic-ui-react";
-import BrandStore from "../../../../app/stores/brandStore";
 import { RootStoreContext } from "../../../../app/stores/rootStore";
 
 const BrandList: React.FC = () => {

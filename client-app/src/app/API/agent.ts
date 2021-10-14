@@ -1,6 +1,4 @@
 import axios, { AxiosResponse } from "axios";
-import { request } from "http";
-import { config } from "process";
 import { toast } from "react-toastify";
 import { history } from "../..";
 import { IBrand } from "../models/brand";

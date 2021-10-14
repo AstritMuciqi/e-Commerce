@@ -3,7 +3,6 @@ import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Card, Icon, Image } from "semantic-ui-react";
 import LoadingComponent from "../../../../app/layout/LoadingComponent";
-import ProductStore from "../../../../app/stores/productStore";
 import { RootStoreContext } from "../../../../app/stores/rootStore";
 
 const HomeItems: React.FC = () => {

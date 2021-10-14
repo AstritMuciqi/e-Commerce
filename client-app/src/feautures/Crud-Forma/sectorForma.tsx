@@ -5,7 +5,6 @@ import { Segment, Form, Button } from "semantic-ui-react";
 import { v4 as uuid } from "uuid";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import {  SectorFormValues } from "../../app/models/sector";
-import SectorStore from "../../app/stores/sectorStore";
 import { Form as FinalForm, Field } from "react-final-form";
 import TextInput from "../../app/common/form/TextInput";
 import {

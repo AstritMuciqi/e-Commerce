@@ -1,7 +1,6 @@
 import React, { Fragment, useContext, useEffect } from "react";
 import "../../app/layout/styles.css";
 import { Menu } from "semantic-ui-react";
-import SectorStore from "../../app/stores/sectorStore";
 import { observer } from "mobx-react-lite";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import { RootStoreContext } from "../../app/stores/rootStore";

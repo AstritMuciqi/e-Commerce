@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react'
-import { Button, Header, Modal } from 'semantic-ui-react'
+import {  Modal } from 'semantic-ui-react'
 import { RootStoreContext } from '../../../stores/rootStore'
 
 export const ModalContainer = () => {

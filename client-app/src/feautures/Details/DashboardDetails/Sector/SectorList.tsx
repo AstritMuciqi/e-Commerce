@@ -3,7 +3,6 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Button, Icon, Table } from "semantic-ui-react";
 import { RootStoreContext } from "../../../../app/stores/rootStore";
-import SectorStore from "../../../../app/stores/sectorStore";
 
 const SectorList: React.FC = () => {
   const rootStore = useContext(RootStoreContext);

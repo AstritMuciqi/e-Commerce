@@ -3,7 +3,6 @@ import React, { Fragment, useContext, useEffect } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import {  Button, Icon, Item } from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
-import ProductStore from "../../../app/stores/productStore";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import Footer from "../../footer/Footer";
 import Navbar from "../../nav/NavBar";
