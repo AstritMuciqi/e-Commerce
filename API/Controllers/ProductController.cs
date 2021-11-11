@@ -37,11 +37,11 @@ namespace API.Controllers
             return await Mediator.Send(command);
         }
 
-        // [HttpPut("{id}")]
-        // public async Task<ActionResult<Unit>> EditProduct(Guid id,EditProduct.Command command)
-        // {
-        //     command.ProductId = id;
-        //     return await Mediator.Send(command);
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Unit>> EditProduct(Guid id,EditProduct.Command command)
+        {
+            command.ProductId = id;
+            return await Mediator.Send(command);
         }
 
         [HttpDelete("{id}")]
