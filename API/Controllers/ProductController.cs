@@ -15,12 +15,12 @@ namespace API.Controllers
     {
        
         
-        [HttpGet]
+        // [HttpGet]
         
-        public async Task<ActionResult<List<Product>>> List()
-        {
-           return await Mediator.Send(new List.Query()); 
-        }
+        // public async Task<ActionResult<List<Product>>> List()
+        // {
+        //    return await Mediator.Send(new List.Query()); 
+        // }
 
         [HttpGet("{id}")]
         [Authorize]
@@ -37,11 +37,11 @@ namespace API.Controllers
             return await Mediator.Send(command);
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<Unit>> EditProduct(Guid id,EditProduct.Command command)
-        {
-            command.ProductId = id;
-            return await Mediator.Send(command);
+        // [HttpPut("{id}")]
+        // public async Task<ActionResult<Unit>> EditProduct(Guid id,EditProduct.Command command)
+        // {
+        //     command.ProductId = id;
+        //     return await Mediator.Send(command);
         }
 
         [HttpDelete("{id}")]
